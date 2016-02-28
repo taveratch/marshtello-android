@@ -22,16 +22,17 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch(position){
-            case 0 :
-                return new CardListFragment(DataCenter.todo);
-            case 1 :
-                return new CardListFragment(DataCenter.doing);
-            case 2 :
-                return new CardListFragment(DataCenter.done);
-            default:
-                return null;
-        }
+        return DataCenter.fragmentList.get(position);
+//        switch(position){
+//            case 0 :
+//                return new CardListFragment(DataCenter.todo);
+//            case 1 :
+//                return new CardListFragment(DataCenter.doing);
+//            case 2 :
+//                return new CardListFragment(DataCenter.done);
+//            default:
+//                return null;
+//        }
     }
 
     @Override

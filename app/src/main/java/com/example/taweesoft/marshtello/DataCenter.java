@@ -1,5 +1,8 @@
 package com.example.taweesoft.marshtello;
 
+import com.example.taweesoft.marshtello.Fragments.CardListFragment;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,4 +15,8 @@ public class DataCenter {
     public static List<Card> todo;
     public static List<Card> doing;
     public static List<Card> done;
+
+    public static List<CardListFragment> fragmentList = new ArrayList<CardListFragment>();
+
+    public static List<CardList> cardLists = new ArrayList<CardList>();
 }
