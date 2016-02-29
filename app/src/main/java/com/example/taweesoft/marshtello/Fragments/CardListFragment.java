@@ -1,6 +1,7 @@
 package com.example.taweesoft.marshtello.Fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.taweesoft.marshtello.Activities.NewCardActivity;
 import com.example.taweesoft.marshtello.Card;
 import com.example.taweesoft.marshtello.CardList;
 import com.example.taweesoft.marshtello.R;
@@ -37,6 +40,8 @@ public class CardListFragment extends Fragment {
     @Bind(R.id.listName_editText)
     EditText listName_editText;
 
+    @Bind(R.id.add_card_img)
+    ImageView add_card_img;
     /*Unique id for send to NewCardActivity to get real CardList*/
     private int id;
     /**
@@ -54,13 +59,14 @@ public class CardListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.card_list_layout,container,false);
         ButterKnife.bind(this, view);
-
-        /**
-         * todo
-         * Define components of card_list_layout.xml and show the content.
-         */
-
-
+        add_card_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (CardListFragment.this.getContext(), NewCardActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
+            }
+        });
         /*Hide keyboard when click outside edittext and update card name*/
         listName_editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
