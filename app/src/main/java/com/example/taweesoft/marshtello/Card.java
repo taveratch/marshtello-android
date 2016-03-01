@@ -20,6 +20,9 @@ public class Card extends RealmObject{
     private int tag;
     private RealmList<Comment> comments = new RealmList<Comment>();
 
+    public Card() {
+    }
+
     public Card(String name, String detail, int tag) {
         this.name = name;
         this.detail = detail;
@@ -43,16 +46,18 @@ public class Card extends RealmObject{
         return comments;
     }
 
-    public void addComment(Comment comment){
-        comments.add(comment);
-    }
 
-    public String getDate(){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy hh:mm");
-        Date date = new Date(this.date);
-        String monthStr = Utilities.getMonthStr(date.getMonth());
-        return String.format("%d %s %s",date.getDate(),monthStr,format.format(date));
-    }
+//    public void addComment(Comment comment){
+//        comments.add(comment);
+//    }
+//
+//    @Ignore
+//    public String getDate(){
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy hh:mm");
+//        Date date = new Date(this.date);
+//        String monthStr = Utilities.getMonthStr(date.getMonth());
+//        return String.format("%d %s %s",date.getDate(),monthStr,format.format(date));
+//    }
 
     public void setName(String name) {
         this.name = name;
@@ -72,5 +77,9 @@ public class Card extends RealmObject{
 
     public void setComments(RealmList<Comment> comments) {
         this.comments = comments;
+    }
+
+    public long getDate() {
+        return date;
     }
 }

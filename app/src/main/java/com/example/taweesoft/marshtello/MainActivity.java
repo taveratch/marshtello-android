@@ -16,6 +16,7 @@ import com.example.taweesoft.marshtello.PagerAdapter.PagerAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,9 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Binding the components
         ButterKnife.bind(this);
-
+        Storage storage = Storage.getInstance();
+        storage.loadData(this);
+        initialTabFromStorage();
         /*set status bar color*/
-        Utilities.setStatusBarColor(this,getResources().getColor(R.color.colorPrimary));
+        Utilities.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary));
 
         /*Set icon on action bar*/
         setCustomActionBar();
@@ -95,17 +98,33 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
+
+    public void initialTabFromStorage(){
+        for(int i =0;i<DataCenter.cardLists.size();i++){
+            DataCenter.fragmentList.add(new CardListFragment(DataCenter.cardLists.get(i), i));
+            tabLayout.addTab(tabLayout.newTab().setText(tabLayout.getTabCount() + 1 + ""));
+            adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
+            pager.setAdapter(adapter);
+        }
+    }
     /**
      * Create new card list
      */
     public void newFragment(){
-        CardList cardList = new CardList("My card");
-        DataCenter.cardLists.add(cardList);
+        final CardList cardList = new CardList("My card");
+        Realm.getInstance(this).executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                DataCenter.cardLists.add(cardList);
+            }
+        });
+
         DataCenter.fragmentList.add(new CardListFragment(cardList,adapter.getCount()));
-        tabLayout.addTab(tabLayout.newTab().setText(tabLayout.getTabCount()+1+""));
+        tabLayout.addTab(tabLayout.newTab().setText(tabLayout.getTabCount() + 1 + ""));
         adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         pager.setAdapter(adapter);
         pager.setCurrentItem(adapter.getCount());
+        Storage.getInstance().saveData(this);
         Log.e("ADAPTER", adapter.getCount() + "");
     }
 

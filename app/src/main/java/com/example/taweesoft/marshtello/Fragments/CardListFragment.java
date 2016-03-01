@@ -2,7 +2,6 @@ package com.example.taweesoft.marshtello.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,12 +16,15 @@ import android.widget.TextView;
 import com.example.taweesoft.marshtello.Activities.CardDetailActivity;
 import com.example.taweesoft.marshtello.Activities.NewCardActivity;
 import com.example.taweesoft.marshtello.CardList;
+import com.example.taweesoft.marshtello.DataCenter;
 import com.example.taweesoft.marshtello.ListViewCustomAdapter.CardCustomAdapter;
 import com.example.taweesoft.marshtello.R;
+import com.example.taweesoft.marshtello.Storage;
 import com.example.taweesoft.marshtello.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 /**
  * Card list fragment. (Used on 3 tabs)
@@ -48,24 +50,27 @@ public class CardListFragment extends Fragment {
     ImageView remove_img;
 
     /*Unique id for send to NewCardActivity to get real CardList*/
-    private int id;
+    private int cardList_id;
     private CardCustomAdapter adapter;
     /**
      * Constructor.
      */
     public CardListFragment(CardList cardList, int id) {
-        this.id = id;
+        this.cardList_id = id;
         Log.e("CardListFragment ID", id + "");
         this.cardList = cardList;
+        Log.e("CardListName ", cardList.getName());
     }
 
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.card_list_layout,container,false);
+        View view = inflater.inflate(R.layout.card_list_layout, container, false);
         ButterKnife.bind(this, view);
 
+        CardList cardList = DataCenter.cardLists.get(cardList_id);
+
+        listName_editText.setText(cardList.getName());
 
         setAddCardAction();
         setFocusActionOnCardListName();
@@ -80,6 +85,7 @@ public class CardListFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         adapter.notifyDataSetChanged();
+        Storage.getInstance().saveData(this.getContext());
     }
 
     public void setFocusActionOnCardListName(){
@@ -88,9 +94,15 @@ public class CardListFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     Utilities.hideKeyboard(CardListFragment.this.getActivity(), v); //Hide keyboard
-                    String listName = listName_editText.getText().toString();
+                    final String listName = listName_editText.getText().toString();
                     if (!listName.equals(""))
-                        cardList.setName(listName);
+                        Realm.getInstance(CardListFragment.this.getContext()).executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                cardList.setName(listName);
+                            }
+                        });
+
                 }
             }
         });
@@ -103,7 +115,7 @@ public class CardListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CardListFragment.this.getContext(), NewCardActivity.class);
-                intent.putExtra("id", id);
+                intent.putExtra("id", cardList_id);
                 startActivityForResult(intent, 1);
             }
         });
@@ -118,7 +130,8 @@ public class CardListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CardListFragment.this.getContext(), CardDetailActivity.class);
                 intent.putExtra("card_id", position);
-                intent.putExtra("cardList_id" , id);
+                intent.putExtra("cardList_id" , cardList_id);
+                Log.e("PPPPPPP" , cardList_id + " " + position);
                 startActivityForResult(intent,1);
             }
         });

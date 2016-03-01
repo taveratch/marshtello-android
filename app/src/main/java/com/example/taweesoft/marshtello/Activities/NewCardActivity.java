@@ -24,6 +24,7 @@ import com.example.taweesoft.marshtello.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 public class NewCardActivity extends AppCompatActivity {
 
@@ -77,8 +78,15 @@ public class NewCardActivity extends AppCompatActivity {
         String cardDetail = cardDetail_txt.getText() + "";
         if(cardName.length()>0) {
             card = new Card(cardName, cardDetail, tag);
-            CardList cardList = DataCenter.cardLists.get(id);
-            cardList.addCard(card);
+            final CardList cardList = DataCenter.cardLists.get(id);
+            Realm realm = Realm.getInstance(this);
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    cardList.getCards().add(card);
+                }
+            });
+
             setResult(1);
             finish();
         }

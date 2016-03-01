@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,16 +29,17 @@ public class CardDetailActivity extends AppCompatActivity {
 
     private int cardList_id;
     private int card_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_detail);
         ButterKnife.bind(this);
+        card_id = getIntent().getIntExtra("card_id",-1);
+        cardList_id = getIntent().getIntExtra("cardList_id", -1);
         getSupportActionBar().hide();
         setCustomActionBar();
         initialTabs();
-        card_id = getIntent().getIntExtra("card_id",-1);
-        cardList_id = getIntent().getIntExtra("cardList_id", -1);
 
     }
 

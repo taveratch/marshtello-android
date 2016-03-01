@@ -15,6 +15,8 @@ import com.example.taweesoft.marshtello.Holder.CardDetailHolder;
 import com.example.taweesoft.marshtello.R;
 import com.example.taweesoft.marshtello.Utilities;
 
+import io.realm.Realm;
+
 /**
  * Created by TAWEESOFT on 3/1/16 AD.
  */
@@ -59,7 +61,12 @@ public class CardDetailFragment extends Fragment {
         holder.red_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                card.setTag(DataCenter.RED_TAG);
+                Realm.getInstance(CardDetailFragment.this.getContext()).executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        card.setTag(DataCenter.RED_TAG);
+                    }
+                });
                 holder.header_layout.setBackground(new ColorDrawable(getResources().getColor(R.color.red)));
             }
         });
@@ -67,7 +74,13 @@ public class CardDetailFragment extends Fragment {
         holder.blue_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                card.setTag(DataCenter.BLUE_TAG);
+                Realm.getInstance(CardDetailFragment.this.getContext()).executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        card.setTag(DataCenter.BLUE_TAG);
+                    }
+                });
+
                 holder.header_layout.setBackground(new ColorDrawable(getResources().getColor(R.color.blue)));
             }
         });
@@ -79,8 +92,15 @@ public class CardDetailFragment extends Fragment {
     }
 
     public void saveData(){
-        card.setName(holder.card_name_txt.getText().toString());
-        card.setDetail(holder.detail_txt.getText().toString());
+        Realm realm = Realm.getInstance(this.getContext());
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                card.setName(holder.card_name_txt.getText().toString());
+                card.setDetail(holder.detail_txt.getText().toString());
+            }
+        });
+
     }
 
     class ChangeFocus implements View.OnFocusChangeListener{

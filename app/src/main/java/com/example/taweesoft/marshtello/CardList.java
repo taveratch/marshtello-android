@@ -12,18 +12,23 @@ import io.realm.RealmObject;
 public class CardList extends RealmObject {
 
     private String name;
+    private int id;
     private RealmList<Card> cards;
+
+
+    public CardList() {
+    }
 
     public CardList(String name){
         cards = new RealmList<Card>();
         setName(name);
     }
 
-    public void addCard(Card card){
-        cards.add(card);
-    }
+//    public void addCard(Card card){
+//        cards.add(card);
+//    }
 
-    public List<Card> getCards() {
+    public RealmList<Card> getCards() {
         return cards;
     }
 
@@ -35,4 +40,15 @@ public class CardList extends RealmObject {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCards(RealmList<Card> cards) {
+        this.cards = cards;
+    }
 }

@@ -14,6 +14,9 @@ public class Comment extends RealmObject {
 
     private long date;
 
+    public Comment() {
+    }
+
     public Comment(String comment) {
         this.comment = comment;
         this.date = System.currentTimeMillis();
@@ -24,10 +27,22 @@ public class Comment extends RealmObject {
     }
 
 
-    public String getDate(){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy hh:mm");
-        Date date = new Date(this.date);
-        String monthStr = Utilities.getMonthStr(date.getMonth());
-        return String.format("%d %s %s",date.getDate(),monthStr,format.format(date));
+//    public String getDate(){
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy hh:mm");
+//        Date date = new Date(this.date);
+//        String monthStr = Utilities.getMonthStr(date.getMonth());
+//        return String.format("%d %s %s",date.getDate(),monthStr,format.format(date));
+//    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
+    }
+
+    public long getDate() {
+        return date;
     }
 }
