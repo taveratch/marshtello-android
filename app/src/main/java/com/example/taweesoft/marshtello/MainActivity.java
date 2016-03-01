@@ -2,13 +2,16 @@ package com.example.taweesoft.marshtello;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.Fragments.CardListFragment;
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         /*set status bar color*/
         Utilities.setStatusBarColor(this,getResources().getColor(R.color.colorPrimary));
 
+        /*Set icon on action bar*/
+        setCustomActionBar();
         //Initial tabs
         initialTabs();
 
@@ -70,21 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_actionbar,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if(id == R.id.action_new_card_list){
-            newFragment();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     /**
      * Update list count (Bullets)
@@ -121,6 +112,23 @@ public class MainActivity extends AppCompatActivity {
         adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         pager.setAdapter(adapter);
         pager.setCurrentItem(adapter.getCount());
-        Log.e("ADAPTER" , adapter.getCount()+"");
+        Log.e("ADAPTER", adapter.getCount() + "");
+    }
+
+    public void setCustomActionBar(){
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(true);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View customActionBar = inflater.inflate(R.layout.custom_main_actionbar, null);
+        ImageView newCardList_img = (ImageView)customActionBar.findViewById(R.id.new_card_list_img);
+        newCardList_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newFragment();
+            }
+        });
+        actionBar.setCustomView(customActionBar);
+        actionBar.setDisplayShowCustomEnabled(true);
     }
 }

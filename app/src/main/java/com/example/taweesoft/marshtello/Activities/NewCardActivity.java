@@ -3,13 +3,16 @@ package com.example.taweesoft.marshtello.Activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.Card;
@@ -40,6 +43,8 @@ public class NewCardActivity extends AppCompatActivity {
 
     private int tag = DataCenter.RED_TAG;
 
+    private RelativeLayout actionBar_layout;
+
     private int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +53,8 @@ public class NewCardActivity extends AppCompatActivity {
         //Binding
         ButterKnife.bind(this);
 
-        /*Show back button in actionbar.*/
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*Initialize custom actionbar*/
+        setCustomActionBar();
 
         /*Set actionbar color.*/
         setActionBarColor();
@@ -61,22 +66,7 @@ public class NewCardActivity extends AppCompatActivity {
         setTagAction();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.new_card_actionbar, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.action_new_card){ /*call newCard()*/
-            newCard();
-        }else if(id == android.R.id.home){ /*Close the activity*/
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     /**
      * Create new card in current cardList.
@@ -96,9 +86,11 @@ public class NewCardActivity extends AppCompatActivity {
 
     public void setActionBarColor(){
         if(tag == DataCenter.RED_TAG) {
-            Utilities.setActionBarColor(getSupportActionBar(), getResources().getColor(R.color.red));
-            Utilities.setStatusBarColor(this,getResources().getColor(R.color.red));
+            actionBar_layout.setBackgroundColor(getResources().getColor(R.color.red));
+            Utilities.setActionBarColor(getSupportActionBar(),getResources().getColor(R.color.red));
+            Utilities.setStatusBarColor(this, getResources().getColor(R.color.red));
         }else if (tag == DataCenter.BLUE_TAG) {
+            actionBar_layout.setBackgroundColor(getResources().getColor(R.color.blue));
             Utilities.setActionBarColor(getSupportActionBar(), getResources().getColor(R.color.blue));
             Utilities.setStatusBarColor(this,getResources().getColor(R.color.blue));
         }
@@ -120,5 +112,31 @@ public class NewCardActivity extends AppCompatActivity {
                 setActionBarColor();
             }
         });
+    }
+
+    public void setCustomActionBar(){
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(true);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View customActionBar = inflater.inflate(R.layout.new_card_actionbar_layout, null);
+        ImageView back_img = (ImageView)customActionBar.findViewById(R.id.back_img);
+        ImageView done_img = (ImageView)customActionBar.findViewById(R.id.done_img);
+        actionBar_layout = (RelativeLayout)customActionBar.findViewById(R.id.actionBar_layout);
+        back_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        done_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newCard();
+            }
+        });
+        actionBar.setCustomView(customActionBar);
+        actionBar.setDisplayShowCustomEnabled(true);
     }
 }

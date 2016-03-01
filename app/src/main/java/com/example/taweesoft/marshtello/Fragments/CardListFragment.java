@@ -50,7 +50,7 @@ public class CardListFragment extends Fragment {
 
     @Bind(R.id.remove_img)
     ImageView remove_img;
-    
+
     /*Unique id for send to NewCardActivity to get real CardList*/
     private int id;
     private CardCustomAdapter adapter;
