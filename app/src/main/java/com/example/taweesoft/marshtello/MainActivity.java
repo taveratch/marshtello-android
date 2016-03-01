@@ -5,6 +5,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.pager)
     ViewPager pager;
 
-    @Bind(R.id.new_btn)
-    Button new_btn;
 
     PagerAdapter adapter;
     @Override
@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Binding the components
         ButterKnife.bind(this);
+
+        /*set status bar color*/
+        Utilities.setStatusBarColor(this,getResources().getColor(R.color.colorPrimary));
 
         //Initial tabs
         initialTabs();
@@ -63,14 +66,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*New fragment*/
-        new_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                newFragment();
-            }
-        });
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_actionbar,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.action_new_card_list){
+            newFragment();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

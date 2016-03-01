@@ -13,11 +13,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.Activities.NewCardActivity;
 import com.example.taweesoft.marshtello.Card;
 import com.example.taweesoft.marshtello.CardList;
+import com.example.taweesoft.marshtello.ListViewCustomAdapter.CardCustomAdapter;
 import com.example.taweesoft.marshtello.R;
 
 import java.util.ArrayList;
@@ -37,13 +39,21 @@ public class CardListFragment extends Fragment {
     @Bind(R.id.listName_txt)
     TextView listName_txt;
 
+    @Bind(R.id.listView)
+    ListView listView;
+
     @Bind(R.id.listName_editText)
     EditText listName_editText;
 
     @Bind(R.id.add_card_img)
     ImageView add_card_img;
+
+    @Bind(R.id.remove_img)
+    ImageView remove_img;
+    
     /*Unique id for send to NewCardActivity to get real CardList*/
     private int id;
+    private CardCustomAdapter adapter;
     /**
      * Constructor.
      */
@@ -64,24 +74,33 @@ public class CardListFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent (CardListFragment.this.getContext(), NewCardActivity.class);
                 intent.putExtra("id",id);
-                startActivity(intent);
+                startActivityForResult(intent,1);
             }
         });
         /*Hide keyboard when click outside edittext and update card name*/
         listName_editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     hideKeyboard(v);
                     String listName = listName_editText.getText().toString();
-                    if(!listName.equals(""))
+                    if (!listName.equals(""))
                         cardList.setName(listName);
                 }
             }
         });
 
-
+        adapter = new CardCustomAdapter(getContext(),R.layout.custom_card_view_layout,cardList.getCards());
+        listView.setAdapter(adapter);
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == 1){
+            adapter.notifyDataSetChanged();
+        }
     }
 
     /**

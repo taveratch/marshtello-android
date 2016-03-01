@@ -9,7 +9,8 @@ import java.util.List;
  * Created by TAWEESOFT on 2/27/16 AD.
  */
 public class DataCenter {
-
+    public static int red_circle_img = R.drawable.red_circle;
+    public static int blue_circle_img = R.drawable.blue_circle;
     public static int RED_TAG = 1;
     public static int BLUE_TAG = 2;
     public static List<Card> todo;

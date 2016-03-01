@@ -1,5 +1,13 @@
 package com.example.taweesoft.marshtello;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
+import android.view.Window;
+import android.view.WindowManager;
+
 /**
  * Created by TAWEESOFT on 2/27/16 AD.
  */
@@ -34,4 +42,16 @@ public class Utilities {
             default: return "";
         }
     }
+
+    public static void setActionBarColor(ActionBar actionbar , int color){
+        actionbar.setBackgroundDrawable(new ColorDrawable(color));
+    }
+
+    public static void setStatusBarColor(Activity activity,int color){
+        Window window = activity.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(color);
+    }
+
 }

@@ -5,14 +5,51 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
-        <ImageView
+        <TextView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/imageView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:text="A"
+            android:id="@+id/first_char_txt"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentStart="true"
+            android:textAlignment="center"
+            android:gravity="fill_vertical"
+            android:background="@drawable/red_circle"
+            android:textColor="#FFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Card Name"
+            android:id="@+id/card_name_txt"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/first_char_txt"
+            android:layout_marginLeft="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:id="@+id/comment_count_txt"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="#23D7A2" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/imageView5"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/comment_count_txt"
+            android:src="@drawable/comment_icon"
+            android:layout_marginRight="10dp" />
+
     </RelativeLayout>
 </LinearLayout>
