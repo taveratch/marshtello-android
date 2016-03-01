@@ -3,16 +3,19 @@ package com.example.taweesoft.marshtello;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
 /**
  * Created by TAWEESOFT on 2/28/16 AD.
  */
-public class CardList {
+public class CardList extends RealmObject {
 
     private String name;
-    private List<Card> cards;
+    private RealmList<Card> cards;
 
     public CardList(String name){
-        cards = new ArrayList<>();
+        cards = new RealmList<Card>();
         setName(name);
     }
 

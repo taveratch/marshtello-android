@@ -7,14 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.Fragments.CardListFragment;
+import com.example.taweesoft.marshtello.PagerAdapter.PagerAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -94,10 +92,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initialTabs(){
-        tabLayout = (TabLayout)findViewById(R.id.tab_layout);
-//        tabLayout.addTab(tabLayout.newTab().setText("Todo"));
-//        tabLayout.addTab(tabLayout.newTab().setText("Doing"));
-//        tabLayout.addTab(tabLayout.newTab().setText("Done"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 

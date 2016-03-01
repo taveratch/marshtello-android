@@ -1,29 +1,25 @@
 package com.example.taweesoft.marshtello.Fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.taweesoft.marshtello.Activities.CardDetailActivity;
 import com.example.taweesoft.marshtello.Activities.NewCardActivity;
-import com.example.taweesoft.marshtello.Card;
 import com.example.taweesoft.marshtello.CardList;
 import com.example.taweesoft.marshtello.ListViewCustomAdapter.CardCustomAdapter;
 import com.example.taweesoft.marshtello.R;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.taweesoft.marshtello.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -69,26 +65,11 @@ public class CardListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.card_list_layout,container,false);
         ButterKnife.bind(this, view);
-        add_card_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (CardListFragment.this.getContext(), NewCardActivity.class);
-                intent.putExtra("id",id);
-                startActivityForResult(intent,1);
-            }
-        });
-        /*Hide keyboard when click outside edittext and update card name*/
-        listName_editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                    String listName = listName_editText.getText().toString();
-                    if (!listName.equals(""))
-                        cardList.setName(listName);
-                }
-            }
-        });
+
+
+        setAddCardAction();
+        setFocusActionOnCardListName();
+        setListViewAction();
 
         adapter = new CardCustomAdapter(getContext(),R.layout.custom_card_view_layout,cardList.getCards());
         listView.setAdapter(adapter);
@@ -98,18 +79,51 @@ public class CardListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 && resultCode == 1){
-            adapter.notifyDataSetChanged();
-        }
+        adapter.notifyDataSetChanged();
+    }
+
+    public void setFocusActionOnCardListName(){
+        listName_editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboard(CardListFragment.this.getActivity(), v); //Hide keyboard
+                    String listName = listName_editText.getText().toString();
+                    if (!listName.equals(""))
+                        cardList.setName(listName);
+                }
+            }
+        });
+    }
+
+
+    /*Hide keyboard when click outside edittext and update card name*/
+    public void setAddCardAction(){
+        add_card_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CardListFragment.this.getContext(), NewCardActivity.class);
+                intent.putExtra("id", id);
+                startActivityForResult(intent, 1);
+            }
+        });
     }
 
     /**
-     * Hide keyboard
-     * @param view
+     * Set listview action
      */
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    public void setListViewAction(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CardListFragment.this.getContext(), CardDetailActivity.class);
+                intent.putExtra("card_id", position);
+                intent.putExtra("cardList_id" , id);
+                startActivityForResult(intent,1);
+            }
+        });
     }
+
+
 
 }
