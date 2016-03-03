@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.taweesoft.marshtello.Fragments.CardCommentFragment;
 import com.example.taweesoft.marshtello.Fragments.CardDetailFragment;
+import com.example.taweesoft.marshtello.Fragments.CommentFragment;
 
 /**
  * Created by TAWEESOFT on 3/1/16 AD.
@@ -27,7 +28,7 @@ public class CardDetailPagerAdapter extends FragmentStatePagerAdapter {
         if(position ==0){
             return new CardDetailFragment(cardList_id, card_id);
         }else if(position == 1)
-            return new CardCommentFragment(cardList_id,card_id);
+            return new CommentFragment(cardList_id,card_id);
         return null;
     }
 

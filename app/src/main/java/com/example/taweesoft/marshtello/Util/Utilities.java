@@ -1,14 +1,15 @@
-package com.example.taweesoft.marshtello;
+package com.example.taweesoft.marshtello.Util;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by TAWEESOFT on 2/27/16 AD.
@@ -17,29 +18,29 @@ public class Utilities {
 
     public static String getMonthStr(int month){
         switch (month){
-            case 1 :
+            case 0 :
                 return "Jan";
-            case 2 :
+            case 1 :
                 return "Feb";
-            case 3 :
+            case 2 :
                 return "March";
-            case 4 :
+            case 3 :
                 return "April";
-            case 5 :
+            case 4 :
                 return "May";
-            case 6 :
+            case 5 :
                 return "June";
-            case 7 :
+            case 6 :
                 return "July";
-            case 8 :
+            case 7 :
                 return "Aug";
-            case 9 :
+            case 8 :
                 return "Sep";
-            case 10 :
+            case 9 :
                 return "Oct";
-            case 11 :
+            case 10 :
                 return "Nov";
-            case 12 :
+            case 11 :
                 return "Dec";
             default: return "";
         }
@@ -64,5 +65,14 @@ public class Utilities {
         InputMethodManager inputMethodManager =(InputMethodManager)activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+
+    public static String getDateStr(long dateLong){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy hh:mm");
+        Date date = new Date(dateLong);
+        String monthStr = Utilities.getMonthStr(date.getMonth());
+        return String.format("%d %s %s",date.getDate(),monthStr,format.format(date));
+    }
+
 
 }

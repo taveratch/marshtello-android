@@ -1,4 +1,4 @@
-package com.example.taweesoft.marshtello;
+package com.example.taweesoft.marshtello.Model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,12 +27,7 @@ public class Comment extends RealmObject {
     }
 
 
-//    public String getDate(){
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy hh:mm");
-//        Date date = new Date(this.date);
-//        String monthStr = Utilities.getMonthStr(date.getMonth());
-//        return String.format("%d %s %s",date.getDate(),monthStr,format.format(date));
-//    }
+
 
     public void setComment(String comment) {
         this.comment = comment;

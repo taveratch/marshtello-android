@@ -1,6 +1,10 @@
-package com.example.taweesoft.marshtello;
+package com.example.taweesoft.marshtello.Util;
 
 import android.content.Context;
+
+import com.example.taweesoft.marshtello.Model.Card;
+import com.example.taweesoft.marshtello.Model.CardList;
+import com.example.taweesoft.marshtello.Model.DataWrapper;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -96,7 +100,7 @@ public class Storage {
     }
 
     /**
-     *
+     * 
      * @param cardListPosition
      * @param cardPosition
      */
@@ -110,6 +114,5 @@ public class Storage {
                 cards.remove(cardPosition);
             }
         });
-
     }
 }

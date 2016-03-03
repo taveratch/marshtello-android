@@ -1,13 +1,10 @@
 package com.example.taweesoft.marshtello.PagerAdapter;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 
-import com.example.taweesoft.marshtello.DataCenter;
-import com.example.taweesoft.marshtello.Fragments.CardListFragment;
+import com.example.taweesoft.marshtello.Util.DataCenter;
 
 /**
  * Created by TAWEESOFT on 2/27/16 AD.
