@@ -32,8 +32,10 @@ import io.realm.Realm;
  */
 public class CardListFragment extends Fragment {
 
+    /*Card List*/
     private CardList cardList;
 
+    /*UI Components*/
     @Bind(R.id.listName_txt)
     TextView listName_txt;
 
@@ -51,7 +53,9 @@ public class CardListFragment extends Fragment {
 
     /*Unique id for send to NewCardActivity to get real CardList*/
     private int cardList_id;
+    /*Custom listview adapter*/
     private CardCustomAdapter adapter;
+
     /**
      * Constructor.
      */
@@ -84,7 +88,9 @@ public class CardListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        /*Show newest cards in cardlist*/
         adapter.notifyDataSetChanged();
+        /*Save to internal database*/
         Storage.getInstance().saveData(this.getContext());
     }
 
@@ -93,9 +99,11 @@ public class CardListFragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
+                    /*Hide keyboard if click outside the edittext*/
                     Utilities.hideKeyboard(CardListFragment.this.getActivity(), v); //Hide keyboard
                     final String listName = listName_editText.getText().toString();
                     if (!listName.equals(""))
+                        /*Set card name and save to storage immediately*/
                         Realm.getInstance(CardListFragment.this.getContext()).executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {

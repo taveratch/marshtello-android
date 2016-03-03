@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText(tabLayout.getTabCount() + 1 + ""));
         adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         pager.setAdapter(adapter);
-        pager.setCurrentItem(adapter.getCount());
+        pager.setCurrentItem(adapter.getCount()-1);
         Storage.getInstance().saveData(this);
         Log.e("ADAPTER", adapter.getCount() + "");
     }
