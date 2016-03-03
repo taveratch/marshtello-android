@@ -3,21 +3,20 @@ package com.example.taweesoft.marshtello.Fragments;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import com.example.taweesoft.marshtello.Card;
-import com.example.taweesoft.marshtello.CardList;
-import com.example.taweesoft.marshtello.DataCenter;
 import com.example.taweesoft.marshtello.Holder.CardDetailHolder;
 import com.example.taweesoft.marshtello.R;
-import com.example.taweesoft.marshtello.Storage;
-import com.example.taweesoft.marshtello.Utilities;
+import com.example.taweesoft.marshtello.Util.Storage;
+import com.example.taweesoft.marshtello.Model.Card;
+import com.example.taweesoft.marshtello.Util.DataCenter;
+import com.example.taweesoft.marshtello.Holder.CardDetailHolder;
+import com.example.taweesoft.marshtello.R;
+import com.example.taweesoft.marshtello.Util.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

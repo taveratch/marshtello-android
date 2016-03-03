@@ -1,11 +1,5 @@
-package com.example.taweesoft.marshtello;
+package com.example.taweesoft.marshtello.Model;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 

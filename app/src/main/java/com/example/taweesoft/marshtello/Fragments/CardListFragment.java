@@ -16,12 +16,12 @@ import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.Activities.CardDetailActivity;
 import com.example.taweesoft.marshtello.Activities.NewCardActivity;
-import com.example.taweesoft.marshtello.CardList;
-import com.example.taweesoft.marshtello.DataCenter;
+import com.example.taweesoft.marshtello.Model.CardList;
+import com.example.taweesoft.marshtello.Util.DataCenter;
 import com.example.taweesoft.marshtello.ListViewCustomAdapter.CardCustomAdapter;
 import com.example.taweesoft.marshtello.R;
-import com.example.taweesoft.marshtello.Storage;
-import com.example.taweesoft.marshtello.Utilities;
+import com.example.taweesoft.marshtello.Util.Storage;
+import com.example.taweesoft.marshtello.Util.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -62,9 +62,7 @@ public class CardListFragment extends Fragment {
      */
     public CardListFragment(CardList cardList, int id) {
         this.cardList_id = id;
-        Log.e("CardListFragment ID", id + "");
         this.cardList = cardList;
-        Log.e("CardListName ", cardList.getName());
     }
 
 
@@ -73,8 +71,10 @@ public class CardListFragment extends Fragment {
         View view = inflater.inflate(R.layout.card_list_layout, container, false);
         ButterKnife.bind(this, view);
 
+        /*Get real CardList*/
         CardList cardList = DataCenter.cardLists.get(cardList_id);
 
+        /*Set cardlist's name*/
         listName_editText.setText(cardList.getName());
 
         setAddCardAction();
@@ -82,6 +82,7 @@ public class CardListFragment extends Fragment {
         setListViewAction();
         setRemoveCardAction();
 
+        /*Define adapter for listview*/
         adapter = new CardCustomAdapter(getContext(),R.layout.custom_card_view_layout,cardList.getCards());
         listView.setAdapter(adapter);
         return view;
@@ -143,6 +144,7 @@ public class CardListFragment extends Fragment {
                 intent.putExtra("cardList_id", cardList_id);
                 Log.e("PPPPPPP", cardList_id + " " + position);
                 startActivityForResult(intent, 1);
+                startActivityForResult(intent,1);
             }
         });
     }

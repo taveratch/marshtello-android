@@ -19,14 +19,17 @@ import butterknife.ButterKnife;
 
 public class CardDetailActivity extends AppCompatActivity {
 
+    /**
+     * UI Components
+     */
     @Bind(R.id.tab_layout)
     TabLayout tabLayout;
 
     @Bind(R.id.pager)
     ViewPager pager;
 
+    /*Attributes*/
     private CardDetailPagerAdapter adapter;
-
     private int cardList_id;
     private int card_id;
 
@@ -35,10 +38,12 @@ public class CardDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_detail);
         ButterKnife.bind(this);
+        /*Get data from CardListFragment*/
         card_id = getIntent().getIntExtra("card_id",-1);
         cardList_id = getIntent().getIntExtra("cardList_id", -1);
+
+        /*Hide action bar.*/
         getSupportActionBar().hide();
-        setCustomActionBar();
         initialTabs();
 
     }
@@ -71,24 +76,9 @@ public class CardDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void setCustomActionBar(){
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(true);
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View customActionBar = inflater.inflate(R.layout.card_detail_actionbar, null);
-        ImageView back_img = (ImageView)customActionBar.findViewById(R.id.back_img);
-        back_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(1);
-                finish();
-            }
-        });
-        actionBar.setCustomView(customActionBar);
-        actionBar.setDisplayShowCustomEnabled(true);
-    }
-
+    /**
+     * Set result back to CardListFragment and destroy.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();

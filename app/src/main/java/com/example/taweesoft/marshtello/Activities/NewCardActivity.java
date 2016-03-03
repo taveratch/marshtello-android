@@ -1,26 +1,19 @@
 package com.example.taweesoft.marshtello.Activities;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.taweesoft.marshtello.Card;
-import com.example.taweesoft.marshtello.CardList;
-import com.example.taweesoft.marshtello.DataCenter;
-import com.example.taweesoft.marshtello.Fragments.CardListFragment;
+import com.example.taweesoft.marshtello.Model.Card;
+import com.example.taweesoft.marshtello.Model.CardList;
+import com.example.taweesoft.marshtello.Util.DataCenter;
 import com.example.taweesoft.marshtello.R;
-import com.example.taweesoft.marshtello.Utilities;
+import com.example.taweesoft.marshtello.Util.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

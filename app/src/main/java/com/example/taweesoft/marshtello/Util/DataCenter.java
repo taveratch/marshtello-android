@@ -1,6 +1,9 @@
-package com.example.taweesoft.marshtello;
+package com.example.taweesoft.marshtello.Util;
 
 import com.example.taweesoft.marshtello.Fragments.CardListFragment;
+import com.example.taweesoft.marshtello.Model.CardList;
+import com.example.taweesoft.marshtello.Model.DataWrapper;
+import com.example.taweesoft.marshtello.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,4 @@
-package com.example.taweesoft.marshtello;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.example.taweesoft.marshtello.Model;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

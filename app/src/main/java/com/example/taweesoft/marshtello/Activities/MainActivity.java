@@ -1,4 +1,4 @@
-package com.example.taweesoft.marshtello;
+package com.example.taweesoft.marshtello.Activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -11,8 +11,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.taweesoft.marshtello.Util.DataCenter;
 import com.example.taweesoft.marshtello.Fragments.CardListFragment;
+import com.example.taweesoft.marshtello.Model.CardList;
 import com.example.taweesoft.marshtello.PagerAdapter.PagerAdapter;
+import com.example.taweesoft.marshtello.R;
+import com.example.taweesoft.marshtello.Util.Storage;
+import com.example.taweesoft.marshtello.Util.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -100,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void initialTabFromStorage(){
-        for(int i =0;i<DataCenter.cardLists.size();i++){
+        for(int i =0;i< DataCenter.cardLists.size();i++){
             DataCenter.fragmentList.add(new CardListFragment(DataCenter.cardLists.get(i), i));
             tabLayout.addTab(tabLayout.newTab().setText(tabLayout.getTabCount() + 1 + ""));
             adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
