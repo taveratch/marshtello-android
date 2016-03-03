@@ -91,7 +91,7 @@ public class CardListFragment extends Fragment {
         /*Show newest cards in cardlist*/
         adapter.notifyDataSetChanged();
         /*Save to internal database*/
-        Storage.getInstance().saveData(this.getContext());
+        Storage.getInstance(this.getContext()).saveData();
     }
 
     public void setFocusActionOnCardListName(){

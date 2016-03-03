@@ -11,14 +11,22 @@ import io.realm.RealmResults;
  */
 public class Storage {
     private static Storage storage = null;
-
-    public static Storage getInstance(){
+    private static Context context;
+    /**
+     * Get instance of Storage Object.
+     * @return
+     */
+    public static Storage getInstance(Context context1){
+        context = context1;
         if(storage == null)
             storage = new Storage();
         return storage;
     }
 
-    public void saveData(Context context){
+    /**
+     * Save data into internal storage.
+     */
+    public void saveData(){
         try{
             if(DataCenter.result.size()>0)
                 DataCenter.result.clear();
@@ -35,11 +43,73 @@ public class Storage {
 
     }
 
-    public void loadData(Context context){
+    /**
+     * Load data from internal storage.
+     */
+    public void loadData(){
         Realm realm = Realm.getInstance(context);
         RealmResults<DataWrapper> result = realm.where(DataWrapper.class).findAll();
         if(result.size()>0)
             DataCenter.cardLists = result.get(0).getCardListRealmList();
         DataCenter.result = result;
+    }
+
+    public void removeAllCardList(){
+        Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                DataCenter.result.get(0).getCardListRealmList().clear();
+            }
+        });
+
+    }
+
+    /**
+     *
+     * @param position = card list position
+     */
+    public void removeCardList(final int position){
+        Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                DataWrapper dataWrapper = DataCenter.result.get(0);
+                RealmList<CardList> cardLists = dataWrapper.getCardListRealmList();
+                cardLists.remove(position);
+            }
+        });
+
+    }
+
+    /**
+        @param position = card list position.
+     */
+    public void removeAllCard(final int position){
+        Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                DataWrapper dataWrapper = DataCenter.result.get(0);
+                RealmList<CardList> cardLists = dataWrapper.getCardListRealmList();
+                cardLists.get(position).getCards().clear();
+            }
+        });
+
+    }
+
+    /**
+     *
+     * @param cardListPosition
+     * @param cardPosition
+     */
+    public void removeCard(final int cardListPosition ,final int cardPosition){
+        Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                DataWrapper dataWrapper = DataCenter.result.get(0);
+                RealmList<CardList> cardLists = dataWrapper.getCardListRealmList();
+                RealmList<Card> cards = cardLists.get(cardListPosition).getCards();
+                cards.remove(cardPosition);
+            }
+        });
+
     }
 }

@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Binding the components
         ButterKnife.bind(this);
-        Storage storage = Storage.getInstance();
-        storage.loadData(this);
+        final Storage storage = Storage.getInstance(this);
+        storage.loadData();
         initialTabFromStorage();
         /*set status bar color*/
         Utilities.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary));
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         pager.setAdapter(adapter);
         pager.setCurrentItem(adapter.getCount()-1);
-        Storage.getInstance().saveData(this);
+        Storage.getInstance(this).saveData();
         Log.e("ADAPTER", adapter.getCount() + "");
     }
 
