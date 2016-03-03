@@ -1,5 +1,6 @@
 package com.example.taweesoft.marshtello.Fragments;
 
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,13 +8,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
+import com.example.taweesoft.marshtello.Holder.CardDetailHolder;
+import com.example.taweesoft.marshtello.R;
+import com.example.taweesoft.marshtello.Util.Storage;
 import com.example.taweesoft.marshtello.Model.Card;
 import com.example.taweesoft.marshtello.Util.DataCenter;
 import com.example.taweesoft.marshtello.Holder.CardDetailHolder;
 import com.example.taweesoft.marshtello.R;
 import com.example.taweesoft.marshtello.Util.Utilities;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 
 /**
@@ -21,6 +27,8 @@ import io.realm.Realm;
  */
 public class CardDetailFragment extends Fragment {
 
+    @Bind(R.id.delete_button)
+    Button delete_button;
 
     private int card_id , cardList_id;
     private Card card;
@@ -35,6 +43,7 @@ public class CardDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         card = DataCenter.cardLists.get(cardList_id).getCards().get(card_id);
         View view = inflater.inflate(R.layout.card_detail_layout,container,false);
+        ButterKnife.bind(this, view);
         holder = new CardDetailHolder(view);
         setFocusChangeEditText();
         /*Initialize header color*/
@@ -50,6 +59,8 @@ public class CardDetailFragment extends Fragment {
 
         /*set tag's action*/
         setTagAction();
+        /*set delete's action*/
+        setDeleteAction();
         return view;
     }
 
@@ -81,6 +92,17 @@ public class CardDetailFragment extends Fragment {
                 });
 
                 holder.header_layout.setBackground(new ColorDrawable(getResources().getColor(R.color.blue)));
+            }
+        });
+    }
+
+    public void setDeleteAction(){
+        delete_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = CardDetailFragment.this.getContext();
+                Storage.getInstance(context).removeCard(cardList_id,card_id);
+                CardDetailFragment.this.getActivity().finish();
             }
         });
     }
