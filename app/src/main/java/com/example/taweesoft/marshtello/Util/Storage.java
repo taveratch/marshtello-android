@@ -100,7 +100,7 @@ public class Storage {
     }
 
     /**
-     * 
+     *
      * @param cardListPosition
      * @param cardPosition
      */
