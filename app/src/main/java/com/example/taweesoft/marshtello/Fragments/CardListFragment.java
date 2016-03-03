@@ -1,5 +1,6 @@
 package com.example.taweesoft.marshtello.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -79,6 +80,7 @@ public class CardListFragment extends Fragment {
         setAddCardAction();
         setFocusActionOnCardListName();
         setListViewAction();
+        setRemoveCardAction();
 
         adapter = new CardCustomAdapter(getContext(),R.layout.custom_card_view_layout,cardList.getCards());
         listView.setAdapter(adapter);
@@ -138,13 +140,22 @@ public class CardListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CardListFragment.this.getContext(), CardDetailActivity.class);
                 intent.putExtra("card_id", position);
-                intent.putExtra("cardList_id" , cardList_id);
-                Log.e("PPPPPPP" , cardList_id + " " + position);
-                startActivityForResult(intent,1);
+                intent.putExtra("cardList_id", cardList_id);
+                Log.e("PPPPPPP", cardList_id + " " + position);
+                startActivityForResult(intent, 1);
             }
         });
     }
 
+    public void setRemoveCardAction(){
+        remove_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = CardListFragment.this.getContext();
+                Storage.getInstance(context).removeCardList(cardList_id);
+            }
+        });
+    }
 
 
 }

@@ -69,6 +69,7 @@ public class Storage {
      * @param position = card list position
      */
     public void removeCardList(final int position){
+        DataCenter.fragmentList.remove(position);
         Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
