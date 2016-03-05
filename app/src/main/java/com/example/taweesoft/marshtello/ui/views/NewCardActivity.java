@@ -1,4 +1,4 @@
-package com.example.taweesoft.marshtello.Activities;
+package com.example.taweesoft.marshtello.ui.views;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,11 +9,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.taweesoft.marshtello.Model.Card;
-import com.example.taweesoft.marshtello.Model.CardList;
-import com.example.taweesoft.marshtello.Util.DataCenter;
+import com.example.taweesoft.marshtello.models.Card;
+import com.example.taweesoft.marshtello.models.CardList;
+import com.example.taweesoft.marshtello.utils.DataCenter;
 import com.example.taweesoft.marshtello.R;
-import com.example.taweesoft.marshtello.Util.Utilities;
+import com.example.taweesoft.marshtello.utils.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

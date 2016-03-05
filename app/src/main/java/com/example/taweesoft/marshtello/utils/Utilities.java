@@ -1,4 +1,4 @@
-package com.example.taweesoft.marshtello.Util;
+package com.example.taweesoft.marshtello.utils;
 
 import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;

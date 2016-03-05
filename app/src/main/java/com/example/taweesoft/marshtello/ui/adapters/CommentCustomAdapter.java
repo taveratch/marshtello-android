@@ -1,4 +1,4 @@
-package com.example.taweesoft.marshtello.ListViewCustomAdapter;
+package com.example.taweesoft.marshtello.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.example.taweesoft.marshtello.Model.Comment;
-import com.example.taweesoft.marshtello.Holder.CommentCustomHolder;
+import com.example.taweesoft.marshtello.models.Comment;
+import com.example.taweesoft.marshtello.ui.holders.CommentCustomHolder;
 import com.example.taweesoft.marshtello.R;
-import com.example.taweesoft.marshtello.Util.Utilities;
+import com.example.taweesoft.marshtello.utils.Utilities;
 
 import io.realm.RealmList;
 

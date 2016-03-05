@@ -1,17 +1,11 @@
-package com.example.taweesoft.marshtello.Activities;
+package com.example.taweesoft.marshtello.ui.views;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
 
-import com.example.taweesoft.marshtello.PagerAdapter.CardDetailPagerAdapter;
-import com.example.taweesoft.marshtello.PagerAdapter.PagerAdapter;
+import com.example.taweesoft.marshtello.ui.adapters.CardDetailPagerAdapter;
 import com.example.taweesoft.marshtello.R;
 
 import butterknife.Bind;

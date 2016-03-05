@@ -1,4 +1,4 @@
-package com.example.taweesoft.marshtello.Fragments;
+package com.example.taweesoft.marshtello.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

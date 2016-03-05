@@ -1,4 +1,4 @@
-package com.example.taweesoft.marshtello.Holder;
+package com.example.taweesoft.marshtello.ui.holders;
 
 import android.view.View;
 import android.widget.TextView;

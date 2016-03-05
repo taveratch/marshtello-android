@@ -1,4 +1,4 @@
-package com.example.taweesoft.marshtello.Activities;
+package com.example.taweesoft.marshtello.ui.views;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -11,13 +11,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.taweesoft.marshtello.Util.DataCenter;
-import com.example.taweesoft.marshtello.Fragments.CardListFragment;
-import com.example.taweesoft.marshtello.Model.CardList;
-import com.example.taweesoft.marshtello.PagerAdapter.PagerAdapter;
+import com.example.taweesoft.marshtello.utils.DataCenter;
+import com.example.taweesoft.marshtello.ui.fragments.CardListFragment;
+import com.example.taweesoft.marshtello.models.CardList;
+import com.example.taweesoft.marshtello.ui.adapters.PagerAdapter;
 import com.example.taweesoft.marshtello.R;
-import com.example.taweesoft.marshtello.Util.Storage;
-import com.example.taweesoft.marshtello.Util.Utilities;
+import com.example.taweesoft.marshtello.utils.Storage;
+import com.example.taweesoft.marshtello.utils.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

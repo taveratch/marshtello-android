@@ -1,10 +1,10 @@
-package com.example.taweesoft.marshtello.PagerAdapter;
+package com.example.taweesoft.marshtello.ui.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.taweesoft.marshtello.Util.DataCenter;
+import com.example.taweesoft.marshtello.utils.DataCenter;
 
 /**
  * Created by TAWEESOFT on 2/27/16 AD.

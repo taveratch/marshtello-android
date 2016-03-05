@@ -1,10 +1,10 @@
-package com.example.taweesoft.marshtello.Util;
+package com.example.taweesoft.marshtello.utils;
 
 import android.content.Context;
 
-import com.example.taweesoft.marshtello.Model.Card;
-import com.example.taweesoft.marshtello.Model.CardList;
-import com.example.taweesoft.marshtello.Model.DataWrapper;
+import com.example.taweesoft.marshtello.models.Card;
+import com.example.taweesoft.marshtello.models.CardList;
+import com.example.taweesoft.marshtello.models.DataWrapper;
 
 import io.realm.Realm;
 import io.realm.RealmList;

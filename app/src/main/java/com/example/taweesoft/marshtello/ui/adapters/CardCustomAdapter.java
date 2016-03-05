@@ -1,4 +1,4 @@
-package com.example.taweesoft.marshtello.ListViewCustomAdapter;
+package com.example.taweesoft.marshtello.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.example.taweesoft.marshtello.Model.Card;
-import com.example.taweesoft.marshtello.Util.DataCenter;
-import com.example.taweesoft.marshtello.Holder.CardCustomAdapterHolder;
+import com.example.taweesoft.marshtello.models.Card;
+import com.example.taweesoft.marshtello.utils.DataCenter;
+import com.example.taweesoft.marshtello.ui.holders.CardCustomAdapterHolder;
 import com.example.taweesoft.marshtello.R;
 
 import java.util.List;

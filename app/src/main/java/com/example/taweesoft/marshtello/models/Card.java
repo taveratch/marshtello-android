@@ -1,4 +1,4 @@
-package com.example.taweesoft.marshtello.Model;
+package com.example.taweesoft.marshtello.models;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

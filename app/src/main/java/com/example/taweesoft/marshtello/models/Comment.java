@@ -1,4 +1,4 @@
-package com.example.taweesoft.marshtello.Model;
+package com.example.taweesoft.marshtello.models;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

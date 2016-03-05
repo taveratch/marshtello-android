@@ -1,4 +1,4 @@
-package com.example.taweesoft.marshtello.Fragments;
+package com.example.taweesoft.marshtello.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,14 +14,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.taweesoft.marshtello.Activities.CardDetailActivity;
-import com.example.taweesoft.marshtello.Activities.NewCardActivity;
-import com.example.taweesoft.marshtello.Model.CardList;
-import com.example.taweesoft.marshtello.Util.DataCenter;
-import com.example.taweesoft.marshtello.ListViewCustomAdapter.CardCustomAdapter;
+import com.example.taweesoft.marshtello.ui.views.CardDetailActivity;
+import com.example.taweesoft.marshtello.ui.views.NewCardActivity;
+import com.example.taweesoft.marshtello.models.CardList;
+import com.example.taweesoft.marshtello.utils.DataCenter;
+import com.example.taweesoft.marshtello.ui.adapters.CardCustomAdapter;
 import com.example.taweesoft.marshtello.R;
-import com.example.taweesoft.marshtello.Util.Storage;
-import com.example.taweesoft.marshtello.Util.Utilities;
+import com.example.taweesoft.marshtello.utils.Storage;
+import com.example.taweesoft.marshtello.utils.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
