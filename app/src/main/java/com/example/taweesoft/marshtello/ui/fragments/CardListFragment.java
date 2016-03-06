@@ -1,9 +1,12 @@
 package com.example.taweesoft.marshtello.ui.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +25,9 @@ import com.example.taweesoft.marshtello.ui.adapters.CardCustomAdapter;
 import com.example.taweesoft.marshtello.R;
 import com.example.taweesoft.marshtello.utils.Storage;
 import com.example.taweesoft.marshtello.utils.Utilities;
+
+import java.util.Observable;
+import java.util.Observer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,12 +63,15 @@ public class CardListFragment extends Fragment {
     /*Custom listview adapter*/
     private CardCustomAdapter adapter;
 
+    private Observer observer;
+
     /**
      * Constructor.
      */
-    public CardListFragment(CardList cardList, int id) {
+    public CardListFragment(CardList cardList, int id , Observer observer) {
         this.cardList_id = id;
         this.cardList = cardList;
+        this.observer = observer;
     }
 
 
@@ -144,7 +153,6 @@ public class CardListFragment extends Fragment {
                 intent.putExtra("cardList_id", cardList_id);
                 Log.e("PPPPPPP", cardList_id + " " + position);
                 startActivityForResult(intent, 1);
-                startActivityForResult(intent,1);
             }
         });
     }
@@ -153,8 +161,23 @@ public class CardListFragment extends Fragment {
         remove_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = CardListFragment.this.getContext();
-                Storage.getInstance(context).removeCardList(cardList_id);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(CardListFragment.this.getContext());
+                dialog.setTitle("Message");
+                dialog.setMessage("Delete this card list ?");
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Context context = CardListFragment.this.getContext();
+                        Storage.getInstance(context).removeCardList(cardList_id);
+                        observer.update(null,cardList_id);
+                    }
+                });
+                dialog.setNegativeButton("No",null);
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
+
+
+
             }
         });
     }

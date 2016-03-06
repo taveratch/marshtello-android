@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.taweesoft.marshtello.utils.DataCenter;
 
+import java.util.Observer;
+
 /**
  * Created by TAWEESOFT on 2/27/16 AD.
  */

@@ -79,7 +79,6 @@ public class NewCardActivity extends AppCompatActivity {
                     cardList.getCards().add(card);
                 }
             });
-
             setResult(1);
             finish();
         }

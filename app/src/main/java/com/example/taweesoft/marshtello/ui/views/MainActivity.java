@@ -1,5 +1,6 @@
 package com.example.taweesoft.marshtello.ui.views;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -19,11 +20,14 @@ import com.example.taweesoft.marshtello.R;
 import com.example.taweesoft.marshtello.utils.Storage;
 import com.example.taweesoft.marshtello.utils.Utilities;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Observer {
 
     @Bind(R.id.list_count_txt)
     TextView list_count_txt;
@@ -80,8 +84,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
+    @Override
+    public void update(Observable observable, Object data) {
+        int position = (int)data;
+        Log.e("QWEQWE", position + "");
+        DataCenter.fragmentList.clear();
+        initialTabFromStorage();
+        if (position < tabLayout.getTabCount())
+            pager.setCurrentItem(position,true);
+    }
 
     /**
      * Update list count (Bullets)
@@ -105,8 +116,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void initialTabFromStorage(){
+        tabLayout.removeAllTabs();
         for(int i =0;i< DataCenter.cardLists.size();i++){
-            DataCenter.fragmentList.add(new CardListFragment(DataCenter.cardLists.get(i), i));
+            DataCenter.fragmentList.add(new CardListFragment(DataCenter.cardLists.get(i), i,this));
             tabLayout.addTab(tabLayout.newTab().setText(tabLayout.getTabCount() + 1 + ""));
             adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
             pager.setAdapter(adapter);
@@ -124,14 +136,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        DataCenter.fragmentList.add(new CardListFragment(cardList,adapter.getCount()));
+        DataCenter.fragmentList.add(new CardListFragment(cardList,adapter.getCount(),this));
         tabLayout.addTab(tabLayout.newTab().setText(tabLayout.getTabCount() + 1 + ""));
         adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         pager.setAdapter(adapter);
-        pager.setCurrentItem(adapter.getCount()-1);
+        pager.setCurrentItem(adapter.getCount()-1,true);
         Storage.getInstance(this).saveData();
         Log.e("ADAPTER", adapter.getCount() + "");
     }
+
 
     public void setCustomActionBar(){
         ActionBar actionBar = getSupportActionBar();
