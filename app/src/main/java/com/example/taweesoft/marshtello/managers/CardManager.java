@@ -10,6 +10,7 @@ import com.example.taweesoft.marshtello.utils.DataCenter;
 import java.util.Collections;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 
 /**
  * Created by TAWEESOFT on 3/6/16 AD.
@@ -97,6 +98,15 @@ public class CardManager {
             @Override
             public void execute(Realm realm) {
                 card.getComments().add(comment);
+            }
+        });
+    }
+
+    public static void removeComment(Context context, final RealmList<Comment> comments ,final int position){
+        Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                comments.remove(position);
             }
         });
     }

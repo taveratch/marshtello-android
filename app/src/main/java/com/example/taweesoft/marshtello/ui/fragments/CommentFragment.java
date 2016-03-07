@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.taweesoft.marshtello.events.SimpleItemTouchHelperCallback;
 import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.models.Card;
 import com.example.taweesoft.marshtello.models.Comment;
@@ -87,6 +89,9 @@ public class CommentFragment extends Fragment {
         rv.setHasFixedSize(true);
         RecyclerView.LayoutManager llm = new LinearLayoutManager(this.getContext());
         rv.setLayoutManager(llm);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapterRV);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(rv);
     }
 
     /**
