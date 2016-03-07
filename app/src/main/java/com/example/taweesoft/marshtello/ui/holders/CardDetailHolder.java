@@ -12,10 +12,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * Holder in CardDetailFragment.
  * Created by TAWEESOFT on 3/1/16 AD.
  */
 public class CardDetailHolder {
 
+    /**
+     * UI Components.
+     */
     @Bind(R.id.first_char_txt)
     public TextView first_char_txt;
 
@@ -34,6 +38,10 @@ public class CardDetailHolder {
     @Bind(R.id.detail_txt)
     public EditText detail_txt;
 
+    /**
+     * Constructor.
+     * @param view
+     */
     public CardDetailHolder(View view){
         ButterKnife.bind(this,view);
     }

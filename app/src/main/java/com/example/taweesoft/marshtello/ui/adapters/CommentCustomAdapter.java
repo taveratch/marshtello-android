@@ -14,16 +14,31 @@ import com.example.taweesoft.marshtello.utils.Utilities;
 import io.realm.RealmList;
 
 /**
+ * Comment adapter used in ListView in CommentFragment.
  * Created by TAWEESOFT on 3/3/16 AD.
  */
 public class CommentCustomAdapter extends ArrayAdapter<Comment> {
 
+    /**
+     * Constructor.
+     * @param context
+     * @param resource
+     * @param comments
+     */
     public CommentCustomAdapter(Context context, int resource, RealmList<Comment> comments) {
         super(context, resource , comments);
     }
 
+    /**
+     * Get current view.
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        /*Use ViewHolder pattern and return the view.*/
         CommentCustomHolder holder =null;
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.comment_custom_layout,null);

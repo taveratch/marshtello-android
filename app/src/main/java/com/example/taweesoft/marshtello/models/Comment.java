@@ -6,14 +6,18 @@ import java.util.Date;
 import io.realm.RealmObject;
 
 /**
+ * Comment model.
  * Created by TAWEESOFT on 2/27/16 AD.
  */
 public class Comment extends RealmObject {
 
+    /*Attributes.*/
     private String comment;
-
     private long date;
 
+    /**
+     * Constructor.
+     */
     public Comment() {
     }
 

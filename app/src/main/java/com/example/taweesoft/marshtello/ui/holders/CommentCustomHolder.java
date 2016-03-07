@@ -9,10 +9,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * Holder of comment in listView in CommentFragment.
  * Created by TAWEESOFT on 3/3/16 AD.
  */
 public class CommentCustomHolder {
 
+    /*UI Components.*/
     @Bind(R.id.comment_txt)
     public TextView comment_txt;
 

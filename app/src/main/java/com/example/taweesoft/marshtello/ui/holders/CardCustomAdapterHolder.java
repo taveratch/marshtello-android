@@ -9,10 +9,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * UI holder of card layout in listView in CardListFragment.
  * Created by TAWEESOFT on 2/29/16 AD.
  */
 public class CardCustomAdapterHolder {
 
+    /*UI Components*/
     @Bind(R.id.first_char_txt)
     public TextView first_char_txt;
 
@@ -22,6 +24,10 @@ public class CardCustomAdapterHolder {
     @Bind(R.id.comment_count_txt)
     public TextView comment_count_txt;
 
+    /**
+     * Constructor.
+     * @param view
+     */
     public CardCustomAdapterHolder(View view){
         ButterKnife.bind(this,view);
     }

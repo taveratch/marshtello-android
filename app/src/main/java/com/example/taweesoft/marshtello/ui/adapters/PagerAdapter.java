@@ -9,30 +9,31 @@ import com.example.taweesoft.marshtello.utils.DataCenter;
 import java.util.Observer;
 
 /**
+ * Pager adapter use in MainActivity to show all cardlist.
  * Created by TAWEESOFT on 2/27/16 AD.
  */
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     private int numberOftabs;
 
+    /**
+     * Constructor.
+     * @param fm
+     * @param numberOftabs
+     */
     public PagerAdapter(FragmentManager fm , int numberOftabs) {
         super(fm);
         this.numberOftabs = numberOftabs;
     }
 
+    /**
+     * Get fragment item.
+     * @param position
+     * @return
+     */
     @Override
     public Fragment getItem(int position) {
         return DataCenter.fragmentList.get(position);
-//        switch(position){
-//            case 0 :
-//                return new CardListFragment(DataCenter.todo);
-//            case 1 :
-//                return new CardListFragment(DataCenter.doing);
-//            case 2 :
-//                return new CardListFragment(DataCenter.done);
-//            default:
-//                return null;
-//        }
     }
 
     @Override

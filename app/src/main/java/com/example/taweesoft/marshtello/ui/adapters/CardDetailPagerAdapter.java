@@ -8,13 +8,22 @@ import com.example.taweesoft.marshtello.ui.fragments.CardDetailFragment;
 import com.example.taweesoft.marshtello.ui.fragments.CommentFragment;
 
 /**
+ * Card detail pager adapter used in CardDetailActivity.
  * Created by TAWEESOFT on 3/1/16 AD.
  */
 public class CardDetailPagerAdapter extends FragmentStatePagerAdapter {
 
+    /*Attributes.*/
     private int tabCount;
     private int card_id , cardList_id;
 
+    /**
+     * Constructor.
+     * @param fm
+     * @param tabCount
+     * @param cardList_id
+     * @param card_id
+     */
     public CardDetailPagerAdapter(FragmentManager fm, int tabCount, int cardList_id, int card_id) {
         super(fm);
         this.tabCount = tabCount;
@@ -24,9 +33,9 @@ public class CardDetailPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if(position ==0){
+        if(position ==0){ /*First page is CardDetailFragment.*/
             return new CardDetailFragment(cardList_id, card_id);
-        }else if(position == 1)
+        }else if(position == 1) /*Second page is CommentFragment*/
             return new CommentFragment(cardList_id,card_id);
         return null;
     }

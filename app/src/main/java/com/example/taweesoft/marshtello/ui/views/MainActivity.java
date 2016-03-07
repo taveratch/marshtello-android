@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.utils.DataCenter;
 import com.example.taweesoft.marshtello.ui.fragments.CardListFragment;
 import com.example.taweesoft.marshtello.models.CardList;
@@ -27,8 +28,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 
+/**
+ * Main Activity.
+ */
 public class MainActivity extends AppCompatActivity implements Observer {
 
+    /*UI Componenets*/
     @Bind(R.id.list_count_txt)
     TextView list_count_txt;
 
@@ -38,27 +43,33 @@ public class MainActivity extends AppCompatActivity implements Observer {
     @Bind(R.id.pager)
     ViewPager pager;
 
-
+    /*Attributes.*/
     PagerAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Binding the components
+        /*Binding the components*/
         ButterKnife.bind(this);
+
+        /*Load all data from storage and set to ui components*/
         final Storage storage = Storage.getInstance(this);
         storage.loadData();
         initialTabFromStorage();
+
         /*set status bar color*/
         Utilities.setStatusBarColor(this, getResources().getColor(R.color.colorPrimary));
 
         /*Set icon on action bar*/
         setCustomActionBar();
-        //Initial tabs
+
+        /*Initial Tab's layout*/
         initialTabs();
 
-        //Initial adapter and tablayout.
+        /*Initial pager adapter and some actions of tablayout.*/
         adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         pager.setAdapter(adapter);
         pager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -67,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
             public void onTabSelected(TabLayout.Tab tab) {
                 pager.setCurrentItem(tab.getPosition());
                 updateListCountBullet(tab.getPosition());
-
             }
 
             @Override
@@ -81,17 +91,34 @@ public class MainActivity extends AppCompatActivity implements Observer {
             }
         });
 
+        /*Set bullet counter to 0 position.*/
+        updateListCountBullet(0);
+
 
     }
 
+
+    /**
+     * Observer's method that notified by CardListFragment
+     * to update pager when remove a cardlist.
+     * @param observable
+     * @param data
+     */
     @Override
     public void update(Observable observable, Object data) {
         int position = (int)data;
-        Log.e("QWEQWE", position + "");
+
+        /*Clear all CardListFragment*/
         DataCenter.fragmentList.clear();
+
+        /*Initialize new CardListFragment*/
         initialTabFromStorage();
-        if (position < tabLayout.getTabCount())
-            pager.setCurrentItem(position,true);
+
+        /*If the removed CardListFragment is not the last fragment then set position to the previous one.*/
+        if (position < tabLayout.getTabCount()) {
+            pager.setCurrentItem(position, true);
+            updateListCountBullet(position);
+        }
     }
 
     /**
@@ -115,8 +142,18 @@ public class MainActivity extends AppCompatActivity implements Observer {
     }
 
 
+    /**
+     * Initial tabs from Storage.
+     */
     public void initialTabFromStorage(){
+        /*Remove all tabs*/
         tabLayout.removeAllTabs();
+
+        /*In case that no any fragment available*/
+        adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
+        pager.setAdapter(adapter);
+
+        /*In case that has more that one fragment available*/
         for(int i =0;i< DataCenter.cardLists.size();i++){
             DataCenter.fragmentList.add(new CardListFragment(DataCenter.cardLists.get(i), i,this));
             tabLayout.addTab(tabLayout.newTab().setText(tabLayout.getTabCount() + 1 + ""));
@@ -124,28 +161,36 @@ public class MainActivity extends AppCompatActivity implements Observer {
             pager.setAdapter(adapter);
         }
     }
+
     /**
      * Create new card list
      */
     public void newFragment(){
+        /*Create new CardList*/
         final CardList cardList = new CardList("My card");
-        Realm.getInstance(this).executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                DataCenter.cardLists.add(cardList);
-            }
-        });
 
+        /*Add new CardList to DataCenter.*/
+        CardManager.addCardList(this,cardList);
+
+        /*Add CardListFragment into DataCenter.*/
         DataCenter.fragmentList.add(new CardListFragment(cardList,adapter.getCount(),this));
+
+        /*Add tab to tablayout.*/
         tabLayout.addTab(tabLayout.newTab().setText(tabLayout.getTabCount() + 1 + ""));
+
+        /*Set new adapter and set to ViewPager.*/
         adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         pager.setAdapter(adapter);
         pager.setCurrentItem(adapter.getCount()-1,true);
+
+        /*Save data to Realm storage.*/
         Storage.getInstance(this).saveData();
-        Log.e("ADAPTER", adapter.getCount() + "");
     }
 
 
+    /**
+     * Set custom actionbar.
+     */
     public void setCustomActionBar(){
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);

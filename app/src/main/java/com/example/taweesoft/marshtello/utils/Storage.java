@@ -11,6 +11,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
+ * Storage class.
  * Created by TAWEESOFT on 3/1/16 AD.
  */
 public class Storage {
@@ -101,7 +102,7 @@ public class Storage {
     }
 
     /**
-     *
+     * Remove specific card.
      * @param cardListPosition
      * @param cardPosition
      */

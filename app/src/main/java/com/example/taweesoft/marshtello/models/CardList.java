@@ -2,17 +2,22 @@ package com.example.taweesoft.marshtello.models;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 
 /**
+ * Card List model.
  * Created by TAWEESOFT on 2/28/16 AD.
  */
 public class CardList extends RealmObject {
 
+    /*Attributes.*/
     private String name;
     private int id;
     private RealmList<Card> cards;
 
-
+    /**
+     * Constructor.
+     */
     public CardList() {
     }
 
@@ -20,10 +25,6 @@ public class CardList extends RealmObject {
         cards = new RealmList<Card>();
         setName(name);
     }
-
-//    public void addCard(Card card){
-//        cards.add(card);
-//    }
 
     public RealmList<Card> getCards() {
         return cards;
@@ -48,4 +49,5 @@ public class CardList extends RealmObject {
     public void setCards(RealmList<Card> cards) {
         this.cards = cards;
     }
+
 }

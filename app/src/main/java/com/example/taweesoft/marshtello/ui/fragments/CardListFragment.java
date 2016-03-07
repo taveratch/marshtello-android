@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.ui.views.CardDetailActivity;
 import com.example.taweesoft.marshtello.ui.views.NewCardActivity;
 import com.example.taweesoft.marshtello.models.CardList;
@@ -43,9 +45,6 @@ public class CardListFragment extends Fragment {
     private CardList cardList;
 
     /*UI Components*/
-    @Bind(R.id.listName_txt)
-    TextView listName_txt;
-
     @Bind(R.id.listView)
     ListView listView;
 
@@ -86,6 +85,9 @@ public class CardListFragment extends Fragment {
         /*Set cardlist's name*/
         listName_editText.setText(cardList.getName());
 
+        listName_editText.setOnKeyListener(new onKeyboardEntered());
+
+        /*Set all action*/
         setAddCardAction();
         setFocusActionOnCardListName();
         setListViewAction();
@@ -106,6 +108,9 @@ public class CardListFragment extends Fragment {
         Storage.getInstance(this.getContext()).saveData();
     }
 
+    /**
+     * When click edittext is focusing then click on cardlist keyboard will hide and save change.
+     */
     public void setFocusActionOnCardListName(){
         listName_editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -113,15 +118,7 @@ public class CardListFragment extends Fragment {
                 if (!hasFocus) {
                     /*Hide keyboard if click outside the edittext*/
                     Utilities.hideKeyboard(CardListFragment.this.getActivity(), v); //Hide keyboard
-                    final String listName = listName_editText.getText().toString();
-                    if (!listName.equals(""))
-                        /*Set card name and save to storage immediately*/
-                        Realm.getInstance(CardListFragment.this.getContext()).executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                cardList.setName(listName);
-                            }
-                        });
+                    setCardListName();
 
                 }
             }
@@ -129,7 +126,9 @@ public class CardListFragment extends Fragment {
     }
 
 
-    /*Hide keyboard when click outside edittext and update card name*/
+    /**
+     * Hide keyboard when click outside edittext and update card name
+     * */
     public void setAddCardAction(){
         add_card_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,36 +150,76 @@ public class CardListFragment extends Fragment {
                 Intent intent = new Intent(CardListFragment.this.getContext(), CardDetailActivity.class);
                 intent.putExtra("card_id", position);
                 intent.putExtra("cardList_id", cardList_id);
-                Log.e("PPPPPPP", cardList_id + " " + position);
                 startActivityForResult(intent, 1);
             }
         });
     }
 
+    /**
+     * Remove card.
+     */
     public void setRemoveCardAction(){
         remove_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*Build the dialog.*/
                 AlertDialog.Builder dialog = new AlertDialog.Builder(CardListFragment.this.getContext());
                 dialog.setTitle("Message");
-                dialog.setMessage("Delete this card list ?");
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                dialog.setMessage("Delete or clear this card list ?");
+                dialog.setPositiveButton("Yes, delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Context context = CardListFragment.this.getContext();
                         Storage.getInstance(context).removeCardList(cardList_id);
-                        observer.update(null,cardList_id);
+                        observer.update(null, cardList_id);
                     }
                 });
-                dialog.setNegativeButton("No",null);
+                dialog.setNeutralButton("NO", null);
+                /*Clear all card in the cardlist.*/
+                dialog.setNegativeButton("Just clear all card", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        /*Call clear card from Storage.*/
+                        Context context = CardListFragment.this.getContext();
+                        Storage.getInstance(context).removeAllCard(cardList_id);
+                        observer.update(null, cardList_id);
+                    }
+                });
+
+                /*Create dialog and show.*/
                 AlertDialog alertDialog = dialog.create();
                 alertDialog.show();
-
 
 
             }
         });
     }
 
+    /**
+     * Set card list's name.
+     */
+    public void setCardListName(){
+        String listName = listName_editText.getText().toString();
+        /*Check first if cardlist's name is empty.*/
+        if (!listName.equals(""))
+            /*Set card name and save to storage immediately*/
+            CardManager.setCardListName(CardListFragment.this.getContext(),cardList,listName);
+    }
+
+    /**
+     * Action for click enter on keyboard.
+     * Implemented in Edittext.
+     */
+    class onKeyboardEntered implements View.OnKeyListener{
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            /*If button is ENTER*/
+            if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                setCardListName();
+                return true;
+            }
+            return false;
+        }
+    }
 
 }
