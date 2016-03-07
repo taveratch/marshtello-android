@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.taweesoft.marshtello.models.Card;
 import com.example.taweesoft.marshtello.models.CardList;
+import com.example.taweesoft.marshtello.models.Comment;
 import com.example.taweesoft.marshtello.utils.DataCenter;
 
 import java.util.Collections;
@@ -87,6 +88,15 @@ public class CardManager {
             @Override
             public void execute(Realm realm) {
                 DataCenter.cardLists.add(cardList);
+            }
+        });
+    }
+
+    public static void addComment(Context context , final Card card , final Comment comment){
+        Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                card.getComments().add(comment);
             }
         });
     }

@@ -38,6 +38,9 @@ public class CardDetailHolder {
     @Bind(R.id.detail_txt)
     public EditText detail_txt;
 
+    @Bind(R.id.remove_btn)
+    public ImageView remove_btn;
+
     /**
      * Constructor.
      * @param view

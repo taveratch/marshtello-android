@@ -2,6 +2,8 @@ package com.example.taweesoft.marshtello.ui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.models.Card;
 import com.example.taweesoft.marshtello.models.Comment;
+import com.example.taweesoft.marshtello.ui.adapters.CommentRVCustomAdapter;
 import com.example.taweesoft.marshtello.utils.DataCenter;
 import com.example.taweesoft.marshtello.ui.adapters.CommentCustomAdapter;
 import com.example.taweesoft.marshtello.R;
@@ -18,6 +22,8 @@ import com.example.taweesoft.marshtello.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 /**
  * Created by TAWEESOFT on 3/3/16 AD.
@@ -26,6 +32,9 @@ public class CommentFragment extends Fragment {
     /*UI Components*/
     @Bind(R.id.listView)
     ListView listView;
+
+    @Bind(R.id.rv)
+    RecyclerView rv;
 
     @Bind(R.id.comment_txt)
     EditText comment_txt;
@@ -36,8 +45,8 @@ public class CommentFragment extends Fragment {
     /*Attributes*/
     private int cardList_id,casd_id;
     private Card card;
-    private CommentCustomAdapter adapter;
-
+//    private CommentCustomAdapter adapter;
+    private AlphaInAnimationAdapter adapter;
     /**
      * Constructor
      * @param cardList_id
@@ -70,8 +79,14 @@ public class CommentFragment extends Fragment {
      * Show data in listview;
      */
     public void showData(){
-        adapter = new CommentCustomAdapter(this.getContext(),R.layout.comment_custom_layout,card.getComments());
-        listView.setAdapter(adapter);
+        CommentRVCustomAdapter adapterRV = new CommentRVCustomAdapter(card.getComments());
+//        rv.setAdapter(adapter);
+        adapter = new AlphaInAnimationAdapter(adapterRV);
+        rv.setItemAnimator(new SlideInLeftAnimator());
+        rv.setAdapter(adapter);
+        rv.setHasFixedSize(true);
+        RecyclerView.LayoutManager llm = new LinearLayoutManager(this.getContext());
+        rv.setLayoutManager(llm);
     }
 
     /**
@@ -82,18 +97,18 @@ public class CommentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String commentStr = comment_txt.getText().toString();
-                final Comment comment = new Comment(commentStr);
+                /*Check if comment is not empty.*/
+                if(commentStr.length()>0){
+                    Comment comment = new Comment(commentStr);
                 /*Add comment to card by realm's transaction.*/
-                Realm.getInstance(CommentFragment.this.getContext()).executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        card.getComments().add(comment);
-                    }
-                });
+                    CardManager.addComment(CommentFragment.this.getContext(),card,comment);
                 /*notify adapter*/
-                adapter.notifyDataSetChanged();
+//                adapter.notifyDataSetChanged();
+                    adapter.notifyItemInserted(card.getComments().size()-1);
                 /*Clear text in edittext*/
-                comment_txt.setText("");
+                    comment_txt.setText("");
+                }
+
             }
         });
     }

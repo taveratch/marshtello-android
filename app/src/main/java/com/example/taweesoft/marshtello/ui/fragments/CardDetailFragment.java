@@ -34,9 +34,7 @@ import io.realm.Realm;
  * Created by TAWEESOFT on 3/1/16 AD.
  */
 public class CardDetailFragment extends Fragment {
-    /*UI Components.*/
-    @Bind(R.id.remove_btn)
-    ImageView remove_btn;
+
 
     /*Attributes.*/
     private int card_id , cardList_id;
@@ -127,7 +125,7 @@ public class CardDetailFragment extends Fragment {
      * Set delete card action.
      */
     public void setDeleteAction(){
-        remove_btn.setOnClickListener(new View.OnClickListener() {
+        holder.remove_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*Building a dialog.*/
