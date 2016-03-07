@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -15,15 +18,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.taweesoft.marshtello.events.CustomOnClickListener;
+import com.example.taweesoft.marshtello.events.SimpleItemTouchHelperCallback;
 import com.example.taweesoft.marshtello.managers.CardManager;
+import com.example.taweesoft.marshtello.ui.adapters.CardRVCustomAdapter;
 import com.example.taweesoft.marshtello.ui.views.CardDetailActivity;
 import com.example.taweesoft.marshtello.ui.views.NewCardActivity;
 import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.utils.DataCenter;
-import com.example.taweesoft.marshtello.ui.adapters.CardCustomAdapter;
 import com.example.taweesoft.marshtello.R;
 import com.example.taweesoft.marshtello.utils.Storage;
 import com.example.taweesoft.marshtello.utils.Utilities;
@@ -45,8 +51,8 @@ public class CardListFragment extends Fragment {
     private CardList cardList;
 
     /*UI Components*/
-    @Bind(R.id.listView)
-    ListView listView;
+    @Bind(R.id.rv)
+    RecyclerView rv;
 
     @Bind(R.id.listName_editText)
     EditText listName_editText;
@@ -60,7 +66,7 @@ public class CardListFragment extends Fragment {
     /*Unique id for send to NewCardActivity to get real CardList*/
     private int cardList_id;
     /*Custom listview adapter*/
-    private CardCustomAdapter adapter;
+    private CardRVCustomAdapter adapter;
 
     private Observer observer;
 
@@ -90,12 +96,19 @@ public class CardListFragment extends Fragment {
         /*Set all action*/
         setAddCardAction();
         setFocusActionOnCardListName();
-        setListViewAction();
         setRemoveCardAction();
 
-        /*Define adapter for listview*/
-        adapter = new CardCustomAdapter(getContext(),R.layout.custom_card_view_layout,cardList.getCards());
-        listView.setAdapter(adapter);
+        /*Define adapter for recycler view*/
+        adapter = new CardRVCustomAdapter(cardList.getCards(),new RecyclerViewAction());
+        RecyclerView.LayoutManager llm = new LinearLayoutManager(this.getContext());
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager(llm);
+        rv.setAdapter(adapter);
+
+        /*Attach callback to recycler view.*/
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(rv);
         return view;
     }
 
@@ -143,16 +156,14 @@ public class CardListFragment extends Fragment {
     /**
      * Set listview action
      */
-    public void setListViewAction(){
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CardListFragment.this.getContext(), CardDetailActivity.class);
-                intent.putExtra("card_id", position);
-                intent.putExtra("cardList_id", cardList_id);
-                startActivityForResult(intent, 1);
-            }
-        });
+    class RecyclerViewAction implements CustomOnClickListener{
+        @Override
+        public void onClick(View view, int position) {
+            Intent intent = new Intent(CardListFragment.this.getContext(), CardDetailActivity.class);
+            intent.putExtra("card_id", position);
+            intent.putExtra("cardList_id", cardList_id);
+            startActivityForResult(intent, 1);
+        }
     }
 
     /**

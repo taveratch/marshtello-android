@@ -137,7 +137,7 @@ public class CardDetailFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         /*Call remove card function from storage.*/
                         Context context = CardDetailFragment.this.getContext();
-                        Storage.getInstance(context).removeCard(cardList_id, card_id);
+                        CardManager.removeCard(CardDetailFragment.this.getContext(),DataCenter.cardLists.get(cardList_id).getCards(),card_id);
                         /*end this activity.*/
                         CardDetailFragment.this.getActivity().finish();
                     }

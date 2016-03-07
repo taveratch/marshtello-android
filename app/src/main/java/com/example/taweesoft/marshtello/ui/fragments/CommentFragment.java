@@ -18,7 +18,6 @@ import com.example.taweesoft.marshtello.models.Card;
 import com.example.taweesoft.marshtello.models.Comment;
 import com.example.taweesoft.marshtello.ui.adapters.CommentRVCustomAdapter;
 import com.example.taweesoft.marshtello.utils.DataCenter;
-import com.example.taweesoft.marshtello.ui.adapters.CommentCustomAdapter;
 import com.example.taweesoft.marshtello.R;
 
 import butterknife.Bind;

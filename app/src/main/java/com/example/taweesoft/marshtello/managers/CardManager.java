@@ -6,6 +6,7 @@ import com.example.taweesoft.marshtello.models.Card;
 import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.models.Comment;
 import com.example.taweesoft.marshtello.utils.DataCenter;
+import com.example.taweesoft.marshtello.utils.Storage;
 
 import java.util.Collections;
 
@@ -13,6 +14,7 @@ import io.realm.Realm;
 import io.realm.RealmList;
 
 /**
+ * Manage anything about CardList,Card,Comment.
  * Created by TAWEESOFT on 3/6/16 AD.
  */
 public class CardManager {
@@ -107,6 +109,15 @@ public class CardManager {
             @Override
             public void execute(Realm realm) {
                 comments.remove(position);
+            }
+        });
+    }
+
+    public static void removeCard(Context context , final RealmList<Card> cards , final int position){
+        Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                cards.remove(position);
             }
         });
     }

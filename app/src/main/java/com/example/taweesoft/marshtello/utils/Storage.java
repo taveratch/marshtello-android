@@ -101,20 +101,5 @@ public class Storage {
 
     }
 
-    /**
-     * Remove specific card.
-     * @param cardListPosition
-     * @param cardPosition
-     */
-    public void removeCard(final int cardListPosition ,final int cardPosition){
-        Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                DataWrapper dataWrapper = DataCenter.result.get(0);
-                RealmList<CardList> cardLists = dataWrapper.getCardListRealmList();
-                RealmList<Card> cards = cardLists.get(cardListPosition).getCards();
-                cards.remove(cardPosition);
-            }
-        });
-    }
+
 }
