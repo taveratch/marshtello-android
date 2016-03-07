@@ -28,13 +28,11 @@ import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 /**
+ * Comment fragment.
  * Created by TAWEESOFT on 3/3/16 AD.
  */
 public class CommentFragment extends Fragment {
     /*UI Components*/
-    @Bind(R.id.listView)
-    ListView listView;
-
     @Bind(R.id.rv)
     RecyclerView rv;
 
@@ -105,13 +103,14 @@ public class CommentFragment extends Fragment {
                 /*Check if comment is not empty.*/
                 if(commentStr.length()>0){
                     Comment comment = new Comment(commentStr);
-                /*Add comment to card by realm's transaction.*/
+                    /*Add comment to card by realm's transaction.*/
                     CardManager.addComment(CommentFragment.this.getContext(),card,comment);
-                /*notify adapter*/
-//                adapter.notifyDataSetChanged();
+                    /*notify adapter*/
                     adapter.notifyItemInserted(card.getComments().size()-1);
-                /*Clear text in edittext*/
+                    /*Clear text in edittext*/
                     comment_txt.setText("");
+                    /*Scroll RecyclerView to bottom*/
+                    rv.scrollToPosition(card.getComments().size()-1);
                 }
 
             }

@@ -38,13 +38,6 @@
         android:id="@+id/rv"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/relativeLayout3"></android.support.v7.widget.RecyclerView>
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_above="@+id/relativeLayout3"
-        android:visibility="invisible" />
+        android:layout_margin="10dp"></android.support.v7.widget.RecyclerView>
 </RelativeLayout>
