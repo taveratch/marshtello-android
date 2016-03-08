@@ -86,9 +86,6 @@ public class CommentFragment extends Fragment {
         rv.setHasFixedSize(true);
         RecyclerView.LayoutManager llm = new LinearLayoutManager(this.getContext());
         rv.setLayoutManager(llm);
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapterRV);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(rv);
     }
 
     /**

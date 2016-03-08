@@ -24,9 +24,10 @@ import butterknife.ButterKnife;
 import io.realm.RealmList;
 
 /**
+ * Comment RecyclerView adapter.
  * Created by TAWEESOFT on 3/7/16 AD.
  */
-public class CommentRVCustomAdapter extends RecyclerView.Adapter<CommentRVCustomAdapter.ViewHolder> implements ItemTouchHelperAdapter {
+public class CommentRVCustomAdapter extends RecyclerView.Adapter<CommentRVCustomAdapter.ViewHolder> {
 
     /*Attributes.*/
     private RealmList<Comment> comments;
@@ -35,6 +36,8 @@ public class CommentRVCustomAdapter extends RecyclerView.Adapter<CommentRVCustom
      * Inner class for View holder.
      */
     public static class ViewHolder extends RecyclerView.ViewHolder{
+
+        /*UI Componenets*/
         @Bind(R.id.comment_txt)
         TextView comment_txt;
 
@@ -57,6 +60,17 @@ public class CommentRVCustomAdapter extends RecyclerView.Adapter<CommentRVCustom
         context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.comment_custom_layout,null);
         final ViewHolder holder = new ViewHolder(view);
+
+        /*Set long click action to view.*/
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showDeleteDialog(holder.getPosition());
+                return false;
+            }
+        });
+        /*Enabled long clickable*/
+        view.setLongClickable(true);
         return holder;
     }
 
@@ -72,18 +86,8 @@ public class CommentRVCustomAdapter extends RecyclerView.Adapter<CommentRVCustom
         return comments.size();
     }
 
-    @Override
-    public void onItemMove(int fromPosition, int toPosition) {
 
-    }
-
-    /**
-     * On item swipe.
-     * @param position
-     */
-    @Override
-    public void onItemDismiss(final int position) {
-        /*When swipe on an item.*/
+    public void showDeleteDialog(final int position){
         /*Building a dialog.*/
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Message");

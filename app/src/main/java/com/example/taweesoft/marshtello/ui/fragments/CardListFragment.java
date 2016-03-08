@@ -40,6 +40,7 @@ import java.util.Observer;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import jp.wasabeef.recyclerview.animators.FadeInLeftAnimator;
 
 /**
  * Card list fragment. (Used on 3 tabs)
@@ -104,7 +105,8 @@ public class CardListFragment extends Fragment {
         rv.setHasFixedSize(true);
         rv.setLayoutManager(llm);
         rv.setAdapter(adapter);
-
+        rv.setItemAnimator(new FadeInLeftAnimator());
+        rv.getItemAnimator().setChangeDuration(1000);
         /*Attach callback to recycler view.*/
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
@@ -181,7 +183,7 @@ public class CardListFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Context context = CardListFragment.this.getContext();
-                        Storage.getInstance(context).removeCardList(cardList_id);
+                        CardManager.removeCardList(CardListFragment.this.getContext(),DataCenter.cardLists,cardList_id);
                         observer.update(null, cardList_id);
                     }
                 });
@@ -192,7 +194,7 @@ public class CardListFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         /*Call clear card from Storage.*/
                         Context context = CardListFragment.this.getContext();
-                        Storage.getInstance(context).removeAllCard(cardList_id);
+                        CardManager.clearAllCard(context,cardList);
                         observer.update(null, cardList_id);
                     }
                 });

@@ -121,4 +121,29 @@ public class CardManager {
             }
         });
     }
+
+    /**
+     * Remove CardList
+     */
+    public static void removeCardList(Context context , final RealmList<CardList> cardLists , final int position){
+        DataCenter.fragmentList.remove(position);
+        Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                cardLists.remove(position);
+            }
+        });
+    }
+
+    /**
+     * Clear all cards in a CardList
+     */
+    public static void clearAllCard(Context context , final CardList cardList){
+        Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                cardList.getCards().clear();
+            }
+        });
+    }
 }

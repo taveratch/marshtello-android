@@ -55,6 +55,17 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
                 listener.onClick(v,holder.getPosition());
             }
         });
+
+        /*show delete dialog when long click*/
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showDeleteDialog(holder.getPosition());
+                return false;
+            }
+        });
+        /*Enabled long clickable*/
+        view.setLongClickable(true);
         return holder;
     }
 
@@ -64,7 +75,7 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
         Card card = cards.get(position);
         holder.card_name_txt.setText(card.getName());
         holder.first_char_txt.setText(card.getName().substring(0,1));
-        holder.comment_count_txt.setText(card.getComments().size()+"");
+        holder.comment_count_txt.setText(card.getComments().size() + "");
         if(card.getTag() == DataCenter.RED_TAG)
             holder.first_char_txt.setBackground(context.getResources().getDrawable(DataCenter.red_circle_img));
         if(card.getTag() == DataCenter.BLUE_TAG)
@@ -87,6 +98,10 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
      */
     @Override
     public void onItemDismiss(final int position) {
+
+    }
+
+    public void showDeleteDialog(final int position){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Message");
         builder.setMessage("Remove this card ?");
@@ -94,6 +109,7 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 CardManager.removeCard(context, cards, position);
+                notifyItemRemoved(position);
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
