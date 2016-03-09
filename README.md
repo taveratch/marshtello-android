@@ -30,6 +30,7 @@ Domain Model
 SSD
 ![Alt text](http://taweesoft.xyz/marshtello/images/iteration2/edit_card_detail.png)
 
+- [Use Cases](https://drive.google.com/file/d/0B7hNtjDh7rljNlFaMlp6WlVLY1U/view?usp=sharing)
 ----
 ## Iteration 3 (Week 2)
 ### Features
