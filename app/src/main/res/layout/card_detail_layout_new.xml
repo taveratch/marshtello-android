@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="@drawable/card"
+                        android:id="@+id/relativeLayout8"></RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="46dp"
+                        android:id="@+id/relativeLayout7">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/linearLayout3"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentStart="true">
+
+                            <EditText
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/card_name_txt"
+                                android:backgroundTint="@android:color/transparent"
+                                android:textSize="20dp"
+                                android:text="Hello"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/date_txt"
+                                android:textColor="#FFF" />
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:id="@+id/edit_card_name_btn"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/draw"
+                                android:padding="10dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="21 Feb 2016"
+                            android:id="@+id/date_txt"
+                            android:layout_gravity="center_horizontal|left"
+                            android:textSize="15dp"
+                            android:textColor="#FFF"
+                            android:layout_below="@+id/linearLayout3"
+                            android:layout_alignStart="@+id/linearLayout3" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:id="@+id/back_btn"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/left_arrow"
+                        android:padding="10dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp" />
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:id="@+id/remove_btn"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/bin"
+                        android:padding="10dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="10dp" />
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:padding="20dp"
+                        android:id="@+id/scrollView"
+                        android:layout_below="@+id/relativeLayout8">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Description"
+                                    android:id="@+id/textView12"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textStyle="bold"
+                                    android:layout_alignBottom="@+id/imageView2"
+                                    android:layout_alignParentStart="true" />
+
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/detail_txt"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignStart="@+id/textView12"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_marginTop="25dp"
+                                    android:background="@android:color/transparent"
+                                    android:text="This is description for each card by using edittext. And I can show you many thing"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/textColor" />
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:id="@+id/edit_detail_btn"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/pencil"
+                                    android:padding="5dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_toEndOf="@+id/textView12"
+                                    android:layout_marginLeft="5dp" />
+
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+                    </ScrollView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/relativeLayout5"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tag"
+                            android:id="@+id/textView13"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="20dp"
+                            android:layout_below="@+id/scrollView"
+                            android:layout_alignParentStart="true" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textView13"
+                            android:layout_toEndOf="@+id/textView13"
+                            android:layout_marginTop="7dp"
+                            android:id="@+id/linearLayout4">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:id="@+id/red_img"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/check"
+                                android:padding="10dp"
+                                android:layout_alignParentTop="false"
+                                android:layout_alignParentBottom="false"
+                                android:layout_alignWithParentIfMissing="false"
+                                android:layout_marginRight="10dp"
+                                android:layout_toStartOf="@+id/blue_img"
+                                android:background="@drawable/red_circle" />
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:id="@+id/blue_img"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/check"
+                                android:padding="10dp"
+                                android:layout_alignParentTop="false"
+                                android:layout_alignParentBottom="false"
+                                android:layout_alignWithParentIfMissing="false"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginRight="10dp"
+                                android:background="@drawable/blue_circle" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Comments"
+                            android:id="@+id/textView14"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="20dp"
+                            android:layout_below="@+id/linearLayout4"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginTop="20dp" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rv"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v7.widget.RecyclerView>
+
+</android.support.design.widget.CoordinatorLayout>

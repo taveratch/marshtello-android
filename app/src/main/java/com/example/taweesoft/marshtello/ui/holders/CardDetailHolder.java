@@ -1,5 +1,6 @@
 package com.example.taweesoft.marshtello.ui.holders;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,8 +21,6 @@ public class CardDetailHolder {
     /**
      * UI Components.
      */
-    @Bind(R.id.first_char_txt)
-    public TextView first_char_txt;
 
     @Bind(R.id.card_name_txt)
     public EditText card_name_txt;
@@ -32,8 +31,6 @@ public class CardDetailHolder {
     @Bind(R.id.blue_img)
     public ImageView blue_img;
 
-    @Bind(R.id.header_layout)
-    public RelativeLayout header_layout;
 
     @Bind(R.id.detail_txt)
     public EditText detail_txt;
@@ -41,6 +38,8 @@ public class CardDetailHolder {
     @Bind(R.id.remove_btn)
     public ImageView remove_btn;
 
+    @Bind(R.id.rv)
+    public RecyclerView rv;
     /**
      * Constructor.
      * @param view
