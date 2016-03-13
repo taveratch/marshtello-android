@@ -38,7 +38,7 @@ public class Utilities {
             case 0 :
                 return "Jan";
             case 1 :
-                return "Feb";
+                return "February";
             case 2 :
                 return "March";
             case 3 :
@@ -50,15 +50,15 @@ public class Utilities {
             case 6 :
                 return "July";
             case 7 :
-                return "Aug";
+                return "August";
             case 8 :
-                return "Sep";
+                return "September";
             case 9 :
-                return "Oct";
+                return "October";
             case 10 :
-                return "Nov";
+                return "November";
             case 11 :
-                return "Dec";
+                return "December";
             default: return "";
         }
     }
@@ -104,6 +104,13 @@ public class Utilities {
         Date date = new Date(dateLong);
         String monthStr = Utilities.getMonthStr(date.getMonth());
         return String.format("%d %s %s",date.getDate(),monthStr,format.format(date));
+    }
+
+    public static String getCardDateStr(long dateLong){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy");
+        Date date = new Date(dateLong);
+        String monthStr = getMonthStr(date.getMonth());
+        return String.format("%s %d, %s",monthStr,date.getDate(),format.format(date));
     }
 
     public static Typeface getNormalFont(Context context){

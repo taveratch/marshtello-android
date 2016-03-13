@@ -16,6 +16,7 @@ import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.models.Card;
 import com.example.taweesoft.marshtello.ui.holders.CardCustomAdapterHolder;
 import com.example.taweesoft.marshtello.utils.DataCenter;
+import com.example.taweesoft.marshtello.utils.Utilities;
 
 import butterknife.Bind;
 import io.realm.RealmList;
@@ -74,12 +75,12 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
         /*Set UI components.*/
         Card card = cards.get(position);
         holder.card_name_txt.setText(card.getName());
-        holder.first_char_txt.setText(card.getName().substring(0,1));
         holder.comment_count_txt.setText(card.getComments().size() + "");
+        holder.date_txt.setText(Utilities.getCardDateStr(card.getDate()));
         if(card.getTag() == DataCenter.RED_TAG)
-            holder.first_char_txt.setBackground(context.getResources().getDrawable(DataCenter.red_circle_img));
+            holder.tag_img.setImageResource(DataCenter.red_circle_img);
         if(card.getTag() == DataCenter.BLUE_TAG)
-            holder.first_char_txt.setBackground(context.getResources().getDrawable(DataCenter.blue_circle_img));
+            holder.tag_img.setImageResource(DataCenter.blue_circle_img);
     }
 
     @Override

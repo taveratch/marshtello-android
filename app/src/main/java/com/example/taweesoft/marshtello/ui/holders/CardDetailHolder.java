@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.R;
@@ -59,7 +58,7 @@ public class CardDetailHolder {
     @Bind(R.id.date_txt)
     public TextView date_txt;
 
-    @Bind(R.id.tv_comment)
+    @Bind(R.id.tv_card)
     TextView tv_comment;
 
     @Bind(R.id.tv_desc)
@@ -76,8 +75,8 @@ public class CardDetailHolder {
         ButterKnife.bind(this, view);
         Typeface typeface = Utilities.getNormalFont(context);
         Typeface bold = Utilities.getBoldFont(context);
-        Utilities.applyFont(typeface,detail_txt,card_name_txt);
-        Utilities.applyFont(typeface,date_txt);
-        Utilities.applyFont(bold,tv_comment,tv_desc,tv_tag);
+        Utilities.applyFont(typeface, detail_txt, card_name_txt);
+        Utilities.applyFont(typeface, date_txt);
+        Utilities.applyFont(bold, tv_comment, tv_desc, tv_tag);
     }
 }

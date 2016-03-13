@@ -3,6 +3,7 @@ package com.example.taweesoft.marshtello.ui.views;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,6 +91,10 @@ public class CardDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveData();
+                Intent data = new Intent();
+                data.putExtra("position", cardList_id);
+                Log.e("Send DATA Back", data + "");
+                setResult(RESULT_OK, data);
                 finish();
             }
         });
@@ -188,6 +194,7 @@ public class CardDetailActivity extends AppCompatActivity {
                         Context context = CardDetailActivity.this;
                         CardManager.removeCard(context, DataCenter.cardLists.get(cardList_id).getCards(), card_id);
                         /*end this activity.*/
+                        sendBack();
                         finish();
                     }
                 });
@@ -278,12 +285,23 @@ public class CardDetailActivity extends AppCompatActivity {
 
 
     }
+
     /**
-     * Set result back to CardListFragment and destroy.
+     * Set data back to parent activity
      */
+    public void sendBack(){
+        Intent data = new Intent();
+        data.putExtra("position", cardList_id);
+        Log.e("Send DATA Back", data + "");
+        setResult(RESULT_OK, data);
+    }
+
+
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        setResult(1);
+    public void onBackPressed() {
+        saveData();
+        sendBack();
+        super.onBackPressed();
+        Log.e("Process" , "onBackPressed");
     }
 }

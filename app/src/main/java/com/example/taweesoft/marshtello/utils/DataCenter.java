@@ -1,6 +1,7 @@
 package com.example.taweesoft.marshtello.utils;
 
 import com.example.taweesoft.marshtello.ui.fragments.CardListFragment;
+import com.example.taweesoft.marshtello.ui.fragments.CardListFragmentOld;
 import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.models.DataWrapper;
 import com.example.taweesoft.marshtello.R;
@@ -18,8 +19,8 @@ import io.realm.RealmResults;
 public class DataCenter {
 
     /*Tag images*/
-    public static int red_circle_img = R.drawable.red_circle;
-    public static int blue_circle_img = R.drawable.blue_circle;
+    public static int red_circle_img = R.drawable.red_tag;
+    public static int blue_circle_img = R.drawable.blue_tag;
 
     /*TAG number*/
     public static int RED_TAG = 1;

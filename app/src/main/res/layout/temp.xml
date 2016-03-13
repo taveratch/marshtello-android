@@ -3,65 +3,76 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/card">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:weightSum="3">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
+            android:layout_weight="2"
+            android:gravity="center_vertical|center_horizontal">
 
-            <RelativeLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="46dp">
+                android:text="4"
+                android:id="@+id/card_count_txt"
+                android:textSize="17dp"
+                android:textColor="@color/colorPrimary" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout3"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comments"
+                android:id="@+id/tv_card"
+                android:textSize="17dp"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
 
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/card_name_txt"
-                        android:backgroundTint="@android:color/transparent"
-                        android:textSize="20dp"
-                        android:text="Hello"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/date_txt"
-                        android:textColor="#FFF" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:weightSum="3">
 
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:id="@+id/edit_card_name_btn"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/draw"
-                        android:padding="10dp" />
-                </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add card"
+                android:id="@+id/add_card_btn"
+                android:layout_gravity="center_vertical"
+                style="@style/Base.Widget.AppCompat.ActionButton"
+                android:background="#23D7A2"
+                android:layout_weight="1"
+                android:textColor="#FFF" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="21 Feb 2016"
-                    android:id="@+id/date_txt"
-                    android:layout_gravity="center_horizontal|left"
-                    android:textSize="15dp"
-                    android:textColor="#FFF"
-                    android:layout_below="@+id/linearLayout3"
-                    android:layout_alignStart="@+id/linearLayout3" />
-            </RelativeLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:id="@+id/edit_card_list_name_btn"
+                android:layout_gravity="center_vertical"
+                style="@style/Base.Widget.AppCompat.ActionButton"
+                android:background="#FFC107"
+                android:layout_weight="1"
+                android:textColor="#FFF" />
 
-        </RelativeLayout>
-    </RelativeLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:id="@+id/remove_card_list_btn"
+                style="@style/Base.Widget.AppCompat.ActionButton"
+                android:background="#F44336"
+                android:layout_weight="1"
+                android:textColor="#FFF" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

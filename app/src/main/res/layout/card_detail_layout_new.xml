@@ -57,7 +57,8 @@
                                     android:layout_toEndOf="@+id/date_txt"
                                     android:textColor="#FFF"
                                     android:focusable="false"
-                                    android:clickable="false" />
+                                    android:clickable="false"
+                                    android:singleLine="true" />
 
                                 <ImageView
                                     android:layout_width="35dp"
@@ -220,7 +221,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Comments"
-                                android:id="@+id/tv_comment"
+                                android:id="@+id/tv_card"
                                 android:textColor="@color/colorPrimary"
                                 android:textStyle="bold"
                                 android:layout_alignBottom="@+id/imageView2"
@@ -235,7 +236,7 @@
                                 android:src="@drawable/circular_add"
                                 android:padding="7dp"
                                 android:layout_alignParentTop="true"
-                                android:layout_toEndOf="@+id/tv_comment"
+                                android:layout_toEndOf="@+id/tv_card"
                                 android:layout_marginLeft="5dp" />
                         </LinearLayout>
 

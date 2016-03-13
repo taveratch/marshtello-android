@@ -1,10 +1,13 @@
 package com.example.taweesoft.marshtello.ui.holders;
 
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.R;
+import com.example.taweesoft.marshtello.utils.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -16,14 +19,17 @@ import butterknife.ButterKnife;
 public class CardCustomAdapterHolder extends RecyclerView.ViewHolder{
 
     /*UI Components*/
-    @Bind(R.id.first_char_txt)
-    public TextView first_char_txt;
+    @Bind(R.id.tag_img)
+    public ImageView tag_img;
 
     @Bind(R.id.card_name_txt)
     public TextView card_name_txt;
 
-    @Bind(R.id.comment_count_txt)
+    @Bind(R.id.card_count_txt)
     public TextView comment_count_txt;
+
+    @Bind(R.id.date_txt)
+    public TextView date_txt;
 
     /**
      * Constructor.
@@ -31,7 +37,9 @@ public class CardCustomAdapterHolder extends RecyclerView.ViewHolder{
      */
     public CardCustomAdapterHolder(View view){
         super(view);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
+        Typeface normal = Utilities.getNormalFont(view.getContext());
+        Utilities.applyFont(normal,card_name_txt,comment_count_txt,date_txt);
     }
 
 

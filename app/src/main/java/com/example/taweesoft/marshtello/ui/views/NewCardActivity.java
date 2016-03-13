@@ -1,8 +1,10 @@
 package com.example.taweesoft.marshtello.ui.views;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -82,8 +84,6 @@ public class NewCardActivity extends AppCompatActivity {
             card = new Card(cardName, cardDetail, tag);
             final CardList cardList = DataCenter.cardLists.get(id);
             CardManager.addCard(this, cardList, card);
-            setResult(1);
-            finish();
         }
     }
 
@@ -93,7 +93,7 @@ public class NewCardActivity extends AppCompatActivity {
     public void setActionBarColor(){
         if(tag == DataCenter.RED_TAG) {
             actionBar_layout.setBackgroundColor(getResources().getColor(R.color.red));
-            Utilities.setActionBarColor(getSupportActionBar(),getResources().getColor(R.color.red));
+            Utilities.setActionBarColor(getSupportActionBar(), getResources().getColor(R.color.red));
             Utilities.setStatusBarColor(this, getResources().getColor(R.color.red));
         }else if (tag == DataCenter.BLUE_TAG) {
             actionBar_layout.setBackgroundColor(getResources().getColor(R.color.blue));
@@ -139,6 +139,7 @@ public class NewCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /*End this activity.*/
+                sendBack();
                 finish();
             }
         });
@@ -148,9 +149,28 @@ public class NewCardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 /*Call newCard().*/
                 newCard();
+                sendBack();
+                finish();
             }
         });
         actionBar.setCustomView(customActionBar);
         actionBar.setDisplayShowCustomEnabled(true);
+    }
+
+    /**
+     * Send data back to parent activity.
+     */
+    public void sendBack(){
+        Log.e("Process NewCardActivity" , "SendBack");
+        Intent intent = new Intent();
+        intent.putExtra("position",id);
+        setResult(1,intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.e("Process NewCardActivity" ,"onBackPressed");
+        sendBack();
+        super.onBackPressed();
     }
 }
