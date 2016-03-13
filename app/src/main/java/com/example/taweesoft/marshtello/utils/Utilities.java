@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -130,6 +131,11 @@ public class Utilities {
     public static void applyFont(Typeface typeface , EditText...view){
         for(EditText et : view)
             et.setTypeface(typeface);
+    }
+
+    public static void applyFont(Typeface typeface , Button...view){
+        for(Button btn : view)
+            btn.setTypeface(typeface);
     }
 
 

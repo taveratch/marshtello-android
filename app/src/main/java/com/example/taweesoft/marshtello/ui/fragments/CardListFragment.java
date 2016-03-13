@@ -1,5 +1,7 @@
 package com.example.taweesoft.marshtello.ui.fragments;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import com.example.taweesoft.marshtello.R;
 import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.utils.DataCenter;
+import com.example.taweesoft.marshtello.utils.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,6 +26,9 @@ public class CardListFragment extends Fragment {
     /*UI Components*/
     @Bind(R.id.card_list_name)
     TextView card_list_name_txt;
+
+    @Bind(R.id.tv_name)
+    TextView tv_name;
 
     /*Attributes*/
     private int cardlist_id;
@@ -38,8 +44,20 @@ public class CardListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.card_list_custom_layout_new,container,false);
         ButterKnife.bind(this, view);
-        card_list_name_txt.setText(cardList.getName());
+        initComponents(inflater.getContext());
         return view;
+    }
+
+    /**
+     * Initialize components
+     * @param context
+     */
+    public void initComponents(Context context){
+        card_list_name_txt.setText(cardList.getName());
+        Typeface normal = Utilities.getNormalFont(context);
+        Typeface bold = Utilities.getBoldFont(context);
+        Utilities.applyFont(bold,tv_name);
+        Utilities.applyFont(normal,card_list_name_txt);
     }
 
 }

@@ -25,7 +25,7 @@ import io.realm.RealmList;
  * Card Recycler view adapter.
  * Created by TAWEESOFT on 3/7/16 AD.
  */
-public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterHolder> implements ItemTouchHelperAdapter{
+public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterHolder> implements ItemTouchHelperAdapter {
 
     /*Attributes*/
     private RealmList<Card> cards;
@@ -34,6 +34,7 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
 
     /**
      * Constructor.
+     *
      * @param cards
      * @param listener
      */
@@ -46,14 +47,14 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
     @Override
     public CardCustomAdapterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.custom_card_view_layout,null);
+        View view = LayoutInflater.from(context).inflate(R.layout.custom_card_view_layout, null);
         final CardCustomAdapterHolder holder = new CardCustomAdapterHolder(view);
 
         /*fire onclick in listener.*/
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onClick(v,holder.getPosition());
+                listener.onClick(v, holder.getPosition());
             }
         });
 
@@ -77,9 +78,9 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
         holder.card_name_txt.setText(card.getName());
         holder.comment_count_txt.setText(card.getComments().size() + "");
         holder.date_txt.setText(Utilities.getCardDateStr(card.getDate()));
-        if(card.getTag() == DataCenter.RED_TAG)
+        if (card.getTag() == DataCenter.RED_TAG)
             holder.tag_img.setImageResource(DataCenter.red_circle_img);
-        if(card.getTag() == DataCenter.BLUE_TAG)
+        if (card.getTag() == DataCenter.BLUE_TAG)
             holder.tag_img.setImageResource(DataCenter.blue_circle_img);
     }
 
@@ -95,6 +96,7 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
 
     /**
      * Action when swipe the card.
+     *
      * @param position
      */
     @Override
@@ -102,7 +104,7 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
 
     }
 
-    public void showDeleteDialog(final int position){
+    public void showDeleteDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Message");
         builder.setMessage("Remove this card ?");

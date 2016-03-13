@@ -4,9 +4,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.utils.DataCenter;
 
 import java.util.Observer;
+
+import io.realm.RealmList;
 
 /**
  * Pager adapter use in MainActivity to show all cardlist.
@@ -14,16 +17,12 @@ import java.util.Observer;
  */
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
-    private int numberOftabs;
+    private RealmList<CardList> cardLists;
 
-    /**
-     * Constructor.
-     * @param fm
-     * @param numberOftabs
-     */
-    public PagerAdapter(FragmentManager fm , int numberOftabs) {
+
+    public PagerAdapter(FragmentManager fm, RealmList<CardList> cardLists) {
         super(fm);
-        this.numberOftabs = numberOftabs;
+        this.cardLists = cardLists;
     }
 
     /**
@@ -38,6 +37,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return numberOftabs;
+        return cardLists.size();
     }
 }

@@ -3,6 +3,7 @@ package com.example.taweesoft.marshtello.ui.views;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -16,9 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.events.CustomOnClickListener;
+import com.example.taweesoft.marshtello.events.DepthPageTransformer;
+import com.example.taweesoft.marshtello.events.ZoomOutPageTransformer;
 import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.ui.adapters.CardRVCustomAdapter;
 import com.example.taweesoft.marshtello.ui.fragments.CardListFragment;
@@ -54,16 +58,16 @@ public class MainActivity extends AppCompatActivity implements Observer {
     TextView card_count_txt;
 
     @Bind(R.id.tv_card)
-    TextView tv_comment;
+    TextView tv_card;
 
     @Bind(R.id.add_card_btn)
-    Button add_card_btn;
+    RelativeLayout add_card_btn;
 
     @Bind(R.id.edit_card_list_name_btn)
-    Button edit_card_list_name_btn;
+    RelativeLayout edit_card_list_name_btn;
 
     @Bind(R.id.remove_card_list_btn)
-    Button remove_card_list_btn;
+    RelativeLayout remove_card_list_btn;
 
     @Bind(R.id.rv)
     RecyclerView rv;
@@ -81,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
         /*Binding the components*/
         ButterKnife.bind(this);
-
         /*Load all data from storage and set to ui components*/
         final Storage storage = Storage.getInstance(this);
         storage.loadData();
@@ -97,8 +100,9 @@ public class MainActivity extends AppCompatActivity implements Observer {
         initComponents();
 
         /*Initial pager adapter and some actions of tablayout.*/
-        adapter = new PagerAdapter(getSupportFragmentManager(),DataCenter.cardLists.size());
-        pager.setAdapter(adapter);
+//        adapter = new PagerAdapter(getSupportFragmentManager(),DataCenter.cardLists.size());
+//        pager.setAdapter(adapter);
+
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -115,24 +119,23 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
             }
         });
-//        pager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-//        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                pager.setCurrentItem(tab.getPosition());
-//                updateListCountBullet(tab.getPosition());
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
+        pager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                updateUI(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         /*Set bullet counter to 0 position.*/
         updateListCountBullet(0);
@@ -177,6 +180,9 @@ public class MainActivity extends AppCompatActivity implements Observer {
         if (position < DataCenter.cardLists.size()) {
             pager.setCurrentItem(position, true);
             updateListCountBullet(position);
+        }else{
+            pager.setCurrentItem(position-1,true);
+            updateListCountBullet(position-1);
         }
     }
 
@@ -203,9 +209,18 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
 
     public void initComponents(){
+        /*Set fonts*/
+        Typeface normal = Utilities.getNormalFont(this);
+        Typeface bold = Utilities.getBoldFont(this);
+        Utilities.applyFont(bold,card_count_txt);
+        Utilities.applyFont(normal,tv_card);
+
+        /*Initialize RecyclerView*/
         rv.setHasFixedSize(true);
         RecyclerView.LayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
+
+        /*Add action to add_btn*/
         add_card_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
             }
         });
 
+        /*Add action to remove_cardlist_btn*/
         remove_card_list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
      */
     public void initialTabFromStorage(){
         /*Remove all tabs*/
-//        tabLayout.removeAllTabs();
+        tabLayout.removeAllTabs();
 
         /*In case that no any fragment available*/
         if(DataCenter.cardLists.size() == 0) {
@@ -264,11 +280,12 @@ public class MainActivity extends AppCompatActivity implements Observer {
         /*In case that has more that one fragment available*/
         for(int i =0;i< DataCenter.cardLists.size();i++){
             DataCenter.fragmentList.add(new CardListFragment(i));
-//            tabLayout.addTab(tabLayout.newTab().setText(tabLayout.getTabCount() + 1 + ""));
+            tabLayout.addTab(tabLayout.newTab().setText(""));
 
         }
-        adapter = new PagerAdapter(getSupportFragmentManager(),DataCenter.cardLists.size());
+        adapter = new PagerAdapter(getSupportFragmentManager(),DataCenter.cardLists);
         pager.setAdapter(adapter);
+        pager.setPageTransformer(true, new DepthPageTransformer());
         if(adapter.getCount() > 0)
             updateUI(0);
     }
@@ -284,16 +301,16 @@ public class MainActivity extends AppCompatActivity implements Observer {
         CardManager.addCardList(this,cardList);
 
         /*Add CardListFragment into DataCenter.*/
-        DataCenter.fragmentList.add(new CardListFragment(adapter.getCount()));
+        DataCenter.fragmentList.add(new CardListFragment(adapter.getCount()-1));
 
         /*Add tab to tablayout.*/
-//        tabLayout.addTab(tabLayout.newTab().setText(tabLayout.getTabCount() + 1 + ""));
+        tabLayout.addTab(tabLayout.newTab().setText(""));
 
         /*Set new adapter and set to ViewPager.*/
-        adapter = new PagerAdapter(getSupportFragmentManager(),DataCenter.cardLists.size());
-        pager.setAdapter(adapter);
-        pager.setCurrentItem(adapter.getCount()-1,true);
-
+//        adapter = new PagerAdapter(getSupportFragmentManager(),DataCenter.cardLists.size());
+//        pager.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        pager.setCurrentItem(adapter.getCount() - 1, true);
         /*Save data to Realm storage.*/
         Storage.getInstance(this).saveData();
     }
@@ -305,6 +322,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
     public void setCustomActionBar(){
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setElevation(0);
         actionBar.setDisplayShowTitleEnabled(true);
         LayoutInflater inflater = LayoutInflater.from(this);
         View customActionBar = inflater.inflate(R.layout.custom_main_actionbar, null);

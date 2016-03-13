@@ -21,11 +21,15 @@
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:elevation="6dp"
+                    android:layout_height="4dp"
+                    android:elevation="0dp"
                     android:minHeight="?attr/actionBarSize"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    android:visibility="gone" />
+                    android:visibility="visible"
+                    android:background="@color/colorPrimary"
+                    app:tabIndicatorColor="#FFF"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/pager"
@@ -39,16 +43,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:weightSum="3"
+                    android:weightSum="5"
                     android:layout_alignParentBottom="true"
-                    android:id="@+id/linearLayout5">
+                    android:id="@+id/linearLayout5"
+                    android:background="@color/colorPrimary">
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
-                        android:gravity="center_vertical|center_horizontal">
+                        android:gravity="center_vertical|center_horizontal"
+                        android:background="#FFF">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -56,7 +62,8 @@
                             android:text="4"
                             android:id="@+id/card_count_txt"
                             android:textSize="17dp"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -71,41 +78,60 @@
                         android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         android:weightSum="3">
 
-                        <Button
+                        <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Add card"
+                            android:layout_height="match_parent"
                             android:id="@+id/add_card_btn"
                             android:layout_gravity="center_vertical"
-                            style="@style/Base.Widget.AppCompat.ActionButton"
                             android:background="#23D7A2"
                             android:layout_weight="1"
-                            android:textColor="#FFF" />
+                            android:width="1dp">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:id="@+id/imageView2"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/add_card" />
+                        </RelativeLayout>
 
-                        <Button
+                        <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Edit"
+                            android:layout_height="match_parent"
                             android:id="@+id/edit_card_list_name_btn"
                             android:layout_gravity="center_vertical"
-                            style="@style/Base.Widget.AppCompat.ActionButton"
                             android:background="#FFC107"
                             android:layout_weight="1"
-                            android:textColor="#FFF" />
+                            android:width="1dp" >
 
-                        <Button
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:id="@+id/imageView"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/edit_cl" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Delete"
+                            android:layout_height="match_parent"
                             android:id="@+id/remove_card_list_btn"
-                            style="@style/Base.Widget.AppCompat.ActionButton"
                             android:background="#F44336"
                             android:layout_weight="1"
-                            android:textColor="#FFF"
-                            android:layout_gravity="center_vertical" />
+                            android:layout_gravity="center_vertical"
+                            android:width="1dp">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:id="@+id/imageView3"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/remove_cl" />
+                        </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -120,5 +146,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rv"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v7.widget.RecyclerView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="#FFF"></android.support.v7.widget.RecyclerView>
 </android.support.design.widget.CoordinatorLayout>
