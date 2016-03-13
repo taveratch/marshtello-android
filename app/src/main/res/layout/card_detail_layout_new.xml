@@ -8,11 +8,12 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@null">
+        android:background="@null"
+        android:orientation="vertical">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
 
@@ -21,61 +22,64 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true">
+                    android:layout_centerHorizontal="true"
+                    app:layout_scrollFlags="scroll|enterAlways|snap">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:background="@drawable/card"
-                        android:id="@+id/relativeLayout8"></RelativeLayout>
+                        android:id="@+id/relativeLayout8">
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="46dp"
-                        android:id="@+id/relativeLayout7">
-
-                        <LinearLayout
-                            android:orientation="horizontal"
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/linearLayout3"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentStart="true">
+                            android:id="@+id/relativeLayout7"
+                            android:layout_centerVertical="true"
+                            android:layout_centerHorizontal="true">
 
-                            <EditText
+                            <LinearLayout
+                                android:orientation="horizontal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/card_name_txt"
-                                android:backgroundTint="@android:color/transparent"
-                                android:textSize="20dp"
-                                android:text="Hello"
-                                android:layout_centerVertical="true"
-                                android:layout_toEndOf="@+id/date_txt"
-                                android:textColor="#FFF" />
+                                android:id="@+id/linearLayout3"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentStart="true">
 
-                            <ImageView
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:id="@+id/edit_card_name_btn"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/draw"
-                                android:padding="10dp" />
-                        </LinearLayout>
+                                <EditText
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/card_name_txt"
+                                    android:backgroundTint="@android:color/transparent"
+                                    android:textSize="20dp"
+                                    android:text="Hello"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toEndOf="@+id/date_txt"
+                                    android:textColor="#FFF"
+                                    android:focusable="false"
+                                    android:clickable="false" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="21 Feb 2016"
-                            android:id="@+id/date_txt"
-                            android:layout_gravity="center_horizontal|left"
-                            android:textSize="15dp"
-                            android:textColor="#FFF"
-                            android:layout_below="@+id/linearLayout3"
-                            android:layout_alignStart="@+id/linearLayout3" />
+                                <ImageView
+                                    android:layout_width="35dp"
+                                    android:layout_height="35dp"
+                                    android:id="@+id/edit_card_name_btn"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/draw"
+                                    android:padding="10dp" />
+                            </LinearLayout>
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="21 Feb 2016"
+                                android:id="@+id/date_txt"
+                                android:layout_gravity="center_horizontal|left"
+                                android:textSize="15dp"
+                                android:textColor="#FFF"
+                                android:layout_below="@+id/linearLayout3"
+                                android:layout_alignStart="@+id/linearLayout3" />
+
+                        </RelativeLayout>
                     </RelativeLayout>
 
                     <ImageView
@@ -102,91 +106,85 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginRight="10dp" />
 
-                    <ScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="fill_parent"
-                        android:padding="20dp"
-                        android:id="@+id/scrollView"
-                        android:layout_below="@+id/relativeLayout8">
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Description"
-                                    android:id="@+id/textView12"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textStyle="bold"
-                                    android:layout_alignBottom="@+id/imageView2"
-                                    android:layout_alignParentStart="true" />
-
-                                <EditText
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/detail_txt"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_alignStart="@+id/textView12"
-                                    android:layout_marginLeft="20dp"
-                                    android:layout_marginTop="25dp"
-                                    android:background="@android:color/transparent"
-                                    android:text="This is description for each card by using edittext. And I can show you many thing"
-                                    android:textSize="13dp"
-                                    android:textColor="@color/textColor" />
-
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:id="@+id/edit_detail_btn"
-                                    android:layout_gravity="center_vertical"
-                                    android:src="@drawable/pencil"
-                                    android:padding="5dp"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_toEndOf="@+id/textView12"
-                                    android:layout_marginLeft="5dp" />
-
-                            </RelativeLayout>
-
-                        </RelativeLayout>
-                    </ScrollView>
-
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/relativeLayout5"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true">
+                        android:orientation="vertical"
+                        android:layout_below="@+id/relativeLayout8"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Description"
+                                android:id="@+id/tv_desc"
+                                android:textColor="@color/colorPrimary"
+                                android:textStyle="bold"
+                                android:layout_alignBottom="@+id/imageView2"
+                                android:layout_alignParentStart="true"
+                                android:textSize="15dp"
+                                android:fontFamily="fonts/font.ttf" />
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:id="@+id/edit_detail_btn"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/pencil"
+                                android:padding="10dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_toEndOf="@+id/tv_desc"
+                                android:layout_marginLeft="5dp" />
+                        </LinearLayout>
+
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/detail_txt"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignStart="@+id/tv_desc"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@android:color/transparent"
+                            android:text="This is description for each card by using edittext. And I can show you many thing"
+                            android:textSize="15dp"
+                            android:textColor="#3E3B5A"
+                            android:focusable="false"
+                            android:clickable="false"
+                            android:fontFamily="fonts/font.ttf" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Tag"
-                            android:id="@+id/textView13"
+                            android:id="@+id/tv_tag"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold"
-                            android:layout_marginLeft="20dp"
-                            android:layout_below="@+id/scrollView"
-                            android:layout_alignParentStart="true" />
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginTop="15dp"
+                            android:textSize="15dp" />
 
                         <LinearLayout
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/textView13"
-                            android:layout_toEndOf="@+id/textView13"
-                            android:layout_marginTop="7dp"
-                            android:id="@+id/linearLayout4">
+                            android:id="@+id/linearLayout4"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignEnd="@+id/remove_btn"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="5dp">
 
                             <ImageView
                                 android:layout_width="35dp"
                                 android:layout_height="35dp"
                                 android:id="@+id/red_img"
-                                android:layout_gravity="center_vertical"
                                 android:src="@drawable/check"
                                 android:padding="10dp"
                                 android:layout_alignParentTop="false"
@@ -211,28 +209,53 @@
                                 android:background="@drawable/blue_circle" />
                         </LinearLayout>
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Comments"
-                            android:id="@+id/textView14"
-                            android:textColor="@color/colorPrimary"
-                            android:textStyle="bold"
-                            android:layout_marginLeft="20dp"
-                            android:layout_below="@+id/linearLayout4"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginTop="20dp" />
-                    </RelativeLayout>
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Comments"
+                                android:id="@+id/tv_comment"
+                                android:textColor="@color/colorPrimary"
+                                android:textStyle="bold"
+                                android:layout_alignBottom="@+id/imageView2"
+                                android:layout_alignParentStart="true"
+                                android:textSize="15dp" />
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:id="@+id/add_comment_btn"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/circular_add"
+                                android:padding="7dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_toEndOf="@+id/tv_comment"
+                                android:layout_marginLeft="5dp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
 
                 </RelativeLayout>
+
         </android.support.design.widget.CollapsingToolbarLayout>
 
 
     </android.support.design.widget.AppBarLayout>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/rv"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v7.widget.RecyclerView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_below="@+id/scrollView"
+        android:paddingBottom="40dp"></android.support.v7.widget.RecyclerView>
+
 
 </android.support.design.widget.CoordinatorLayout>

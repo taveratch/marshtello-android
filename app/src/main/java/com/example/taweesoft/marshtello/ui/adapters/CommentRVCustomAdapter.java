@@ -2,6 +2,7 @@ package com.example.taweesoft.marshtello.ui.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -45,9 +46,11 @@ public class CommentRVCustomAdapter extends RecyclerView.Adapter<CommentRVCustom
         TextView date_txt;
 
 
-        ViewHolder(View view){
+        ViewHolder(Context context, View view){
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
+            Typeface typeface = Utilities.getNormalFont(context);
+            Utilities.applyFont(typeface,comment_txt,date_txt);
         }
     }
 
@@ -59,7 +62,7 @@ public class CommentRVCustomAdapter extends RecyclerView.Adapter<CommentRVCustom
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.comment_custom_layout,null);
-        final ViewHolder holder = new ViewHolder(view);
+        final ViewHolder holder = new ViewHolder(context,view);
 
         /*Set long click action to view.*/
         view.setOnLongClickListener(new View.OnLongClickListener() {

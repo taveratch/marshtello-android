@@ -1,5 +1,6 @@
 package com.example.taweesoft.marshtello.ui.views;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
@@ -8,15 +9,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.models.Card;
 import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.R;
+import com.example.taweesoft.marshtello.models.Comment;
 import com.example.taweesoft.marshtello.ui.adapters.CommentRVCustomAdapter;
 import com.example.taweesoft.marshtello.ui.holders.CardDetailHolder;
 import com.example.taweesoft.marshtello.utils.DataCenter;
@@ -43,33 +51,29 @@ public class CardDetailActivity extends AppCompatActivity {
     private Card card;
     private CardDetailHolder holder;
     private int tag;
+    private CommentRVCustomAdapter commentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.card_detail_layout_new);
+
+        /*Hide keyboard automatically*/
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
 //        ButterKnife.bind(this);
-        holder = new CardDetailHolder(getWindow().getDecorView().getRootView());
+        holder = new CardDetailHolder(this,getWindow().getDecorView().getRootView());
         /*Get data from CardListFragment*/
         card_id = getIntent().getIntExtra("card_id",-1);
         cardList_id = getIntent().getIntExtra("cardList_id", -1);
         card = DataCenter.cardLists.get(cardList_id).getCards().get(card_id);
         tag = card.getTag();
+
         /*Hide action bar.*/
         getSupportActionBar().hide();
-//        initialTabs();
-
-        /*Initialize header color*/
-//        if(card.getTag() == DataCenter.RED_TAG)
-//            holder.header_layout.setBackground(new ColorDrawable(getResources().getColor(R.color.red)));
-//        else if(card.getTag() == DataCenter.BLUE_TAG)
-//            holder.header_layout.setBackground(new ColorDrawable(getResources().getColor(R.color.blue)));
-
         /*Initialize card details*/
         holder.card_name_txt.setText(card.getName());
         holder.detail_txt.setText(card.getDetail());
-        holder.card_name_txt.setOnKeyListener(new onKeyboardEntered());
-        holder.detail_txt.setOnKeyListener(new onKeyboardEntered());
 
         initialRV();
         /*Set when focus on edittext is changed*/
@@ -78,6 +82,36 @@ public class CardDetailActivity extends AppCompatActivity {
         setTagAction();
         /*set delete's action*/
         setDeleteAction();
+        /*set comment action*/
+        setCommentAction();
+
+        holder.back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData();
+                finish();
+            }
+        });
+
+        holder.edit_card_name_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.card_name_txt.setFocusableInTouchMode(true);
+                holder.card_name_txt.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(holder.card_name_txt, InputMethodManager.SHOW_FORCED);
+            }
+        });
+
+        holder.edit_detail_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.detail_txt.setFocusableInTouchMode(true);
+                holder.detail_txt.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(holder.detail_txt, InputMethodManager.SHOW_FORCED);
+            }
+        });
 
     }
 
@@ -85,13 +119,22 @@ public class CardDetailActivity extends AppCompatActivity {
         holder.rv.setHasFixedSize(true);
         RecyclerView.LayoutManager llm = new LinearLayoutManager(this);
         holder.rv.setLayoutManager(llm);
-        holder.rv.setAdapter(new CommentRVCustomAdapter(card.getComments()));
+        commentAdapter = new CommentRVCustomAdapter(card.getComments());
+        holder.rv.setAdapter(commentAdapter);
+        holder.rv.setItemAnimator(new DefaultItemAnimator());
     }
 
     /**
      * Change card tag and header color.
      */
     public void setTagAction(){
+
+        if(tag == DataCenter.RED_TAG) {
+            showRedCheck();
+        }else if(tag == DataCenter.BLUE_TAG){
+            showBlueCheck();
+        }
+
         /*Tag action.*/
         holder.red_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,9 +142,8 @@ public class CardDetailActivity extends AppCompatActivity {
                 /*Set current tag*/
                 tag = DataCenter.RED_TAG;
                 /*Save data to storage.*/
+                showRedCheck();
                 saveData();
-                /*Change header layout's color.*/
-//                holder.header_layout.setBackground(new ColorDrawable(getResources().getColor(R.color.red)));
             }
         });
 
@@ -109,10 +151,23 @@ public class CardDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 tag = DataCenter.BLUE_TAG;
+                showBlueCheck();
                 saveData();
-//                holder.header_layout.setBackground(new ColorDrawable(getResources().getColor(R.color.blue)));
             }
         });
+    }
+
+
+    /*Show check image in red tag*/
+    public void showRedCheck(){
+        holder.red_img.setImageResource(R.drawable.check);
+        holder.blue_img.setImageResource(0);
+    }
+
+    /*Show check image in blue tag*/
+    public void showBlueCheck(){
+        holder.red_img.setImageResource(0);
+        holder.blue_img.setImageResource(R.drawable.check);
     }
 
     /**
@@ -190,34 +245,39 @@ public class CardDetailActivity extends AppCompatActivity {
         }
     }
 
-//    private void initialTabs(){
-//        tabLayout.addTab(tabLayout.newTab().setText("Card"));
-//        tabLayout.addTab(tabLayout.newTab().setText("Comments"));
-//        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-//
-//        //Initial adapter and tablayout.
-//        adapter = new CardDetailPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), cardList_id,card_id);
-//        pager.setAdapter(adapter);
-//        pager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-//        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                pager.setCurrentItem(tab.getPosition());
-//
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-//    }
 
+    /*Set comment action*/
+    public void setCommentAction(){
+        holder.add_comment_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(CardDetailActivity.this);
+                dialog.setTitle("Add comment");
+                dialog.setContentView(R.layout.add_comment_dialog_layout);
+                final EditText comment_txt = (EditText) dialog.findViewById(R.id.comment_txt);
+                Button add_btn = (Button) dialog.findViewById(R.id.add_btn);
+                Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
+                add_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Comment comment = new Comment(comment_txt.getText().toString());
+                        CardManager.addComment(CardDetailActivity.this, card, comment);
+                        commentAdapter.notifyItemInserted(card.getComments().size() - 1);
+                        dialog.dismiss();
+                    }
+                });
+                cancel_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
+
+
+    }
     /**
      * Set result back to CardListFragment and destroy.
      */

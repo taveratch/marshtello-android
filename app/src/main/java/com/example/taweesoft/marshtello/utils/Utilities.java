@@ -2,12 +2,15 @@ package com.example.taweesoft.marshtello.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.managers.CardComparator;
 import com.example.taweesoft.marshtello.models.Card;
@@ -103,6 +106,24 @@ public class Utilities {
         return String.format("%d %s %s",date.getDate(),monthStr,format.format(date));
     }
 
+    public static Typeface getNormalFont(Context context){
+        return Typeface.createFromAsset(context.getAssets(), "fonts/font.ttf");
+    }
+
+    public static Typeface getBoldFont(Context context){
+        return Typeface.createFromAsset(context.getAssets(),"fonts/font-bold.ttf");
+    }
+
+    public static void applyFont(Typeface typeface , TextView...view){
+        for(TextView v : view){
+            v.setTypeface(typeface);
+        }
+    }
+
+    public static void applyFont(Typeface typeface , EditText...view){
+        for(EditText et : view)
+            et.setTypeface(typeface);
+    }
 
 
 }
