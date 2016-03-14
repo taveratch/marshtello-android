@@ -11,4 +11,7 @@
     <style name="ButtonStyle" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/colorPrimary</item>
     </style>
+    <style name="MyFloatingButton" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/sunflower</item>
+    </style>
 </resources>

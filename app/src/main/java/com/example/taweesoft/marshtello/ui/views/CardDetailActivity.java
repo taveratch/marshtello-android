@@ -272,10 +272,12 @@ public class CardDetailActivity extends AppCompatActivity {
                         /*Add comment to card.*/
                         Comment comment = new Comment(holder.comment_txt.getText().toString());
                         CardManager.addComment(CardDetailActivity.this, card, comment);
-
+                        getWindow().setSoftInputMode(
+                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                        );
                         /*Notify adapter when inserted a comment.*/
+                        CardDetailActivity.this.holder.rv.scrollToPosition(card.getComments().size()-1);
                         commentAdapter.notifyItemInserted(card.getComments().size() - 1);
-
                         /*dismiss the dialog.*/
                         dialog.dismiss();
                     }

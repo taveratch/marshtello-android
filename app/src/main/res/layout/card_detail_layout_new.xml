@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,7 +15,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:layout_scrollFlags="scroll"
             app:titleEnabled="false">
 
 
@@ -22,13 +23,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    app:layout_scrollFlags="scroll|enterAlways|snap">
+                    android:layout_centerHorizontal="true">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:background="@drawable/card"
+                        android:background="@drawable/card_detail_bg"
                         android:id="@+id/relativeLayout8">
 
                         <RelativeLayout
@@ -79,8 +79,10 @@
                                 android:textColor="#FFF"
                                 android:layout_below="@+id/linearLayout3"
                                 android:layout_alignStart="@+id/linearLayout3" />
-
                         </RelativeLayout>
+
+
+
                     </RelativeLayout>
 
                     <ImageView
@@ -113,7 +115,9 @@
                         android:orientation="vertical"
                         android:layout_below="@+id/relativeLayout8"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp">
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="25dp"
+                        android:id="@+id/a">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -186,28 +190,28 @@
                                 android:layout_width="35dp"
                                 android:layout_height="35dp"
                                 android:id="@+id/red_img"
-                                android:src="@drawable/check"
+                                android:src="@drawable/check_red"
                                 android:padding="10dp"
                                 android:layout_alignParentTop="false"
                                 android:layout_alignParentBottom="false"
                                 android:layout_alignWithParentIfMissing="false"
                                 android:layout_marginRight="10dp"
                                 android:layout_toStartOf="@+id/blue_img"
-                                android:background="@drawable/red_circle" />
+                                android:background="@drawable/red_tag" />
 
                             <ImageView
                                 android:layout_width="35dp"
                                 android:layout_height="35dp"
                                 android:id="@+id/blue_img"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/check"
+                                android:src="@drawable/check_blue"
                                 android:padding="10dp"
                                 android:layout_alignParentTop="false"
                                 android:layout_alignParentBottom="false"
                                 android:layout_alignWithParentIfMissing="false"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginRight="10dp"
-                                android:background="@drawable/blue_circle" />
+                                android:background="@drawable/blue_tag" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -228,19 +232,25 @@
                                 android:layout_alignParentStart="true"
                                 android:textSize="15dp" />
 
-                            <ImageView
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:id="@+id/add_comment_btn"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/circular_add"
-                                android:padding="7dp"
-                                android:layout_alignParentTop="true"
-                                android:layout_toEndOf="@+id/tv_card"
-                                android:layout_marginLeft="5dp" />
+
                         </LinearLayout>
 
                     </LinearLayout>
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/detail"
+                        android:theme="@style/MyFloatingButton"
+                        app:fabSize="normal"
+                        app:layout_anchor="@+id/relativeLayout8"
+                        app:layout_anchorGravity="bottom|right|end"
+                        app:layout_scrollFlags="exitUntilCollapsed"
+                        android:layout_marginRight="20dp"
+                        app:elevation="12dp"
+                        android:layout_below="@+id/relativeLayout8"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="-30dp" />
 
 
                 </RelativeLayout>
@@ -250,16 +260,24 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/plus"
+        android:id="@+id/add_comment_btn"
+        app:layout_anchor="@+id/rv"
+        app:layout_behavior="com.example.taweesoft.marshtello.events.FabScrollBehavior"
+        app:layout_anchorGravity="bottom|end"/>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rv"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_below="@+id/scrollView"
+        android:layout_below="@+id/a"
         android:paddingBottom="40dp"></android.support.v7.widget.RecyclerView>
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/add_card" />
+
+
 
 </android.support.design.widget.CoordinatorLayout>

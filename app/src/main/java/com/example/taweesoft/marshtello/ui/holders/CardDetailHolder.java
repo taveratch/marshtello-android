@@ -2,6 +2,7 @@ package com.example.taweesoft.marshtello.ui.holders;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
@@ -53,7 +54,7 @@ public class CardDetailHolder {
     public ImageView edit_detail_btn;
 
     @Bind(R.id.add_comment_btn)
-    public ImageView add_comment_btn;
+    public FloatingActionButton add_comment_btn;
 
     @Bind(R.id.date_txt)
     public TextView date_txt;
