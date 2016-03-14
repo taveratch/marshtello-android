@@ -370,6 +370,5 @@ public class MainActivity extends AppCompatActivity implements Observer {
         Log.e("XXXX" , data+"");
         int position = data.getIntExtra("position",-1);
         updateUI(position);
-
     }
 }

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -28,6 +29,7 @@ import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.R;
 import com.example.taweesoft.marshtello.models.Comment;
 import com.example.taweesoft.marshtello.ui.adapters.CommentRVCustomAdapter;
+import com.example.taweesoft.marshtello.ui.holders.AddCommentDialogHolder;
 import com.example.taweesoft.marshtello.ui.holders.CardDetailHolder;
 import com.example.taweesoft.marshtello.utils.DataCenter;
 import com.example.taweesoft.marshtello.utils.Utilities;
@@ -260,26 +262,39 @@ public class CardDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(CardDetailActivity.this);
                 dialog.setTitle("Add comment");
-                dialog.setContentView(R.layout.add_comment_dialog_layout);
-                final EditText comment_txt = (EditText) dialog.findViewById(R.id.comment_txt);
-                Button add_btn = (Button) dialog.findViewById(R.id.add_btn);
-                Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
-                add_btn.setOnClickListener(new View.OnClickListener() {
+                final EditText editText = new EditText(CardDetailActivity.this);
+                View view = LayoutInflater.from(CardDetailActivity.this).inflate(R.layout.add_comment_dialog_layout,null);
+                dialog.setContentView(view);
+                final AddCommentDialogHolder holder = new AddCommentDialogHolder(view);
+                holder.add_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Comment comment = new Comment(comment_txt.getText().toString());
+                        /*Add comment to card.*/
+                        Comment comment = new Comment(holder.comment_txt.getText().toString());
                         CardManager.addComment(CardDetailActivity.this, card, comment);
+
+                        /*Notify adapter when inserted a comment.*/
                         commentAdapter.notifyItemInserted(card.getComments().size() - 1);
+
+                        /*dismiss the dialog.*/
                         dialog.dismiss();
                     }
                 });
-                cancel_btn.setOnClickListener(new View.OnClickListener() {
+                holder.cancel_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        /*dismiss the dialog.*/
                         dialog.dismiss();
                     }
                 });
                 dialog.show();
+
+                /*Apply fonts into the components*/
+                Typeface bold = Utilities.getBoldFont(CardDetailActivity.this);
+                Typeface normal = Utilities.getNormalFont(CardDetailActivity.this);
+                Utilities.applyFont(bold,holder.tv_add_comment);
+                Utilities.applyFont(normal,holder.comment_txt);
+                Utilities.applyFont(bold,holder.add_btn,holder.cancel_btn);
             }
         });
 
