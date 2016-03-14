@@ -18,7 +18,7 @@ public class CommentCustomHolder {
     @Bind(R.id.comment_txt)
     public TextView comment_txt;
 
-    @Bind(R.id.date_txt)
+    @Bind(R.id.preview_date_txt)
     public TextView date_txt;
 
     public CommentCustomHolder(View view){

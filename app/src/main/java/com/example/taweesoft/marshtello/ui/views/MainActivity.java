@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.taweesoft.marshtello.events.CustomOnClickListener;
 import com.example.taweesoft.marshtello.events.DepthPageTransformer;
@@ -244,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
                         Context context = MainActivity.this;
                         CardManager.removeCardList(MainActivity.this,DataCenter.cardLists,cardList_id);
                         update(null, cardList_id);
+                        Toast.makeText(MainActivity.this,"Removed" ,Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.setNeutralButton("NO", null);

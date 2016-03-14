@@ -56,7 +56,7 @@ public class CardDetailHolder {
     @Bind(R.id.add_comment_btn)
     public FloatingActionButton add_comment_btn;
 
-    @Bind(R.id.date_txt)
+    @Bind(R.id.preview_date_txt)
     public TextView date_txt;
 
     @Bind(R.id.tv_card)

@@ -5,20 +5,16 @@ import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.R;
-import com.example.taweesoft.marshtello.events.ItemTouchHelperAdapter;
 import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.models.Comment;
 import com.example.taweesoft.marshtello.utils.Utilities;
 
-
-import java.util.Collections;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,7 +38,7 @@ public class CommentRVCustomAdapter extends RecyclerView.Adapter<CommentRVCustom
         @Bind(R.id.comment_txt)
         TextView comment_txt;
 
-        @Bind(R.id.date_txt)
+        @Bind(R.id.preview_date_txt)
         TextView date_txt;
 
 

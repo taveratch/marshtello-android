@@ -28,7 +28,7 @@ public class CardCustomAdapterHolder extends RecyclerView.ViewHolder{
     @Bind(R.id.card_count_txt)
     public TextView comment_count_txt;
 
-    @Bind(R.id.date_txt)
+    @Bind(R.id.preview_date_txt)
     public TextView date_txt;
 
     /**

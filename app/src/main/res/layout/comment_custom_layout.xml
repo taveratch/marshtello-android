@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="21 Feb 2016 12:00"
-                android:id="@+id/date_txt"
+                android:id="@+id/preview_date_txt"
                 android:textColor="@color/textColor"
                 android:textSize="13dp"
                 android:layout_marginTop="3dp" />

@@ -168,14 +168,14 @@ public class CardDetailActivity extends AppCompatActivity {
 
     /*Show check image in red tag*/
     public void showRedCheck(){
-        holder.red_img.setImageResource(R.drawable.check);
+        holder.red_img.setImageResource(R.drawable.check_red);
         holder.blue_img.setImageResource(0);
     }
 
     /*Show check image in blue tag*/
     public void showBlueCheck(){
         holder.red_img.setImageResource(0);
-        holder.blue_img.setImageResource(R.drawable.check);
+        holder.blue_img.setImageResource(R.drawable.check_blue);
     }
 
     /**
