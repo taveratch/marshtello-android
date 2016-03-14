@@ -118,9 +118,13 @@ public class NewCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /*Call newCard().*/
-                newCard();
-                sendBack();
-                finish();
+                if(cardName_txt.getText().toString().length() > 0) {
+                    newCard();
+                    sendBack();
+                    finish();
+                }else{
+                    AlertDialogFactory.newInstance(NewCardActivity.this,"Message","Please enter the card's name").show();
+                }
             }
         });
 
@@ -154,18 +158,11 @@ public class NewCardActivity extends AppCompatActivity {
      * Create new card in current cardList.
      */
     public void newCard(){
-
         String cardName = cardName_txt.getText() + "";
         String cardDetail = cardDetail_txt.getText() + "";
-
-        /*Check if card name is not empty.*/
-        if(cardName.length()>0) {
-            card = new Card(cardName, cardDetail, tag);
-            final CardList cardList = DataCenter.cardLists.get(id);
-            CardManager.addCard(this, cardList, card);
-        }else{
-            AlertDialogFactory.newInstance(this,"Message","Please enter the card's name").show();
-        }
+        card = new Card(cardName, cardDetail, tag);
+        final CardList cardList = DataCenter.cardLists.get(id);
+        CardManager.addCard(this, cardList, card);
     }
 
     /**
