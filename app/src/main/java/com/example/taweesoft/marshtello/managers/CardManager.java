@@ -146,4 +146,16 @@ public class CardManager {
             }
         });
     }
+
+    /**
+     * Rename card list.
+     */
+    public static void renameCardList(Context context , final CardList cardList , final String name){
+        Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                cardList.setName(name);
+            }
+        });
+    }
 }

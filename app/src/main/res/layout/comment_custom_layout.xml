@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Comment"
-                android:id="@+id/comment_txt"
+                android:id="@+id/card_list_name_txt"
                 android:textColor="#3E3B5A"
                 android:textSize="15dp" />
 

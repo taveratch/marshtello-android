@@ -39,6 +39,7 @@ public class CardCustomAdapterHolder extends RecyclerView.ViewHolder{
         super(view);
         ButterKnife.bind(this, view);
         Typeface normal = Utilities.getNormalFont(view.getContext());
+        Typeface bold = Utilities.getBoldFont(view.getContext());
         Utilities.applyFont(normal,card_name_txt,comment_count_txt,date_txt);
     }
 

@@ -1,5 +1,6 @@
 package com.example.taweesoft.marshtello.ui.views;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import com.example.taweesoft.marshtello.events.ZoomOutPageTransformer;
 import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.ui.adapters.CardRVCustomAdapter;
 import com.example.taweesoft.marshtello.ui.fragments.CardListFragment;
+import com.example.taweesoft.marshtello.ui.holders.RenameCardListDialogHolder;
 import com.example.taweesoft.marshtello.utils.DataCenter;
 import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.ui.adapters.PagerAdapter;
@@ -227,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, NewCardActivity.class);
                 intent.putExtra("id", cardList_id);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, 2);
             }
         });
 
@@ -263,6 +265,57 @@ public class MainActivity extends AppCompatActivity implements Observer {
                 /*Create dialog and show.*/
                 AlertDialog alertDialog = dialog.create();
                 alertDialog.show();
+            }
+        });
+
+        edit_card_list_name_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 /*Get card list*/
+                final CardList cardList = DataCenter.cardLists.get(cardList_id);
+
+                /*Define dialog*/
+                final Dialog dialog = new Dialog(MainActivity.this);
+                dialog.setContentView(R.layout.rename_card_list_dialog_layout);
+                dialog.setCancelable(false);
+                final RenameCardListDialogHolder dialogHolder = new RenameCardListDialogHolder(dialog.getWindow().getDecorView().getRootView());
+
+                /*Set hint to be current card list name*/
+                dialogHolder.card_list_name_txt.setHint(cardList.getName());
+
+                /*Rename btn action*/
+                dialogHolder.add_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        /*Get new name*/
+                        String name = dialogHolder.card_list_name_txt.getText().toString();
+                        if (name.length() > 0) {
+                             /*Update card list name*/
+                            CardManager.renameCardList(MainActivity.this, cardList, name);
+                            /*Update ui by using current position.*/
+                            update(null, cardList_id);
+                            /*Show successful message*/
+                            Toast.makeText(MainActivity.this, "Card list has been renamed", Toast.LENGTH_SHORT).show();
+                            /*dismiss dialog*/
+                            dialog.dismiss();
+                        } else { /*empty card list name*/
+                            Toast.makeText(MainActivity.this, "Please enter card list name", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+                /*Cancel btn action*/
+                dialogHolder.cancel_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        /*dismiss dialog*/
+                        dialog.dismiss();
+                    }
+                });
+
+                /*show dialog*/
+                dialog.show();
             }
         });
     }
@@ -356,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
             Intent intent = new Intent(MainActivity.this, CardDetailActivity.class);
             intent.putExtra("card_id", position);
             intent.putExtra("cardList_id", cardList_id);
-            startActivityForResult(intent, 1);
+            startActivityForResult(intent, 2);
         }
     }
 
@@ -369,8 +422,16 @@ public class MainActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("XXXX" , data+"");
+        if(data == null) return;
         int position = data.getIntExtra("position",-1);
         updateUI(position);
+        Log.e("P OAR Main : " , resultCode+"");
+        /*From NewCardActivity*/
+        if(resultCode == 2){
+            Toast.makeText(this, "New card has been added", Toast.LENGTH_SHORT).show();
+            rv.scrollToPosition(rv.getAdapter().getItemCount()-1);
+        }else{ /*From CardDetailActivity*/
+            Toast.makeText(this,"Card has been updated" , Toast.LENGTH_SHORT).show();
+        }
     }
 }

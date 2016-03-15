@@ -43,6 +43,7 @@
                         android:layout_height="wrap_content"
                         android:text="Name"
                         android:id="@+id/tv_name"
+                        android:textSize="16dp"
                         android:layout_gravity="center_horizontal"
                         android:textColor="@color/colorPrimary" />
 
@@ -60,6 +61,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Iteration 1"
+                        android:textSize="16dp"
                         android:id="@+id/card_list_name"
                         android:layout_gravity="center_horizontal"
                         android:textColor="@color/colorPrimary" />

@@ -15,10 +15,10 @@ import butterknife.ButterKnife;
  */
 public class AddCommentDialogHolder {
 
-    @Bind(R.id.tv_add_comment)
+    @Bind(R.id.tv_rename_card_list)
     public TextView tv_add_comment;
 
-    @Bind(R.id.comment_txt)
+    @Bind(R.id.card_list_name_txt)
     public EditText comment_txt;
 
     @Bind(R.id.cancel_btn)

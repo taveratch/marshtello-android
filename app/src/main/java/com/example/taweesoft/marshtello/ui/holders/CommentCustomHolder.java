@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 public class CommentCustomHolder {
 
     /*UI Components.*/
-    @Bind(R.id.comment_txt)
+    @Bind(R.id.card_list_name_txt)
     public TextView comment_txt;
 
     @Bind(R.id.preview_date_txt)

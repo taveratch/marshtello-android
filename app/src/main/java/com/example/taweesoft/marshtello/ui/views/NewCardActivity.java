@@ -109,7 +109,6 @@ public class NewCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /*End this activity.*/
-                sendBack();
                 finish();
             }
         });
@@ -208,7 +207,7 @@ public class NewCardActivity extends AppCompatActivity {
         Log.e("Process NewCardActivity" , "SendBack");
         Intent intent = new Intent();
         intent.putExtra("position",id);
-        setResult(1,intent);
+        setResult(2,intent);
     }
 
     @Override

@@ -310,7 +310,7 @@ public class CardDetailActivity extends AppCompatActivity {
         Intent data = new Intent();
         data.putExtra("position", cardList_id);
         Log.e("Send DATA Back", data + "");
-        setResult(RESULT_OK, data);
+        setResult(1, data);
     }
 
 

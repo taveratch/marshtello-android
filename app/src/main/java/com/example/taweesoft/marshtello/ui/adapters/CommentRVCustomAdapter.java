@@ -35,7 +35,7 @@ public class CommentRVCustomAdapter extends RecyclerView.Adapter<CommentRVCustom
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         /*UI Componenets*/
-        @Bind(R.id.comment_txt)
+        @Bind(R.id.card_list_name_txt)
         TextView comment_txt;
 
         @Bind(R.id.preview_date_txt)

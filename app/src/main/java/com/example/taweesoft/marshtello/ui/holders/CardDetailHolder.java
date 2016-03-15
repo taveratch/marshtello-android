@@ -76,8 +76,9 @@ public class CardDetailHolder {
         ButterKnife.bind(this, view);
         Typeface typeface = Utilities.getNormalFont(context);
         Typeface bold = Utilities.getBoldFont(context);
-        Utilities.applyFont(typeface, detail_txt, card_name_txt);
+        Utilities.applyFont(typeface, detail_txt);
         Utilities.applyFont(typeface, date_txt);
         Utilities.applyFont(bold, tv_comment, tv_desc, tv_tag);
+        Utilities.applyFont(bold,card_name_txt);
     }
 }
