@@ -36,10 +36,39 @@ SSD
 ## Iteration 3 (Week 2)
 ### Features
 - User can add comments to each card.
+
+Domain Model
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration3/add_remove_comment.png)
+SSD
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration3/ssd_add_comment.png)
+
 - User can delete a whole cardlist.
+
+Domain Model
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration3/remove_clear_cardlist.png)
+SSD
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration3/ssd_remove_cardlist.png)
+
 - User can delete a card in cardlist.
+
+Domain Model
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration3/remove_card.png)
+SSD
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration3/ssd_remove_card.png)
+
 - User can delete a comment in card.
+
+Domain Model
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration3/add_remove_comment.png)
+SSD
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration3/ssd_remove_comment.png)
+
 - User can clear all cards in a cardlist.
+
+Domain Model
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration3/remove_clear_cardlist.png)
+SSD
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration3/ssd_clear_cardlist.png)
 
 ----
 ## Iteration 4 (Week 2)
