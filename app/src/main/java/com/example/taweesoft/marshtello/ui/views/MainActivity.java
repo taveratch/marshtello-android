@@ -143,6 +143,8 @@ public class MainActivity extends AppCompatActivity implements Observer {
         /*Set bullet counter to 0 position.*/
         updateListCountBullet(0);
 
+        /*Show first page*/
+        updateUI(0);
 
     }
 
@@ -266,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
             CardManager.addCardList(this,cardList);
         }
 
-        Log.e("R1", cardList_id + "");
+        Log.e("R1", Constants.cardLists.size() + "");
         /*In case that has more that one fragment available*/
         for(int i =0;i< Constants.cardLists.size();i++){
             Constants.fragmentList.add(new CardListFragment(i));

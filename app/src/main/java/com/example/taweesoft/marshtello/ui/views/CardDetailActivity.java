@@ -70,6 +70,7 @@ public class CardDetailActivity extends AppCompatActivity {
         /*set tag's action*/
         setTag();
 
+        initComponents();
 
     }
 

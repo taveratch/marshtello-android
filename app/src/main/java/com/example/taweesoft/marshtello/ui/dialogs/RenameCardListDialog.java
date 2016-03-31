@@ -34,6 +34,5 @@ public class RenameCardListDialog {
     public void show(){
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.rename_card_list_dialog_layout);
-
     }
 }

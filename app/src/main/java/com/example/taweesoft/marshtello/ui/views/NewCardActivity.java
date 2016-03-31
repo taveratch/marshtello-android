@@ -141,6 +141,7 @@ public class NewCardActivity extends AppCompatActivity {
 
         preview_date_txt.setText(Utilities.getCardDateStr(System.currentTimeMillis()));
 
+        /*Set fonts*/
         Typeface bold = Utilities.getBoldFont(this);
         Typeface normal = Utilities.getNormalFont(this);
         Utilities.applyFont(bold,tv_new_card,tv_name,tv_details,tv_tag,preview_card_name_txt);
@@ -148,6 +149,7 @@ public class NewCardActivity extends AppCompatActivity {
         Utilities.applyFont(normal,preview_date_txt,tv_comment_count);
 
     }
+
     /**
      * Create new card in current cardList.
      */

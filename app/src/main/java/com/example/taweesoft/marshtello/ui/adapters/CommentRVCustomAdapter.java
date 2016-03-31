@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.R;
+import com.example.taweesoft.marshtello.events.AlertDialogButtonAction;
+import com.example.taweesoft.marshtello.events.AlertDialogFactory;
 import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.models.Comment;
 import com.example.taweesoft.marshtello.utils.Utilities;
@@ -87,35 +89,51 @@ public class CommentRVCustomAdapter extends RecyclerView.Adapter<CommentRVCustom
 
 
     public void showDeleteDialog(final int position){
+        String title = "Message";
+        String content = "Remove this comment ?";
+        AlertDialogButtonAction positive = new DialogPositiveAction("Yes",position);
+        AlertDialogButtonAction negative = new DialogNegativeAction("No");
         /*Building a dialog.*/
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Message");
-        builder.setMessage("Remove this comment ?");
-        /*remove comment when click on "YES"*/
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                CardManager.removeComment(context, comments, position);
-                notifyItemRemoved(position);
-            }
-        });
+        AlertDialog.Builder builder = AlertDialogFactory.newInstance(context, title,content,positive,negative);
+        /*show dialog*/
+        builder.create().show();
+    }
 
-        /*Do nothing when Click "No" or dismiss a dialog.*/
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                notifyDataSetChanged();
-            }
-        });
-        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                notifyDataSetChanged();
-            }
-        });
+    class DialogPositiveAction implements AlertDialogButtonAction {
+        private String buttonText;
+        private int position;
+        public DialogPositiveAction(String buttonText, int position) {
+            this.buttonText = buttonText;
+            this.position = position;
+        }
 
-        /*Create and show a dialog.*/
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        @Override
+        public String getButtonText() {
+            return buttonText;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            CardManager.removeComment(context, comments, position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    class DialogNegativeAction implements AlertDialogButtonAction {
+        private String buttonText;
+
+        public DialogNegativeAction(String buttonText) {
+            this.buttonText = buttonText;
+        }
+
+        @Override
+        public String getButtonText() {
+            return buttonText;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            notifyDataSetChanged();
+        }
     }
 }
