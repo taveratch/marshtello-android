@@ -22,6 +22,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.taweesoft.marshtello.events.AlertDialogButtonAction;
+import com.example.taweesoft.marshtello.events.AlertDialogFactory;
 import com.example.taweesoft.marshtello.events.CustomDialogFactory;
 import com.example.taweesoft.marshtello.events.CustomOnClickListener;
 import com.example.taweesoft.marshtello.events.DepthPageTransformer;
@@ -228,34 +230,14 @@ public class MainActivity extends AppCompatActivity implements Observer {
         remove_card_list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DialogRemovePositiveButtonAction positive = new DialogRemovePositiveButtonAction("Yes , delete");
+                DialogRemoveNegativeButtonAction negative = new DialogRemoveNegativeButtonAction("Just clear all card");
+                DialogRemoveNeutralButtonAction neutral = new DialogRemoveNeutralButtonAction("No");
                 /*Build the dialog.*/
-                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-                dialog.setTitle("Message");
-                dialog.setMessage("Delete or clear this card list ?");
-                dialog.setPositiveButton("Yes, delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Context context = MainActivity.this;
-                        CardManager.removeCardList(MainActivity.this, Constants.cardLists,cardList_id);
-                        updateUIAfterRemove();
-                        Toast.makeText(MainActivity.this,"Removed" ,Toast.LENGTH_SHORT).show();
-                    }
-                });
-                dialog.setNeutralButton("NO", null);
-                /*Clear all card in the cardlist.*/
-                dialog.setNegativeButton("Just clear all card", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        /*Call clear card from Storage.*/
-                        Context context = MainActivity.this;
-                        CardManager.clearAllCard(context, Constants.cardLists.get(cardList_id));
-                        updateCardAdapter();
-                    }
-                });
-
-                /*Create dialog and show.*/
-                AlertDialog alertDialog = dialog.create();
-                alertDialog.show();
+                String title = "Message";
+                String content = "Delete or clear this card list ?";
+                AlertDialog.Builder builder = AlertDialogFactory.newInstance(MainActivity.this, title, content, positive, negative, neutral);
+                builder.create().show();
             }
         });
 
@@ -343,26 +325,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         actionBar.setDisplayShowCustomEnabled(true);
     }
 
-    /**
-     * Set listview action
-     */
-    class RecyclerViewAction implements CustomOnClickListener {
 
-        private int cardList_id;
-
-        public RecyclerViewAction(int cardList_id) {
-            this.cardList_id = cardList_id;
-        }
-
-        @Override
-        public void onClick(View view, int position) {
-            Log.e("Process" ,"Clicked on card " + position);
-            Intent intent = new Intent(MainActivity.this, CardDetailActivity.class);
-            intent.putExtra("card_id", position);
-            intent.putExtra("cardList_id", cardList_id);
-            startActivityForResult(intent, 2);
-        }
-    }
 
     /**
      * Get card list id from
@@ -376,7 +339,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
         if(data == null) return;
         int position = data.getIntExtra("position",-1);
         updateUI(position);
-        Log.e("P OAR Main : " , resultCode+"");
         /*From NewCardActivity*/
         if(resultCode == 2){
             Toast.makeText(this, "New card has been added", Toast.LENGTH_SHORT).show();
@@ -413,6 +375,9 @@ public class MainActivity extends AppCompatActivity implements Observer {
         card_count_txt.setText(cardList.getCards().size()+"");
     }
 
+    /**
+     * Dialog action for custom dialog
+     */
     class EditCardListName implements DialogAction{
 
         private CardList cardList;
@@ -459,6 +424,88 @@ public class MainActivity extends AppCompatActivity implements Observer {
                     dialog.dismiss();
                 }
             });
+        }
+    }
+
+    /**
+     * Dialog action
+     */
+    class DialogRemovePositiveButtonAction implements AlertDialogButtonAction {
+        private String buttonText;
+
+        public DialogRemovePositiveButtonAction(String buttonText) {
+            this.buttonText = buttonText;
+        }
+
+        @Override
+        public String getButtonText() {
+            return buttonText;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            Context context = MainActivity.this;
+            CardManager.removeCardList(MainActivity.this, Constants.cardLists, cardList_id);
+            updateUIAfterRemove();
+            Toast.makeText(MainActivity.this,"Removed" ,Toast.LENGTH_SHORT).show();
+        }
+    }
+    class DialogRemoveNegativeButtonAction implements AlertDialogButtonAction {
+        private String buttonText;
+
+        public DialogRemoveNegativeButtonAction(String buttonText) {
+            this.buttonText = buttonText;
+        }
+
+        @Override
+        public String getButtonText() {
+            return buttonText;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            /*Call clear card from Storage.*/
+            Context context = MainActivity.this;
+            CardManager.clearAllCard(context, Constants.cardLists.get(cardList_id));
+            updateCardAdapter();
+        }
+    }
+    class DialogRemoveNeutralButtonAction implements AlertDialogButtonAction {
+        private String buttonText;
+
+        public DialogRemoveNeutralButtonAction(String buttonText) {
+            this.buttonText = buttonText;
+        }
+
+        @Override
+        public String getButtonText() {
+            return buttonText;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+
+        }
+    }
+
+    /**
+     * Set listview action
+     */
+    class RecyclerViewAction implements CustomOnClickListener {
+
+        private int cardList_id;
+
+        public RecyclerViewAction(int cardList_id) {
+            this.cardList_id = cardList_id;
+        }
+
+        @Override
+        public void onClick(View view, int position) {
+            Log.e("Process" ,"Clicked on card " + position);
+            Intent intent = new Intent(MainActivity.this, CardDetailActivity.class);
+            intent.putExtra("card_id", position);
+            intent.putExtra("cardList_id", cardList_id);
+            startActivityForResult(intent, 2);
         }
     }
 }
