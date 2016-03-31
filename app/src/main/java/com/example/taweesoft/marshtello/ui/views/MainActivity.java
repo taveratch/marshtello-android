@@ -170,26 +170,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
     public void update(Observable observable, Object data) {
         int tag = (int)data;
         if(tag == Constants.CARD_RV_ADAPTER){ // Notified by CardRVCustomAdapter when remove a card.
-            CardList cardList = Constants.cardLists.get(cardList_id);
-            card_count_txt.setText(cardList.getCards().size() + "");
-        }else if(tag == Constants.MAIN_ACTIVITY_EDIT_CARD_LIST){
-            /*Initialize new CardListFragment*/
-            adapter.notifyDataSetChanged();
-        }else if(tag == Constants.MAIN_ACTIVITY_REMOVE_CARD_LIST) {
-            int currentPosition = cardList_id;
-            /*Clear all CardListFragment*/
-            Constants.fragmentList.clear();
-            initialTabFromStorage();
-            cardList_id = currentPosition;
-            /*If the removed CardListFragment is not the last fragment then set position to the previous one.*/
-            if (cardList_id < Constants.cardLists.size()) {
-                pager.setCurrentItem(cardList_id, true);
-                updateListCountBullet(cardList_id);
-            }else{
-                pager.setCurrentItem(cardList_id-1,true);
-                updateListCountBullet(cardList_id - 1);
-                cardList_id--;
-            }
+            updateCardAdapter();
         }
 
 
@@ -255,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
                     public void onClick(DialogInterface dialog, int which) {
                         Context context = MainActivity.this;
                         CardManager.removeCardList(MainActivity.this, Constants.cardLists,cardList_id);
-                        update(null, Constants.MAIN_ACTIVITY_REMOVE_CARD_LIST);
+                        updateUIAfterRemove();
                         Toast.makeText(MainActivity.this,"Removed" ,Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -267,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
                         /*Call clear card from Storage.*/
                         Context context = MainActivity.this;
                         CardManager.clearAllCard(context, Constants.cardLists.get(cardList_id));
-                        update(null, Constants.MAIN_ACTIVITY_REMOVE_CARD_LIST);
+                        updateCardAdapter();
                     }
                 });
 
@@ -302,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
                              /*Update card list name*/
                             CardManager.renameCardList(MainActivity.this, cardList, name);
                             /*Update ui by using current position.*/
-                            update(null, Constants.MAIN_ACTIVITY_EDIT_CARD_LIST);
+                            updateViewPagerAdapter();
                             /*Show successful message*/
                             Toast.makeText(MainActivity.this, "Card list has been renamed", Toast.LENGTH_SHORT).show();
                             /*dismiss dialog*/
@@ -441,5 +422,32 @@ public class MainActivity extends AppCompatActivity implements Observer {
         }else{ /*From CardDetailActivity*/
             Toast.makeText(this,"Card has been updated" , Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void updateViewPagerAdapter() {
+        adapter.notifyDataSetChanged();
+    }
+
+    public void updateUIAfterRemove() {
+        int currentPosition = cardList_id;
+            /*Clear all CardListFragment*/
+        Constants.fragmentList.clear();
+        initialTabFromStorage();
+        cardList_id = currentPosition;
+            /*If the removed CardListFragment is not the last fragment then set position to the previous one.*/
+        if (cardList_id < Constants.cardLists.size()) {
+            pager.setCurrentItem(cardList_id, true);
+            updateListCountBullet(cardList_id);
+        }else{
+            pager.setCurrentItem(cardList_id-1,true);
+            updateListCountBullet(cardList_id - 1);
+            cardList_id--;
+        }
+    }
+
+    public void updateCardAdapter() {
+        CardList cardList = Constants.cardLists.get(cardList_id);
+        cardAdapter.notifyDataSetChanged();
+        card_count_txt.setText(cardList.getCards().size()+"");
     }
 }
