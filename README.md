@@ -90,3 +90,7 @@ SSD
 ----
 ## Resources
 - [Trello](https://trello.com/b/iDobQ8QL/marshtello)
+
+## Members
+- TAWEERAT CHAIMAN 5710546259
+- NATANON POONAWAKUL 5710546208
