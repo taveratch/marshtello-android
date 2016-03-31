@@ -16,4 +16,5 @@ public class AlertDialogFactory {
         builder.setMessage(content);
         return builder.create();
     }
+
 }

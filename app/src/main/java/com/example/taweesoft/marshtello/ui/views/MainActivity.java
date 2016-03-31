@@ -22,8 +22,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.taweesoft.marshtello.events.CustomDialogFactory;
 import com.example.taweesoft.marshtello.events.CustomOnClickListener;
 import com.example.taweesoft.marshtello.events.DepthPageTransformer;
+import com.example.taweesoft.marshtello.events.DialogAction;
 import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.ui.adapters.CardRVCustomAdapter;
 import com.example.taweesoft.marshtello.ui.fragments.CardListFragment;
@@ -262,47 +264,8 @@ public class MainActivity extends AppCompatActivity implements Observer {
             public void onClick(View v) {
                  /*Get card list*/
                 final CardList cardList = Constants.cardLists.get(cardList_id);
-
                 /*Define dialog*/
-                final Dialog dialog = new Dialog(MainActivity.this);
-                dialog.setContentView(R.layout.rename_card_list_dialog_layout);
-                dialog.setCancelable(false);
-                final RenameCardListDialogHolder dialogHolder = new RenameCardListDialogHolder(dialog.getWindow().getDecorView().getRootView());
-
-                /*Set hint to be current card list name*/
-                dialogHolder.card_list_name_txt.setHint(cardList.getName());
-
-                /*Rename btn action*/
-                dialogHolder.add_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        /*Get new name*/
-                        String name = dialogHolder.card_list_name_txt.getText().toString();
-                        if (name.length() > 0) {
-                             /*Update card list name*/
-                            CardManager.renameCardList(MainActivity.this, cardList, name);
-                            /*Update ui by using current position.*/
-                            updateViewPagerAdapter();
-                            /*Show successful message*/
-                            Toast.makeText(MainActivity.this, "Card list has been renamed", Toast.LENGTH_SHORT).show();
-                            /*dismiss dialog*/
-                            dialog.dismiss();
-                        } else { /*empty card list name*/
-                            Toast.makeText(MainActivity.this, "Please enter card list name", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-
-                /*Cancel btn action*/
-                dialogHolder.cancel_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        /*dismiss dialog*/
-                        dialog.dismiss();
-                    }
-                });
-
+                final Dialog dialog = CustomDialogFactory.newInstance(MainActivity.this,R.layout.rename_card_list_dialog_layout,new EditCardListName(cardList));
                 /*show dialog*/
                 dialog.show();
             }
@@ -448,5 +411,54 @@ public class MainActivity extends AppCompatActivity implements Observer {
         CardList cardList = Constants.cardLists.get(cardList_id);
         cardAdapter.notifyDataSetChanged();
         card_count_txt.setText(cardList.getCards().size()+"");
+    }
+
+    class EditCardListName implements DialogAction{
+
+        private CardList cardList;
+
+        public EditCardListName(CardList cardList) {
+            this.cardList = cardList;
+        }
+
+        @Override
+        public void blind(final Dialog dialog) {
+            dialog.setCancelable(false);
+            final RenameCardListDialogHolder dialogHolder = new RenameCardListDialogHolder(dialog.getWindow().getDecorView().getRootView());
+
+                /*Set hint to be current card list name*/
+            dialogHolder.card_list_name_txt.setHint(cardList.getName());
+
+                /*Rename btn action*/
+            dialogHolder.add_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        /*Get new name*/
+                    String name = dialogHolder.card_list_name_txt.getText().toString();
+                    if (name.length() > 0) {
+                             /*Update card list name*/
+                        CardManager.renameCardList(MainActivity.this, cardList, name);
+                            /*Update ui by using current position.*/
+                        updateViewPagerAdapter();
+                            /*Show successful message*/
+                        Toast.makeText(MainActivity.this, "Card list has been renamed", Toast.LENGTH_SHORT).show();
+                            /*dismiss dialog*/
+                        dialog.dismiss();
+                    } else { /*empty card list name*/
+                        Toast.makeText(MainActivity.this, "Please enter card list name", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+
+                /*Cancel btn action*/
+            dialogHolder.cancel_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        /*dismiss dialog*/
+                    dialog.dismiss();
+                }
+            });
+        }
     }
 }
