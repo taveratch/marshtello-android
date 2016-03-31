@@ -5,9 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.taweesoft.marshtello.models.CardList;
-import com.example.taweesoft.marshtello.utils.DataCenter;
-
-import java.util.Observer;
+import com.example.taweesoft.marshtello.utils.Constants;
 
 import io.realm.RealmList;
 
@@ -32,11 +30,15 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-        return DataCenter.fragmentList.get(position);
+        return Constants.fragmentList.get(position);
     }
 
     @Override
     public int getCount() {
         return cardLists.size();
+    }
+
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 }

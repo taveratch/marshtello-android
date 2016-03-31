@@ -2,13 +2,11 @@ package com.example.taweesoft.marshtello.ui.views;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -18,13 +16,12 @@ import com.example.taweesoft.marshtello.events.AlertDialogFactory;
 import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.models.Card;
 import com.example.taweesoft.marshtello.models.CardList;
-import com.example.taweesoft.marshtello.utils.DataCenter;
+import com.example.taweesoft.marshtello.utils.Constants;
 import com.example.taweesoft.marshtello.R;
 import com.example.taweesoft.marshtello.utils.Utilities;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 
 /**
  * New card activity.
@@ -76,7 +73,7 @@ public class NewCardActivity extends AppCompatActivity {
     TextView tv_tag;
 
     /*Attributes.*/
-    private int tag = DataCenter.RED_TAG;
+    private int tag = Constants.RED_TAG;
     private Card card;
     private RelativeLayout actionBar_layout;
     private int id;
@@ -160,7 +157,7 @@ public class NewCardActivity extends AppCompatActivity {
         String cardName = cardName_txt.getText() + "";
         String cardDetail = cardDetail_txt.getText() + "";
         card = new Card(cardName, cardDetail, tag);
-        final CardList cardList = DataCenter.cardLists.get(id);
+        final CardList cardList = Constants.cardLists.get(id);
         CardManager.addCard(this, cardList, card);
     }
 
@@ -168,11 +165,11 @@ public class NewCardActivity extends AppCompatActivity {
      * Set actionbar's color when select on different tag.
      */
     public void setTagImageCheck(){
-        if(tag == DataCenter.RED_TAG) {
+        if(tag == Constants.RED_TAG) {
             red_img.setImageResource(R.drawable.check_red);
             blue_img.setImageResource(0);
             preview_tag_img.setBackground(getResources().getDrawable(R.drawable.red_tag));
-        }else if (tag == DataCenter.BLUE_TAG) {
+        }else if (tag == Constants.BLUE_TAG) {
             red_img.setImageResource(0);
             blue_img.setImageResource(R.drawable.check_blue);
             preview_tag_img.setBackground(getResources().getDrawable(R.drawable.blue_tag));
@@ -186,7 +183,7 @@ public class NewCardActivity extends AppCompatActivity {
         red_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tag = DataCenter.RED_TAG;
+                tag = Constants.RED_TAG;
                 setTagImageCheck();
             }
         });
@@ -194,7 +191,7 @@ public class NewCardActivity extends AppCompatActivity {
         blue_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tag = DataCenter.BLUE_TAG;
+                tag = Constants.BLUE_TAG;
                 setTagImageCheck();
             }
         });

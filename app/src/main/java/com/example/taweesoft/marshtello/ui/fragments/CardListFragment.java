@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.R;
 import com.example.taweesoft.marshtello.models.CardList;
-import com.example.taweesoft.marshtello.utils.DataCenter;
+import com.example.taweesoft.marshtello.utils.Constants;
 import com.example.taweesoft.marshtello.utils.Utilities;
 
 import butterknife.Bind;
@@ -36,7 +36,7 @@ public class CardListFragment extends Fragment {
 
     public CardListFragment(int cardlist_id) {
         this.cardlist_id = cardlist_id;
-        cardList = DataCenter.cardLists.get(cardlist_id);
+        cardList = Constants.cardLists.get(cardlist_id);
     }
 
     @Nullable

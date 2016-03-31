@@ -5,8 +5,7 @@ import android.content.Context;
 import com.example.taweesoft.marshtello.models.Card;
 import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.models.Comment;
-import com.example.taweesoft.marshtello.utils.DataCenter;
-import com.example.taweesoft.marshtello.utils.Storage;
+import com.example.taweesoft.marshtello.utils.Constants;
 
 import java.util.Collections;
 
@@ -90,7 +89,7 @@ public class CardManager {
         Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                DataCenter.cardLists.add(cardList);
+                Constants.cardLists.add(cardList);
             }
         });
     }
@@ -126,7 +125,7 @@ public class CardManager {
      * Remove CardList
      */
     public static void removeCardList(Context context , final RealmList<CardList> cardLists , final int position){
-        DataCenter.fragmentList.remove(position);
+        Constants.fragmentList.remove(position);
         Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

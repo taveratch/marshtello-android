@@ -11,12 +11,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,12 +24,11 @@ import android.widget.Toast;
 
 import com.example.taweesoft.marshtello.events.CustomOnClickListener;
 import com.example.taweesoft.marshtello.events.DepthPageTransformer;
-import com.example.taweesoft.marshtello.events.ZoomOutPageTransformer;
 import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.ui.adapters.CardRVCustomAdapter;
 import com.example.taweesoft.marshtello.ui.fragments.CardListFragment;
 import com.example.taweesoft.marshtello.ui.holders.RenameCardListDialogHolder;
-import com.example.taweesoft.marshtello.utils.DataCenter;
+import com.example.taweesoft.marshtello.utils.Constants;
 import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.ui.adapters.PagerAdapter;
 import com.example.taweesoft.marshtello.R;
@@ -103,9 +102,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
         initComponents();
 
         /*Initial pager adapter and some actions of tablayout.*/
-//        adapter = new PagerAdapter(getSupportFragmentManager(),DataCenter.cardLists.size());
-//        pager.setAdapter(adapter);
-
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -151,13 +147,14 @@ public class MainActivity extends AppCompatActivity implements Observer {
         cardList_id = position;
 
         /*If no cardlist avaible then call initialFromStorage to create an empty one*/
-        if(DataCenter.cardLists.size() == 0)
+        if(Constants.cardLists.size() == 0)
             initialTabFromStorage();
 
         /*Update card count and cards in RV*/
-        CardList cardList = DataCenter.cardLists.get(position);
+        CardList cardList = Constants.cardLists.get(position);
         card_count_txt.setText(cardList.getCards().size()+"");
         cardAdapter = new CardRVCustomAdapter(cardList.getCards(),new RecyclerViewAction(position));
+        cardAdapter.addObserver(this);
         rv.setAdapter(cardAdapter);
         updateListCountBullet(position);
     }
@@ -171,22 +168,33 @@ public class MainActivity extends AppCompatActivity implements Observer {
      */
     @Override
     public void update(Observable observable, Object data) {
-        int position = (int)data;
-
-        /*Clear all CardListFragment*/
-        DataCenter.fragmentList.clear();
-
-        /*Initialize new CardListFragment*/
-        initialTabFromStorage();
-
-        /*If the removed CardListFragment is not the last fragment then set position to the previous one.*/
-        if (position < DataCenter.cardLists.size()) {
-            pager.setCurrentItem(position, true);
-            updateListCountBullet(position);
-        }else{
-            pager.setCurrentItem(position-1,true);
-            updateListCountBullet(position-1);
+        int tag = (int)data;
+        if(tag == Constants.CARD_RV_ADAPTER){ // Notified by CardRVCustomAdapter when remove a card.
+            CardList cardList = Constants.cardLists.get(cardList_id);
+            card_count_txt.setText(cardList.getCards().size() + "");
+        }else if(tag == Constants.MAIN_ACTIVITY_EDIT_CARD_LIST){
+            /*Initialize new CardListFragment*/
+            adapter.notifyDataSetChanged();
+        }else if(tag == Constants.MAIN_ACTIVITY_REMOVE_CARD_LIST) {
+            int currentPosition = cardList_id;
+            /*Clear all CardListFragment*/
+            Constants.fragmentList.clear();
+            initialTabFromStorage();
+            cardList_id = currentPosition;
+            /*If the removed CardListFragment is not the last fragment then set position to the previous one.*/
+            if (cardList_id < Constants.cardLists.size()) {
+                pager.setCurrentItem(cardList_id, true);
+                updateListCountBullet(cardList_id);
+            }else{
+                pager.setCurrentItem(cardList_id-1,true);
+                updateListCountBullet(cardList_id - 1);
+                cardList_id--;
+            }
         }
+
+
+
+
     }
 
     /**
@@ -200,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         for(int i =0;i<current;i++)
             bullet += whiteCircle;
         bullet += blackCircle;
-        for (int i=current;i<DataCenter.cardLists.size()-1;i++)
+        for (int i=current;i< Constants.cardLists.size()-1;i++)
             bullet+= whiteCircle;
 //        list_count_txt.setText(bullet);
     }
@@ -222,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         rv.setHasFixedSize(true);
         RecyclerView.LayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
+        rv.setItemAnimator(new DefaultItemAnimator());
 
         /*Add action to add_btn*/
         add_card_btn.setOnClickListener(new View.OnClickListener() {
@@ -245,8 +254,8 @@ public class MainActivity extends AppCompatActivity implements Observer {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Context context = MainActivity.this;
-                        CardManager.removeCardList(MainActivity.this,DataCenter.cardLists,cardList_id);
-                        update(null, cardList_id);
+                        CardManager.removeCardList(MainActivity.this, Constants.cardLists,cardList_id);
+                        update(null, Constants.MAIN_ACTIVITY_REMOVE_CARD_LIST);
                         Toast.makeText(MainActivity.this,"Removed" ,Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -257,8 +266,8 @@ public class MainActivity extends AppCompatActivity implements Observer {
                     public void onClick(DialogInterface dialog, int which) {
                         /*Call clear card from Storage.*/
                         Context context = MainActivity.this;
-                        CardManager.clearAllCard(context,DataCenter.cardLists.get(cardList_id));
-                        update(null, cardList_id);
+                        CardManager.clearAllCard(context, Constants.cardLists.get(cardList_id));
+                        update(null, Constants.MAIN_ACTIVITY_REMOVE_CARD_LIST);
                     }
                 });
 
@@ -272,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
             @Override
             public void onClick(View v) {
                  /*Get card list*/
-                final CardList cardList = DataCenter.cardLists.get(cardList_id);
+                final CardList cardList = Constants.cardLists.get(cardList_id);
 
                 /*Define dialog*/
                 final Dialog dialog = new Dialog(MainActivity.this);
@@ -293,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
                              /*Update card list name*/
                             CardManager.renameCardList(MainActivity.this, cardList, name);
                             /*Update ui by using current position.*/
-                            update(null, cardList_id);
+                            update(null, Constants.MAIN_ACTIVITY_EDIT_CARD_LIST);
                             /*Show successful message*/
                             Toast.makeText(MainActivity.this, "Card list has been renamed", Toast.LENGTH_SHORT).show();
                             /*dismiss dialog*/
@@ -327,22 +336,23 @@ public class MainActivity extends AppCompatActivity implements Observer {
         tabLayout.removeAllTabs();
 
         /*In case that no any fragment available*/
-        if(DataCenter.cardLists.size() == 0) {
+        if(Constants.cardLists.size() == 0) {
             CardList cardList = new CardList("Empty Card List");
             CardManager.addCardList(this,cardList);
         }
 
+        Log.e("R1", cardList_id + "");
         /*In case that has more that one fragment available*/
-        for(int i =0;i< DataCenter.cardLists.size();i++){
-            DataCenter.fragmentList.add(new CardListFragment(i));
+        for(int i =0;i< Constants.cardLists.size();i++){
+            Constants.fragmentList.add(new CardListFragment(i));
             tabLayout.addTab(tabLayout.newTab().setText(""));
-
         }
-        adapter = new PagerAdapter(getSupportFragmentManager(),DataCenter.cardLists);
+        Log.e("R2", cardList_id + "");
+        adapter = new PagerAdapter(getSupportFragmentManager(), Constants.cardLists);
         pager.setAdapter(adapter);
         pager.setPageTransformer(true, new DepthPageTransformer());
-        if(adapter.getCount() > 0)
-            updateUI(0);
+//        if(adapter.getCount() > 0)
+//            updateUI(0);
     }
 
     /**
@@ -356,14 +366,12 @@ public class MainActivity extends AppCompatActivity implements Observer {
         CardManager.addCardList(this,cardList);
 
         /*Add CardListFragment into DataCenter.*/
-        DataCenter.fragmentList.add(new CardListFragment(adapter.getCount()-1));
+        Constants.fragmentList.add(new CardListFragment(adapter.getCount()-1));
 
         /*Add tab to tablayout.*/
         tabLayout.addTab(tabLayout.newTab().setText(""));
 
         /*Set new adapter and set to ViewPager.*/
-//        adapter = new PagerAdapter(getSupportFragmentManager(),DataCenter.cardLists.size());
-//        pager.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         pager.setCurrentItem(adapter.getCount() - 1, true);
         /*Save data to Realm storage.*/

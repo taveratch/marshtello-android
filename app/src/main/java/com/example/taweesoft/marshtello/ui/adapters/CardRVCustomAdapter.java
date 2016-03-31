@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,13 @@ import com.example.taweesoft.marshtello.events.CustomOnClickListener;
 import com.example.taweesoft.marshtello.events.ItemTouchHelperAdapter;
 import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.models.Card;
+import com.example.taweesoft.marshtello.models.CustomObservable;
 import com.example.taweesoft.marshtello.ui.holders.CardCustomAdapterHolder;
-import com.example.taweesoft.marshtello.utils.DataCenter;
+import com.example.taweesoft.marshtello.utils.Constants;
 import com.example.taweesoft.marshtello.utils.Utilities;
 
-import butterknife.Bind;
+import java.util.Observer;
+
 import io.realm.RealmList;
 
 /**
@@ -31,6 +32,7 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
     private RealmList<Card> cards;
     private CustomOnClickListener listener;
     private Context context;
+    private CustomObservable observable;
 
     /**
      * Constructor.
@@ -41,6 +43,7 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
     public CardRVCustomAdapter(RealmList<Card> cards, CustomOnClickListener listener) {
         this.cards = cards;
         this.listener = listener;
+        observable = new CustomObservable();
     }
 
 
@@ -78,10 +81,10 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
         holder.card_name_txt.setText(card.getName());
         holder.comment_count_txt.setText(card.getComments().size() + "");
         holder.date_txt.setText(Utilities.getCardDateStr(card.getDate()));
-        if (card.getTag() == DataCenter.RED_TAG)
-            holder.tag_img.setImageResource(DataCenter.red_circle_img);
-        if (card.getTag() == DataCenter.BLUE_TAG)
-            holder.tag_img.setImageResource(DataCenter.blue_circle_img);
+        if (card.getTag() == Constants.RED_TAG)
+            holder.tag_img.setImageResource(Constants.red_circle_img);
+        if (card.getTag() == Constants.BLUE_TAG)
+            holder.tag_img.setImageResource(Constants.blue_circle_img);
     }
 
     @Override
@@ -113,22 +116,26 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
             public void onClick(DialogInterface dialog, int which) {
                 CardManager.removeCard(context, cards, position);
                 notifyItemRemoved(position);
+                observable.setChanged();
+                observable.notifyObservers(Constants.CARD_RV_ADAPTER);
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                notifyDataSetChanged();
             }
         });
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                notifyDataSetChanged();
             }
         });
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void addObserver(Observer observer){
+        observable.addObserver(observer);
     }
 }

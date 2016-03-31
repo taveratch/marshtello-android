@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.taweesoft.marshtello.managers.CardManager;
@@ -31,11 +27,8 @@ import com.example.taweesoft.marshtello.models.Comment;
 import com.example.taweesoft.marshtello.ui.adapters.CommentRVCustomAdapter;
 import com.example.taweesoft.marshtello.ui.holders.AddCommentDialogHolder;
 import com.example.taweesoft.marshtello.ui.holders.CardDetailHolder;
-import com.example.taweesoft.marshtello.utils.DataCenter;
+import com.example.taweesoft.marshtello.utils.Constants;
 import com.example.taweesoft.marshtello.utils.Utilities;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class CardDetailActivity extends AppCompatActivity {
 
@@ -70,7 +63,7 @@ public class CardDetailActivity extends AppCompatActivity {
         /*Get data from CardListFragment*/
         card_id = getIntent().getIntExtra("card_id",-1);
         cardList_id = getIntent().getIntExtra("cardList_id", -1);
-        card = DataCenter.cardLists.get(cardList_id).getCards().get(card_id);
+        card = Constants.cardLists.get(cardList_id).getCards().get(card_id);
         tag = card.getTag();
 
         /*Hide action bar.*/
@@ -137,9 +130,9 @@ public class CardDetailActivity extends AppCompatActivity {
      */
     public void setTagAction(){
 
-        if(tag == DataCenter.RED_TAG) {
+        if(tag == Constants.RED_TAG) {
             showRedCheck();
-        }else if(tag == DataCenter.BLUE_TAG){
+        }else if(tag == Constants.BLUE_TAG){
             showBlueCheck();
         }
 
@@ -148,7 +141,7 @@ public class CardDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 /*Set current tag*/
-                tag = DataCenter.RED_TAG;
+                tag = Constants.RED_TAG;
                 /*Save data to storage.*/
                 showRedCheck();
                 saveData();
@@ -158,7 +151,7 @@ public class CardDetailActivity extends AppCompatActivity {
         holder.blue_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tag = DataCenter.BLUE_TAG;
+                tag = Constants.BLUE_TAG;
                 showBlueCheck();
                 saveData();
             }
@@ -194,7 +187,7 @@ public class CardDetailActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         /*Call remove card function from storage.*/
                         Context context = CardDetailActivity.this;
-                        CardManager.removeCard(context, DataCenter.cardLists.get(cardList_id).getCards(), card_id);
+                        CardManager.removeCard(context, Constants.cardLists.get(cardList_id).getCards(), card_id);
                         /*end this activity.*/
                         sendBack();
                         finish();
@@ -225,7 +218,7 @@ public class CardDetailActivity extends AppCompatActivity {
         CardManager.editCard(CardDetailActivity.this, card, name, detail,tag);
 
         /*Sort all cards after edited*/
-        CardList cardList = DataCenter.cardLists.get(cardList_id);
+        CardList cardList = Constants.cardLists.get(cardList_id);
         CardManager.sortCard(CardDetailActivity.this,cardList);
     }
 

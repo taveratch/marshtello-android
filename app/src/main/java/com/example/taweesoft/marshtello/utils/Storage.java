@@ -2,7 +2,6 @@ package com.example.taweesoft.marshtello.utils;
 
 import android.content.Context;
 
-import com.example.taweesoft.marshtello.models.Card;
 import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.models.DataWrapper;
 
@@ -33,12 +32,12 @@ public class Storage {
      */
     public void saveData(){
         try{
-            if(DataCenter.result.size()>0)
-                DataCenter.result.clear();
+            if(Constants.result.size()>0)
+                Constants.result.clear();
         }catch(IllegalStateException ex){}
 
         Realm realm = Realm.getInstance(context);
-        final DataWrapper dataWrapper = new DataWrapper(DataCenter.cardLists);
+        final DataWrapper dataWrapper = new DataWrapper(Constants.cardLists);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -55,15 +54,15 @@ public class Storage {
         Realm realm = Realm.getInstance(context);
         RealmResults<DataWrapper> result = realm.where(DataWrapper.class).findAll();
         if(result.size()>0)
-            DataCenter.cardLists = result.get(0).getCardListRealmList();
-        DataCenter.result = result;
+            Constants.cardLists = result.get(0).getCardListRealmList();
+        Constants.result = result;
     }
 
     public void removeAllCardList(){
         Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                DataCenter.result.get(0).getCardListRealmList().clear();
+                Constants.result.get(0).getCardListRealmList().clear();
             }
         });
 
@@ -74,11 +73,11 @@ public class Storage {
      * @param position = card list position
      */
     public void removeCardList(final int position){
-        DataCenter.fragmentList.remove(position);
+        Constants.fragmentList.remove(position);
         Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                DataWrapper dataWrapper = DataCenter.result.get(0);
+                DataWrapper dataWrapper = Constants.result.get(0);
                 RealmList<CardList> cardLists = dataWrapper.getCardListRealmList();
                 cardLists.remove(position);
             }
@@ -93,7 +92,7 @@ public class Storage {
         Realm.getInstance(context).executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                DataWrapper dataWrapper = DataCenter.result.get(0);
+                DataWrapper dataWrapper = Constants.result.get(0);
                 RealmList<CardList> cardLists = dataWrapper.getCardListRealmList();
                 cardLists.get(position).getCards().clear();
             }
