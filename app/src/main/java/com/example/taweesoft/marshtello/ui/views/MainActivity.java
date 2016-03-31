@@ -276,8 +276,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
         adapter = new PagerAdapter(getSupportFragmentManager(), Constants.cardLists);
         pager.setAdapter(adapter);
         pager.setPageTransformer(true, new DepthPageTransformer());
-//        if(adapter.getCount() > 0)
-//            updateUI(0);
     }
 
     /**

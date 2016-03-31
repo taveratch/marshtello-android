@@ -86,9 +86,7 @@ public class NewCardActivity extends AppCompatActivity {
 
         /*Binding ui components.*/
         ButterKnife.bind(this);
-
         getSupportActionBar().hide();
-
 
         /*get id from CardListFragment's activity.*/
         id = getIntent().getIntExtra("id",-1);

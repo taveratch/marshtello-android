@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 /**
+ * AlertDialog Builder factory.
  * Created by TAWEESOFT on 3/14/16 AD.
  */
 public class AlertDialogFactory {
@@ -18,11 +19,21 @@ public class AlertDialogFactory {
         return builder;
     }
 
-    public static AlertDialog.Builder newInstance(Context context , String title, String content, AlertDialogButtonAction positive, AlertDialogButtonAction cancel , AlertDialogButtonAction neutral){
-        AlertDialog.Builder dialog = newInstance(context, title,content);
-        dialog.setPositiveButton(positive.getButtonText(), positive);
-        dialog.setNegativeButton(cancel.getButtonText(), cancel);
-        dialog.setNeutralButton(neutral.getButtonText() , neutral);
+    public static AlertDialog.Builder newInstance(Context context , String title, String content, AlertDialogButtonAction positive, AlertDialogButtonAction negative , AlertDialogButtonAction neutral){
+        AlertDialog.Builder dialog = newInstance(context, title,content,positive,negative);
+        dialog.setNeutralButton(neutral.getButtonText(), neutral);
+        return dialog;
+    }
+
+    public static AlertDialog.Builder newInstance(Context context , String title , String content , AlertDialogButtonAction positive){
+        AlertDialog.Builder dialog = newInstance(context , title,content);
+        dialog.setPositiveButton(positive.getButtonText(),positive);
+        return dialog;
+    }
+
+    public static AlertDialog.Builder newInstance(Context context , String title , String content , AlertDialogButtonAction positive , AlertDialogButtonAction negative){
+        AlertDialog.Builder dialog = newInstance(context,title,content,positive);
+        dialog.setNegativeButton(negative.getButtonText(),negative);
         return dialog;
     }
 }

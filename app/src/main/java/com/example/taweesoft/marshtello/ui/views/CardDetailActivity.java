@@ -19,6 +19,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.example.taweesoft.marshtello.events.AlertDialogButtonAction;
+import com.example.taweesoft.marshtello.events.AlertDialogFactory;
+import com.example.taweesoft.marshtello.events.CustomDialogFactory;
+import com.example.taweesoft.marshtello.events.DialogAction;
 import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.models.Card;
 import com.example.taweesoft.marshtello.models.CardList;
@@ -31,15 +35,6 @@ import com.example.taweesoft.marshtello.utils.Constants;
 import com.example.taweesoft.marshtello.utils.Utilities;
 
 public class CardDetailActivity extends AppCompatActivity {
-
-    /**
-     * UI Components
-     */
-//    @Bind(R.id.tab_layout)
-//    TabLayout tabLayout;
-//
-//    @Bind(R.id.pager)
-//    ViewPager pager;
 
     /*Attributes*/
     private int cardList_id;
@@ -58,7 +53,6 @@ public class CardDetailActivity extends AppCompatActivity {
         /*Hide keyboard automatically*/
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-//        ButterKnife.bind(this);
         holder = new CardDetailHolder(this,getWindow().getDecorView().getRootView());
         /*Get data from CardListFragment*/
         card_id = getIntent().getIntExtra("card_id",-1);
@@ -73,15 +67,13 @@ public class CardDetailActivity extends AppCompatActivity {
         holder.detail_txt.setText(card.getDetail());
 
         initialRV();
-        /*Set when focus on edittext is changed*/
-        setFocusChangeEditText();
         /*set tag's action*/
-        setTagAction();
-        /*set delete's action*/
-        setDeleteAction();
-        /*set comment action*/
-        setCommentAction();
+        setTag();
 
+
+    }
+
+    public void initComponents() {
         holder.back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,27 +106,29 @@ public class CardDetailActivity extends AppCompatActivity {
             }
         });
 
-    }
+        holder.add_comment_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogAction action = new CustomDialogAction();
+                Dialog dialog = CustomDialogFactory.newInstance(CardDetailActivity.this, R.layout.add_comment_dialog_layout, action);
+                dialog.show();
+            }
+        });
 
-    public void initialRV(){
-        holder.rv.setHasFixedSize(true);
-        RecyclerView.LayoutManager llm = new LinearLayoutManager(this);
-        holder.rv.setLayoutManager(llm);
-        commentAdapter = new CommentRVCustomAdapter(card.getComments());
-        holder.rv.setAdapter(commentAdapter);
-        holder.rv.setItemAnimator(new DefaultItemAnimator());
-    }
-
-    /**
-     * Change card tag and header color.
-     */
-    public void setTagAction(){
-
-        if(tag == Constants.RED_TAG) {
-            showRedCheck();
-        }else if(tag == Constants.BLUE_TAG){
-            showBlueCheck();
-        }
+        holder.remove_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Building a dialog.*/
+                AlertDialogButtonAction positive = new DialogPositiveButtonAction("Yes");
+                AlertDialogButtonAction negative = new DialogNegativeButtonAction("No");
+                String title = "Message";
+                String content = "Remove this card from card list ?";
+                AlertDialog.Builder builder = AlertDialogFactory.newInstance(CardDetailActivity.this, title, content, positive, negative);
+                /*Create and show a dialog.*/
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
 
         /*Tag action.*/
         holder.red_img.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +150,30 @@ public class CardDetailActivity extends AppCompatActivity {
                 saveData();
             }
         });
+
+
+        holder.card_name_txt.setOnFocusChangeListener(new ChangeFocus());
+        holder.detail_txt.setOnFocusChangeListener(new ChangeFocus());
+    }
+
+    public void initialRV(){
+        holder.rv.setHasFixedSize(true);
+        RecyclerView.LayoutManager llm = new LinearLayoutManager(this);
+        holder.rv.setLayoutManager(llm);
+        commentAdapter = new CommentRVCustomAdapter(card.getComments());
+        holder.rv.setAdapter(commentAdapter);
+        holder.rv.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    /**
+     * Change card tag and header color.
+     */
+    public void setTag(){
+        if(tag == Constants.RED_TAG) {
+            showRedCheck();
+        } else if (tag == Constants.BLUE_TAG) {
+            showBlueCheck();
+        }
     }
 
 
@@ -171,43 +189,6 @@ public class CardDetailActivity extends AppCompatActivity {
         holder.blue_img.setImageResource(R.drawable.check_blue);
     }
 
-    /**
-     * Set delete card action.
-     */
-    public void setDeleteAction(){
-        holder.remove_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*Building a dialog.*/
-                AlertDialog.Builder builder = new AlertDialog.Builder(CardDetailActivity.this);
-                builder.setTitle("Message");
-                builder.setMessage("Remove this card from card list ?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        /*Call remove card function from storage.*/
-                        Context context = CardDetailActivity.this;
-                        CardManager.removeCard(context, Constants.cardLists.get(cardList_id).getCards(), card_id);
-                        /*end this activity.*/
-                        sendBack();
-                        finish();
-                    }
-                });
-                builder.setNegativeButton("No", null);
-                /*Create and show a dialog.*/
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
-    }
-
-    /**
-     * Set on focus changed on edit text.
-     */
-    public void setFocusChangeEditText(){
-        holder.card_name_txt.setOnFocusChangeListener(new ChangeFocus());
-        holder.detail_txt.setOnFocusChangeListener(new ChangeFocus());
-    }
 
     /**
      * Save the card's data.
@@ -233,68 +214,6 @@ public class CardDetailActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Action when click ENTER on keyboard.
-     */
-    class onKeyboardEntered implements View.OnKeyListener{
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                saveData();
-                return true;
-            }
-            return false;
-        }
-    }
-
-
-    /*Set comment action*/
-    public void setCommentAction(){
-        holder.add_comment_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(CardDetailActivity.this);
-                dialog.setTitle("Add comment");
-                final EditText editText = new EditText(CardDetailActivity.this);
-                View view = LayoutInflater.from(CardDetailActivity.this).inflate(R.layout.add_comment_dialog_layout,null);
-                dialog.setContentView(view);
-                final AddCommentDialogHolder holder = new AddCommentDialogHolder(view);
-                holder.add_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        /*Add comment to card.*/
-                        Comment comment = new Comment(holder.comment_txt.getText().toString());
-                        CardManager.addComment(CardDetailActivity.this, card, comment);
-                        getWindow().setSoftInputMode(
-                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                        );
-                        /*Notify adapter when inserted a comment.*/
-                        CardDetailActivity.this.holder.rv.scrollToPosition(card.getComments().size()-1);
-                        commentAdapter.notifyItemInserted(card.getComments().size() - 1);
-                        /*dismiss the dialog.*/
-                        dialog.dismiss();
-                    }
-                });
-                holder.cancel_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        /*dismiss the dialog.*/
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-
-                /*Apply fonts into the components*/
-                Typeface bold = Utilities.getBoldFont(CardDetailActivity.this);
-                Typeface normal = Utilities.getNormalFont(CardDetailActivity.this);
-                Utilities.applyFont(bold,holder.tv_add_comment);
-                Utilities.applyFont(normal,holder.comment_txt);
-                Utilities.applyFont(bold,holder.add_btn,holder.cancel_btn);
-            }
-        });
-
-
-    }
 
     /**
      * Set data back to parent activity
@@ -302,7 +221,6 @@ public class CardDetailActivity extends AppCompatActivity {
     public void sendBack(){
         Intent data = new Intent();
         data.putExtra("position", cardList_id);
-        Log.e("Send DATA Back", data + "");
         setResult(1, data);
     }
 
@@ -312,6 +230,87 @@ public class CardDetailActivity extends AppCompatActivity {
         saveData();
         sendBack();
         super.onBackPressed();
-        Log.e("Process" , "onBackPressed");
+    }
+
+    class DialogPositiveButtonAction implements AlertDialogButtonAction {
+        private String buttonText;
+
+        public DialogPositiveButtonAction(String buttonText) {
+            this.buttonText = buttonText;
+        }
+
+        @Override
+        public String getButtonText() {
+            return buttonText;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            /*Call remove card function from storage.*/
+            Context context = CardDetailActivity.this;
+            CardManager.removeCard(context, Constants.cardLists.get(cardList_id).getCards(), card_id);
+            /*end this activity.*/
+            sendBack();
+            finish();
+        }
+    }
+
+    class DialogNegativeButtonAction implements AlertDialogButtonAction {
+        private String buttonText;
+
+        public DialogNegativeButtonAction(String buttonText) {
+            this.buttonText = buttonText;
+        }
+
+        @Override
+        public String getButtonText() {
+            return buttonText;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+
+        }
+    }
+
+    class CustomDialogAction implements DialogAction {
+        @Override
+        public void blind(final Dialog dialog) {
+            dialog.setTitle("Add comment");
+            final EditText editText = new EditText(CardDetailActivity.this);
+            View view = LayoutInflater.from(CardDetailActivity.this).inflate(R.layout.add_comment_dialog_layout,null);
+            dialog.setContentView(view);
+            final AddCommentDialogHolder holder = new AddCommentDialogHolder(view);
+            holder.add_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        /*Add comment to card.*/
+                    Comment comment = new Comment(holder.comment_txt.getText().toString());
+                    CardManager.addComment(CardDetailActivity.this, card, comment);
+                    getWindow().setSoftInputMode(
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                    );
+                        /*Notify adapter when inserted a comment.*/
+                    CardDetailActivity.this.holder.rv.scrollToPosition(card.getComments().size()-1);
+                    commentAdapter.notifyItemInserted(card.getComments().size() - 1);
+                        /*dismiss the dialog.*/
+                    dialog.dismiss();
+                }
+            });
+            holder.cancel_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        /*dismiss the dialog.*/
+                    dialog.dismiss();
+                }
+            });
+
+                /*Apply fonts into the components*/
+            Typeface bold = Utilities.getBoldFont(CardDetailActivity.this);
+            Typeface normal = Utilities.getNormalFont(CardDetailActivity.this);
+            Utilities.applyFont(bold,holder.tv_add_comment);
+            Utilities.applyFont(normal,holder.comment_txt);
+            Utilities.applyFont(bold,holder.add_btn,holder.cancel_btn);
+        }
     }
 }
