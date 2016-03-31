@@ -74,11 +74,19 @@ SSD
 ## Iteration 4 (Week 2)
 ### Features
 - User can flag the priority tag in card.
+
+Domain Model
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration4/model_set_tag.jpeg)
+SSD
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration4/ssd_set_priority_tag.jpeg)
+
 - Show card by sorting with priority tag.
+
+Domain Model
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration4/model_show_card.jpeg)
+SSD
+![Alt text](http://taweesoft.xyz/marshtello/images/iteration4/ssd_show_sorted_card.jpeg)
 
 ----
 ## Resources
 - [Trello](https://trello.com/b/iDobQ8QL/marshtello)
-
-
-

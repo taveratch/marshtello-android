@@ -191,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
         bullet += blackCircle;
         for (int i=current;i< Constants.cardLists.size()-1;i++)
             bullet+= whiteCircle;
-//        list_count_txt.setText(bullet);
     }
 
     private void initialTabs(){
