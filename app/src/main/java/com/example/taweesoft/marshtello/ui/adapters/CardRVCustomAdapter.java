@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.taweesoft.marshtello.R;
+import com.example.taweesoft.marshtello.events.AlertDialogButtonAction;
+import com.example.taweesoft.marshtello.events.AlertDialogFactory;
 import com.example.taweesoft.marshtello.events.CustomOnClickListener;
 import com.example.taweesoft.marshtello.events.ItemTouchHelperAdapter;
 import com.example.taweesoft.marshtello.managers.CardManager;
@@ -108,34 +110,56 @@ public class CardRVCustomAdapter extends RecyclerView.Adapter<CardCustomAdapterH
     }
 
     public void showDeleteDialog(final int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Message");
-        builder.setMessage("Remove this card ?");
-        builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                CardManager.removeCard(context, cards, position);
-                notifyItemRemoved(position);
-                observable.setChanged();
-                observable.notifyObservers(Constants.CARD_RV_ADAPTER);
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        String title = "Message";
+        String content = "Remove this card ?";
+        AlertDialogButtonAction positive = new DialogPositiveAction("Yes",position);
+        AlertDialogButtonAction negative = new DialogNegativeAction("No");
+        AlertDialog.Builder builder = AlertDialogFactory.newInstance(context,title,content,positive,negative);
+        builder.create().show();
     }
 
     public void addObserver(Observer observer){
         observable.addObserver(observer);
     }
+
+    class DialogPositiveAction implements AlertDialogButtonAction {
+        private String buttonText;
+        private int position;
+        public DialogPositiveAction(String buttonText, int position) {
+            this.position = position;
+            this.buttonText = buttonText;
+        }
+
+        @Override
+        public String getButtonText() {
+            return buttonText;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            CardManager.removeCard(context, cards, position);
+            notifyItemRemoved(position);
+            observable.setChanged();
+            observable.notifyObservers(Constants.CARD_RV_ADAPTER);
+        }
+    }
+
+    class DialogNegativeAction implements AlertDialogButtonAction {
+        private String buttonText;
+
+        public DialogNegativeAction(String buttonText) {
+            this.buttonText = buttonText;
+        }
+
+        @Override
+        public String getButtonText() {
+            return buttonText;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+
+        }
+    }
+
 }
