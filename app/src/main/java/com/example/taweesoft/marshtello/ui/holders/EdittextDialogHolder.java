@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 /**
  * Created by TAWEESOFT on 3/15/16 AD.
  */
-public class RenameCardListDialogHolder {
+public class EdittextDialogHolder {
 
     @Bind(R.id.add_btn)
     public Button add_btn;
@@ -30,7 +30,7 @@ public class RenameCardListDialogHolder {
     @Bind(R.id.card_list_name_txt)
     public EditText card_list_name_txt;
 
-    public RenameCardListDialogHolder(View view){
+    public EdittextDialogHolder(View view){
         ButterKnife.bind(this,view);
         setFonts(view.getContext());
     }

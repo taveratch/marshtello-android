@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.taweesoft.marshtello.R;
 import com.example.taweesoft.marshtello.utils.Utilities;
+import com.github.clans.fab.FloatingActionMenu;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,7 +27,7 @@ public class CardDetailHolder {
      */
 
     @Bind(R.id.card_name_txt)
-    public EditText card_name_txt;
+    public TextView card_name_txt;
 
     @Bind(R.id.red_img)
     public ImageView red_img;
@@ -36,7 +37,7 @@ public class CardDetailHolder {
 
 
     @Bind(R.id.detail_txt)
-    public EditText detail_txt;
+    public TextView detail_txt;
 
     @Bind(R.id.remove_btn)
     public ImageView remove_btn;
@@ -47,11 +48,6 @@ public class CardDetailHolder {
     @Bind(R.id.back_btn)
     public ImageView back_btn;
 
-    @Bind(R.id.edit_card_name_btn)
-    public ImageView edit_card_name_btn;
-
-    @Bind(R.id.edit_detail_btn)
-    public ImageView edit_detail_btn;
 
     @Bind(R.id.add_comment_btn)
     public FloatingActionButton add_comment_btn;
@@ -67,6 +63,15 @@ public class CardDetailHolder {
 
     @Bind(R.id.tv_tag)
     TextView tv_tag;
+
+    @Bind(R.id.fab_edit_name)
+    public com.github.clans.fab.FloatingActionButton fab_edit_name;
+
+    @Bind(R.id.fab_edit_description)
+    public com.github.clans.fab.FloatingActionButton fab_edit_description;
+
+    @Bind(R.id.menu_down)
+    public FloatingActionMenu fab_menu_down;
 
     /**
      * Constructor.

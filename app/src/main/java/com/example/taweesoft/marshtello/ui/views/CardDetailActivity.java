@@ -12,7 +12,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,6 +30,7 @@ import com.example.taweesoft.marshtello.models.Comment;
 import com.example.taweesoft.marshtello.ui.adapters.CommentRVCustomAdapter;
 import com.example.taweesoft.marshtello.ui.holders.AddCommentDialogHolder;
 import com.example.taweesoft.marshtello.ui.holders.CardDetailHolder;
+import com.example.taweesoft.marshtello.ui.holders.EdittextDialogHolder;
 import com.example.taweesoft.marshtello.utils.Constants;
 import com.example.taweesoft.marshtello.utils.Utilities;
 
@@ -75,6 +75,22 @@ public class CardDetailActivity extends AppCompatActivity {
     }
 
     public void initComponents() {
+
+        holder.fab_edit_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = CustomDialogFactory.newInstance(CardDetailActivity.this, R.layout.rename_card_list_dialog_layout, new EditCardNameDialogAction());
+                dialog.show();
+            }
+        });
+
+        holder.fab_edit_description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new CustomDialogFactory().newInstance(CardDetailActivity.this,R.layout.rename_card_list_dialog_layout,new EditCardDescriptionDialogAction());
+                dialog.show();
+            }
+        });
         holder.back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,25 +103,6 @@ public class CardDetailActivity extends AppCompatActivity {
             }
         });
 
-        holder.edit_card_name_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.card_name_txt.setFocusableInTouchMode(true);
-                holder.card_name_txt.requestFocus();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(holder.card_name_txt, InputMethodManager.SHOW_FORCED);
-            }
-        });
-
-        holder.edit_detail_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.detail_txt.setFocusableInTouchMode(true);
-                holder.detail_txt.requestFocus();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(holder.detail_txt, InputMethodManager.SHOW_FORCED);
-            }
-        });
 
         holder.add_comment_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,6 +309,93 @@ public class CardDetailActivity extends AppCompatActivity {
             Utilities.applyFont(bold,holder.tv_add_comment);
             Utilities.applyFont(normal,holder.comment_txt);
             Utilities.applyFont(bold,holder.add_btn,holder.cancel_btn);
+        }
+    }
+
+    class EditCardNameDialogAction implements DialogAction {
+
+
+        @Override
+        public void blind(final Dialog dialog) {
+            final EdittextDialogHolder holder = new EdittextDialogHolder(dialog.getWindow().getDecorView().getRootView());
+            holder.add_btn.setText("Save");
+            holder.cancel_btn.setText("Cancel");
+            holder.card_list_name_txt.setHint(CardDetailActivity.this.holder.card_name_txt.getText().toString());
+            holder.tv_rename_card_list.setText("Rename the card");
+            holder.add_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.card_list_name_txt.getText().toString().length() > 0)
+                        CardDetailActivity.this.holder.card_name_txt.setText(holder.card_list_name_txt.getText().toString());
+                    dialog.dismiss();
+                    CardDetailActivity.this.holder.fab_menu_down.close(true);
+                    Utilities.hideKeyboard(CardDetailActivity.this, v);
+                }
+            });
+            holder.cancel_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    CardDetailActivity.this.holder.fab_menu_down.close(true);
+                    Utilities.hideKeyboard(CardDetailActivity.this, v);
+                }
+            });
+
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog1) {
+                    dialog.dismiss();
+                    CardDetailActivity.this.holder.fab_menu_down.close(true);
+                    Utilities.hideKeyboard(CardDetailActivity.this, CardDetailActivity.this.getWindow().getDecorView().getRootView());
+                }
+            });
+        }
+    }
+
+    class EditCardDescriptionDialogAction implements DialogAction {
+
+
+        @Override
+        public void blind(final Dialog dialog) {
+            final EdittextDialogHolder holder = new EdittextDialogHolder(dialog.getWindow().getDecorView().getRootView());
+            holder.add_btn.setText("Save");
+            holder.cancel_btn.setText("Cancel");
+            holder.card_list_name_txt.setHint("");
+            holder.card_list_name_txt.setSingleLine(false);
+            holder.card_list_name_txt.setText(CardDetailActivity.this.holder.detail_txt.getText().toString());
+            holder.tv_rename_card_list.setText("Edit description");
+            holder.add_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.card_list_name_txt.getText().toString().length() > 0)
+                        CardDetailActivity.this.holder.detail_txt.setText(holder.card_list_name_txt.getText().toString());
+                    dialog.dismiss();
+                    CardDetailActivity.this.holder.fab_menu_down.close(true);
+                    Utilities.hideKeyboard(CardDetailActivity.this, v);
+                }
+            });
+
+            View.OnClickListener cancel = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    CardDetailActivity.this.holder.fab_menu_down.close(true);
+                    Utilities.hideKeyboard(CardDetailActivity.this, v);
+                }
+            };
+
+            DialogInterface.OnDismissListener dismiss = new DialogInterface.OnDismissListener() {
+
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    dialog.dismiss();
+                    CardDetailActivity.this.holder.fab_menu_down.close(true);
+                    Utilities.hideKeyboard(CardDetailActivity.this, CardDetailActivity.this.getWindow().getDecorView().getRootView());
+                }
+            };
+
+            holder.cancel_btn.setOnClickListener(cancel);
+            dialog.setOnDismissListener(dismiss);
         }
     }
 }

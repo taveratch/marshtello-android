@@ -31,7 +31,7 @@ import com.example.taweesoft.marshtello.events.DialogAction;
 import com.example.taweesoft.marshtello.managers.CardManager;
 import com.example.taweesoft.marshtello.ui.adapters.CardRVCustomAdapter;
 import com.example.taweesoft.marshtello.ui.fragments.CardListFragment;
-import com.example.taweesoft.marshtello.ui.holders.RenameCardListDialogHolder;
+import com.example.taweesoft.marshtello.ui.holders.EdittextDialogHolder;
 import com.example.taweesoft.marshtello.utils.Constants;
 import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.ui.adapters.PagerAdapter;
@@ -51,9 +51,6 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements Observer {
 
     /*UI Componenets*/
-//    @Bind(R.id.list_count_txt)
-//    TextView list_count_txt;
-
     @Bind(R.id.tab_layout)
     TabLayout tabLayout;
 
@@ -198,12 +195,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
         for (int i=current;i< Constants.cardLists.size()-1;i++)
             bullet+= whiteCircle;
     }
-
-    private void initialTabs(){
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-    }
-
-
 
     public void initComponents(){
         /*Set fonts*/
@@ -389,11 +380,12 @@ public class MainActivity extends AppCompatActivity implements Observer {
         @Override
         public void blind(final Dialog dialog) {
             dialog.setCancelable(false);
-            final RenameCardListDialogHolder dialogHolder = new RenameCardListDialogHolder(dialog.getWindow().getDecorView().getRootView());
+            final EdittextDialogHolder dialogHolder = new EdittextDialogHolder(dialog.getWindow().getDecorView().getRootView());
 
                 /*Set hint to be current card list name*/
             dialogHolder.card_list_name_txt.setHint(cardList.getName());
-
+            dialogHolder.add_btn.setText("Rename");
+            dialogHolder.tv_rename_card_list.setText("Rename card list");
                 /*Rename btn action*/
             dialogHolder.add_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
