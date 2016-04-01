@@ -19,6 +19,7 @@ import com.example.taweesoft.marshtello.models.CardList;
 import com.example.taweesoft.marshtello.utils.Constants;
 import com.example.taweesoft.marshtello.R;
 import com.example.taweesoft.marshtello.utils.Utilities;
+import com.github.clans.fab.FloatingActionButton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -72,6 +73,12 @@ public class NewCardActivity extends AppCompatActivity {
     @Bind(R.id.tv_tag)
     TextView tv_tag;
 
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+
+    @Bind(R.id.fab2)
+    FloatingActionButton fab2;
+
     /*Attributes.*/
     private int tag = Constants.RED_TAG;
     private Card card;
@@ -88,9 +95,9 @@ public class NewCardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         getSupportActionBar().hide();
 
+
         /*get id from CardListFragment's activity.*/
         id = getIntent().getIntExtra("id",-1);
-
         /*Set img tag action*/
         setTagAction();
         setTagImageCheck();
@@ -100,6 +107,7 @@ public class NewCardActivity extends AppCompatActivity {
 
 
     public void initComponents(){
+        fab2.hide(true);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,14 +119,7 @@ public class NewCardActivity extends AppCompatActivity {
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Call newCard().*/
-                if(cardName_txt.getText().toString().length() > 0) {
-                    newCard();
-                    sendBack();
-                    finish();
-                }else{
-                    AlertDialogFactory.newInstance(NewCardActivity.this,"Message","Please enter the card's name").show();
-                }
+                submit();
             }
         });
 
@@ -130,6 +131,13 @@ public class NewCardActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (cardName_txt.getText().toString().length() > 0) {
+                    fab.hide(true);
+                    fab2.show(true);
+                } else {
+                    fab.show(true);
+                    fab2.hide(true);
+                }
                 preview_card_name_txt.setText(cardName_txt.getText().toString());
             }
 
@@ -139,14 +147,21 @@ public class NewCardActivity extends AppCompatActivity {
             }
         });
 
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submit();
+            }
+        });
+
         preview_date_txt.setText(Utilities.getCardDateStr(System.currentTimeMillis()));
 
         /*Set fonts*/
         Typeface bold = Utilities.getBoldFont(this);
         Typeface normal = Utilities.getNormalFont(this);
-        Utilities.applyFont(bold,tv_new_card,tv_name,tv_details,tv_tag,preview_card_name_txt);
-        Utilities.applyFont(normal,cardName_txt,cardDetail_txt);
-        Utilities.applyFont(normal,preview_date_txt,tv_comment_count);
+        Utilities.applyFont(bold, tv_new_card, tv_name, tv_details, tv_tag, preview_card_name_txt);
+        Utilities.applyFont(normal, cardName_txt, cardDetail_txt);
+        Utilities.applyFont(normal, preview_date_txt, tv_comment_count);
 
     }
 
@@ -203,8 +218,8 @@ public class NewCardActivity extends AppCompatActivity {
     public void sendBack(){
         Log.e("Process NewCardActivity" , "SendBack");
         Intent intent = new Intent();
-        intent.putExtra("position",id);
-        setResult(2,intent);
+        intent.putExtra("position", id);
+        setResult(2, intent);
     }
 
     @Override
@@ -213,4 +228,16 @@ public class NewCardActivity extends AppCompatActivity {
         sendBack();
         super.onBackPressed();
     }
+
+    public void submit() {
+        if(cardName_txt.getText().toString().length() > 0) {
+            newCard();
+            sendBack();
+            finish();
+        }else{
+            AlertDialogFactory.newInstance(NewCardActivity.this,"Message","Please enter the card's name").show();
+        }
+    }
+
+
 }

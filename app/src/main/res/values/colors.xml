@@ -8,4 +8,10 @@
     <color name="textColor">#8F8D8D</color>
     <color name="holo_gray_light">#E6E6E6</color>
     <color name="sunflower">#FFC107</color>
+    <color name="green_normal">#8BC34A</color>
+    <color name="green_pressed">#9CCC65</color>
+    <color name="green_ripple">#C5E1A5</color>
+    <color name="app_primary">#455A64</color>
+    <color name="app_primary_pressed">#FFF</color>
+    <color name="app_primary_dark">#37474F</color>
 </resources>
